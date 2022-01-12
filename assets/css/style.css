@@ -1,6 +1,6 @@
-h1 , h6 , h5{
+h1 {
     font-family: 'Times New Roman', Times, serif;
-    color: white;
+    color: black;
 
 }
 
@@ -28,5 +28,9 @@ body {
     font-size: 3rem;
     margin-left: 2rem;
     
+}
+
+p {
+    font-size: 20px;
 }
 

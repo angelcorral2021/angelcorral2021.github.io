@@ -1,0 +1,29 @@
+.fas {
+  color: #212529;
+  font-size: 1rem;
+}
+
+.card-link {
+  color: #707070;
+}
+
+h2 {
+  color: #fff;
+}
+.card-title,
+.h3 {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+.card-text,
+.list-group-item,
+.card-link,
+.nav-item {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+}
+
+h3 {
+  color: #212529;
+}
