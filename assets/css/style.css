@@ -1,5 +1,11 @@
-h1 {
+h1 , h6 , h5{
     font-family: 'Times New Roman', Times, serif;
+    color: white;
+
+}
+
+h1 { 
+    font-size: 4rem;
 }
 
 
@@ -12,3 +18,15 @@ body {
     
 
 }
+
+.footer {
+    height: 4rem;
+    text-align: center;
+}
+
+.fab {
+    font-size: 3rem;
+    margin-left: 2rem;
+    
+}
+
