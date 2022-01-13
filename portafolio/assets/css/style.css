@@ -1,6 +1,30 @@
-.img {
-   width: 50%;
-   height: 50%;
-   border-radius: 2rem;
-   al
+h1 {
+  font-family: "Times New Roman", Times, serif;
+  color: black;
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+body {
+  background-color: rgb(58, 13, 165);
+}
+
+.card-img-top {
+  border-radius: 1rem;
+}
+
+.footer {
+  height: 4rem;
+  text-align: center;
+}
+
+.fab {
+  font-size: 3rem;
+  margin-left: 2rem;
+}
+
+p {
+  font-size: 20px;
 }

@@ -1,36 +1,16 @@
-h1 {
-    font-family: 'Times New Roman', Times, serif;
-    color: black;
-
-}
-
-h1 { 
-    font-size: 4rem;
-}
-
-
 body {
-    background-color: rgb(58, 13, 165);
+  background-color: rgb(58, 13, 165);
+}
+
+h1 {
+  font-family: "Times New Roman", Times, serif;
+  color: black;
 }
 
 .card-img-top {
-    border-radius: 1rem;
-    
-
+  border-radius: 100%;
 }
-
-.footer {
-    height: 4rem;
-    text-align: center;
+ul,
+h4 {
+  color: white;
 }
-
-.fab {
-    font-size: 3rem;
-    margin-left: 2rem;
-    
-}
-
-p {
-    font-size: 20px;
-}
-
