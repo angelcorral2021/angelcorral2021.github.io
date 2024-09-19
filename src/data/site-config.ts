@@ -37,7 +37,7 @@ const siteConfig: SiteConfig = {
     subtitle: 'Portfolio y Ciberseguridad',
     description: 'Blog y portafolio personal',
     image: {
-        src: '/hero2.jpg',
+        src: '/post-1.jpg',
         alt: 'logo'
     },
     headerNavLinks: [
