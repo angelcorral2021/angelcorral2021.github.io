@@ -57,7 +57,7 @@ Para finalizar copiamos el tmp donde esta el original para que lo sobreescriba
 
 `cp /tmp/passwd.tmp /etc/passwd`
 
-![alt text](../../../public/obsy.png)
+
 
 Ahora hacemos un su ROOT y accederemos al usuario ROOT sin proporcionar contraseña
 

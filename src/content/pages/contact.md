@@ -1,14 +1,14 @@
 ---
-title: Get in touch
+title: Conversemos
 seo:
   title: Contact
   description: Get in touch through email or social media! Let me know how I can help.
 ---
 
-Thank you for reaching out! Whether you have a question, a suggestion, or just want to share your thoughts, I'm all ears. Feel free to get in touch through any of the methods below:
+¡Gracias por contactarme! Si tienes alguna pregunta, sugerencia o simplemente quieres compartir tus ideas, estoy a tu disposición. No dudes en ponerte en contacto conmigo a través de cualquiera de los siguientes métodos:
 
 _Email:_
-Feel free to drop me an email at [example@example.com](mailto:example@example.com), and I'll do my best to respond as soon as possible.
+No dudes en enviarme un correo electrónico a [angelcorral2023@gmail.com](mailto:angelcorral2023@gmail.com), y haré todo lo posible para responder lo antes posible.
 
 _Social Media:_
-Connect with me on social media as well. Find me on [Twitter](https://twitter.com) or [LinkedIn](https://www.linkedin.com/).
+Conéctate conmigo también en las redes sociales. Encuéntrame en [Github](https://github.com/angelcorral2021) or [LinkedIn](https://www.linkedin.com/in/angelcorral2021/).
