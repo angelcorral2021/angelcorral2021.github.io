@@ -1,5 +1,5 @@
 ---
-title: Maquinas CTF Dockerlabs ConsoleLog
+title: Dockerlabs ConsoleLog
 excerpt: Writeup
 publishDate: 'Sept 20 2024'
 isFeatured: true

@@ -30,11 +30,12 @@ export type SiteConfig = {
     hero?: Hero;
     postsPerPage?: number;
     projectsPerPage?: number;
+    articulosPerPage?: number;
 };
 
 const siteConfig: SiteConfig = {
     title: 'Angel C. Corral',
-    subtitle: 'Portfolio y Ciberseguridad',
+    subtitle: 'Portafolio y Blog',
     description: 'Blog y portafolio personal',
     image: {
         src: '/logo.jpg',
@@ -42,37 +43,41 @@ const siteConfig: SiteConfig = {
     },
     headerNavLinks: [
         {
-            text: 'Home',
+            text: 'Inicio',
             href: '/'
         },
         {
-            text: 'Projects',
+            text: 'Proyectos',
             href: '/projects'
         },
         {
-            text: 'Blog',
-            href: '/blog'
+            text: 'Maquinas',
+            href: '/maquinas'
         },
         {
-            text: 'Tags',
+            text: 'Proyecto Explora',
             href: '/tags'
+        },
+        {
+            text: 'Articulos',
+            href: '/articulos'
         }
     ],
     footerNavLinks: [
         {
-            text: 'About',
+            text: 'Sobre mi',
             href: '/about'
         },
         {
-            text: 'Contact',
+            text: 'Contacto',
             href: '/contact'
         }
     ],
     hero: {
         title: 'Hola y Bienvenidos a mi Portafolio-Blog!',
-        text: "Soy Ángel Corral, técnico electrónico y estudiante de Ingeniería en Informática, con especialización en desarrollo web, ciberseguridad y DevSecOps. Tengo experiencia en lenguajes como Python, JavaScript y Bash, así como en entornos Linux y Windows. Mi enfoque principal es la seguridad, integrando prácticas DevSecOps y realizando pruebas con OWASP ZAP y Burp Suite. He desarrollado proyectos de gestión para PYMES y automatización de inventarios, siempre aplicando altos estándares de seguridad y factibilidad técnica. Mi objetivo es seguir perfeccionándome en ciberseguridad y DevSecOps para proteger infraestructuras críticas.",
+        text: "Mi nombre es Ángel Corral, electrónico de profesión y estudiante de Ingeniería en Informática .<br> Mi enfoque principal es la seguridad, integrando prácticas de desarrollo web seguro y conocimientos en DevSecOps. <br>He desarrollado proyectos de gestión para PYMES y automatización de inventarios, siempre aplicando altos estándares de seguridad y factibilidad técnica.<br> Mi objetivo es seguir perfeccionándome en ciberseguridad y DevSecOps para proteger infraestructuras críticas.",
         image: {
-            src: '/logo.jpg',
+            src: '/ovalo.png',
             alt: 'logo'
         },
         actions: [

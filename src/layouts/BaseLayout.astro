@@ -13,20 +13,30 @@ const { showHeader = true, ...head } = Astro.props;
 <!doctype html>
 <html lang="en" class="antialiased break-words">
     <head>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+        
         <BaseHead {...head} />
+        
         <script>
             if (localStorage.theme === 'dark') {
                 document.documentElement.classList.add('dark');
             }
         </script>
         <ViewTransitions />
+        
     </head>
     <body class="bg-main text-main">
+        
         <div class="flex flex-col min-h-screen px-4 md:px-8">
             <Nav />
             {showHeader && <Header />}
+            
             <main class="grow w-full max-w-3xl mx-auto">
+                
+
                 <slot />
+                
+
             </main>
             <Footer />
         </div>
