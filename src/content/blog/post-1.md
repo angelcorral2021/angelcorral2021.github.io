@@ -13,7 +13,7 @@ seo:
     alt: Wavy lines
 ---
 
-![Wavy lines](/post-14.jpg)
+
 
 
 

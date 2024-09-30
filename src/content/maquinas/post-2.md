@@ -1,5 +1,5 @@
 ---
-title: Dockerlabs
+title: Dockerlabs1
 excerpt: WritheUp maquina de DockerLabs
 publishDate: 'Sept 19 2024'
 isFeatured: true
@@ -13,7 +13,7 @@ seo:
     alt: Wavy lines
 ---
 
-![Wavy lines](/post-14.jpg)
+
 
 
 

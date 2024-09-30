@@ -8,9 +8,10 @@ import { sortItemsByDateDesc } from '../../utils/data-utils';
 import { slugify } from '../../utils/common-utils';
 import ArticuloPreview from '../../components/ArticuloPreview.astro';
 import PostPreview from '../../components/PostPreview.astro';
+import ExploraPreview from '../../components/ExploraPreview.astro';
 
 export async function getStaticPaths() {
-    const posts = (await getCollection('articulos')).sort(sortItemsByDateDesc);
+    const posts = (await getCollection('explora')).sort(sortItemsByDateDesc);
     const postCount = posts.length;
     return posts.map((post, index) => ({
         params: { slug: post.slug },
@@ -22,7 +23,7 @@ export async function getStaticPaths() {
     }));
 }
 
-type Props = { post: CollectionEntry<'articulos'>; prevPost: CollectionEntry<'articulos'>; nextPost: CollectionEntry<'articulos'> };
+type Props = { post: CollectionEntry<'explora'>; prevPost: CollectionEntry<'explora'>; nextPost: CollectionEntry<'explora'> };
 
 const { href } = Astro.url;
 const { post, prevPost, nextPost } = Astro.props;

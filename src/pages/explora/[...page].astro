@@ -1,0 +1,30 @@
+---
+import type { GetStaticPathsOptions, Page } from 'astro';
+import { type CollectionEntry, getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Pagination from '../../components/Pagination.astro';
+import siteConfig from '../../data/site-config';
+import { sortItemsByDateDesc } from '../../utils/data-utils';
+import ExploraPreview from '../../components/ExploraPreview.astro';
+
+export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
+    const exploras = (await getCollection('explora')).sort(sortItemsByDateDesc);
+    return paginate(exploras, { pageSize: siteConfig.exploraPerPage || 6 });
+}
+
+type Props = { page: Page<CollectionEntry<'explora'>> };
+
+const { page } = Astro.props;
+const portfolio = page.data;
+---
+
+<BaseLayout
+    title="Explora"
+    description="Explore a diverse portfolio showcasing my passion and expertise"
+    image={{ src: '/ovalo.png', alt: 'The preview of the site' }}
+    showHeader={false}
+>
+    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">Explora Proyecto</h1>
+    {portfolio.map((explora) => <ExploraPreview explora={explora} class="mb-10 sm:mb-12" />)}
+    <Pagination page={page} class="my-16 sm:my-24" />
+</BaseLayout>

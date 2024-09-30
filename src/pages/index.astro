@@ -17,6 +17,9 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
 
 const articulo = (await getCollection('articulos')).sort(sortItemsByDateDesc);
 const featuredArticulos = articulo.filter(({ data }) => data.isFeatured);
+
+const explora = (await getCollection('explora')).sort(sortItemsByDateDesc);
+const featuredExplora = explora.filter(({ data }) => data.isFeatured);
 ---
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image}>
