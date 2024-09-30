@@ -5,6 +5,7 @@ import Button from '../components/Button.astro';
 import Hero from '../components/Hero.astro';
 import PostPreview from '../components/PostPreview.astro';
 import ProjectPreview from '../components/ProjectPreview.astro';
+import ArticuloPreview from '../components/ArticuloPreview.astro';
 import siteConfig from '../data/site-config';
 import { sortItemsByDateDesc } from '../utils/data-utils';
 
@@ -13,14 +14,30 @@ const featuredPosts = posts.filter(({ data }) => data.isFeatured);
 
 const projects = (await getCollection('projects')).sort(sortItemsByDateDesc);
 const featuredProjects = projects.filter(({ data }) => data.isFeatured);
+
+const articulo = (await getCollection('articulos')).sort(sortItemsByDateDesc);
+const featuredArticulos = articulo.filter(({ data }) => data.isFeatured);
 ---
 
 <BaseLayout description={siteConfig.description} image={siteConfig.image}>
     <Hero />
+    <h2 class="mb-12 text-3xl font-serif italic sm:mb-16 sm:text-4xl">Tecnologias</h2>
+    <h2 class="mb-12 text-3xl font-serif italic sm:mb-16 sm:text-4xl">
+        <img src="/sql.png" alt="SQL Icon" class="inline-block w-12 h-12 ml-2" />
+        <img src="/piton.png" alt="python Icon" class="inline-block w-12 h-12 ml-2" />
+        <img src="/js.png" alt="js Icon" class="inline-block w-12 h-12 ml-2" />
+        <img src="/gnu-bash.png" alt="bash Icon" class="inline-block w-12 h-12 ml-2" />
+        <img src="/linux.png" alt="linux Icon" class="inline-block w-12 h-12 ml-2" />
+        <img src="/git.png" alt="git Icon" class="inline-block w-12 h-12 ml-2" />
+        <img src="/docker.png" alt="docker Icon" class="inline-block w-12 h-12 ml-2" />
+    </h2>
+
+
+
     {
         featuredProjects?.length > 0 && (
             <div class="mb-16 sm:mb-24">
-                <h2 class="mb-12 text-xl font-serif italic sm:mb-16 sm:text-2xl">Proyectos</h2>
+                <h2 class="mb-12 text-3xl font-serif italic sm:mb-16 sm:text-4xl">Proyectos</h2>
                 {featuredProjects.map((project) => (
                     <ProjectPreview project={project} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
@@ -33,7 +50,7 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
     {
         featuredPosts?.length > 0 && (
             <div class="mb-16 sm:mb-24">
-                <h2 class="mb-12 text-xl font-serif italic sm:mb-16 sm:text-2xl">Maquinas CTFs</h2>
+                <h2 class="mb-12 text-3xl font-serif italic sm:mb-16 sm:text-4xl">Maquinas CTFs</h2>
                 {featuredPosts.map((post) => (
                     <PostPreview post={post} class="mb-10 sm:mb-12" headingLevel="h3" />
                 ))}
@@ -43,5 +60,17 @@ const featuredProjects = projects.filter(({ data }) => data.isFeatured);
             </div>
         )
     }
-    
+    {
+        featuredArticulos?.length > 0 && (
+            <div class="mb-16 sm:mb-24">
+                <h2 class="mb-12 text-3xl font-serif italic sm:mb-16 sm:text-4xl">Articulos</h2>
+                {featuredArticulos.map((articulo) => (
+                    <ArticuloPreview articulo={articulo} class="mb-10 sm:mb-12" headingLevel="h3" />
+                ))}
+                <div class="mt-12 sm:mt-16">
+                    <Button href="/articulos">Ver todos los articulos</Button>
+                </div>
+            </div>
+        )
+    }
 </BaseLayout>

@@ -35,7 +35,7 @@ export type SiteConfig = {
 
 const siteConfig: SiteConfig = {
     title: 'Angel C. Corral',
-    subtitle: 'Portafolio y Blog',
+    subtitle: '',
     description: 'Blog y portafolio personal',
     image: {
         src: '/logo.jpg',
@@ -74,7 +74,7 @@ const siteConfig: SiteConfig = {
         }
     ],
     hero: {
-        title: 'Hola y Bienvenidos a mi Portafolio-Blog!',
+        title: 'Bienvenidos a mi Portafolio-Blog',
         text: "Mi nombre es Ángel Corral, electrónico de profesión y estudiante de Ingeniería en Informática .<br> Mi enfoque principal es la seguridad, integrando prácticas de desarrollo web seguro y conocimientos en DevSecOps. <br>He desarrollado proyectos de gestión para PYMES y automatización de inventarios, siempre aplicando altos estándares de seguridad y factibilidad técnica.<br> Mi objetivo es seguir perfeccionándome en ciberseguridad y DevSecOps para proteger infraestructuras críticas.",
         image: {
             src: '/ovalo.png',
