@@ -85,6 +85,10 @@ const siteConfig: SiteConfig = {
             {
                 text: 'Contacto',
                 href: '/contact'
+            },
+            {
+                text: 'Sobre Mi',
+                href: '/about'
             }
         ]
     },
