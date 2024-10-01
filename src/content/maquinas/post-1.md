@@ -17,7 +17,7 @@ seo:
 
 
 
-> Web frameworks are the architectural blueprints that empower developers to build the digital landscapes of tomorrow.
+
 
 
 

