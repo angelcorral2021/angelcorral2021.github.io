@@ -14,6 +14,11 @@ seo:
     alt: Wavy lines
 ---
 
+
+
+
+<img src="/20241101221727.png" alt="Texto alternativo" />
+
 ---
 # Puertos:
 
