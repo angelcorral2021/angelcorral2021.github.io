@@ -19,12 +19,18 @@ const portfolio = page.data;
 ---
 
 <BaseLayout
-    title="Explora"
+    title="Recoore"
     description="Explore a diverse portfolio showcasing my passion and expertise"
     image={{ src: '/ovalo.png', alt: 'The preview of the site' }}
     showHeader={false}
 >
-    <h1 class="mb-12 text-2xl leading-tight font-serif italic sm:mb-16 sm:text-4xl">Explora Proyecto</h1>
-    {portfolio.map((explora) => <ExploraPreview explora={explora} class="mb-10 sm:mb-12" />)}
-    <Pagination page={page} class="my-16 sm:my-24" />
+    <h1>
+        El proyecto consiste en desarrollar una plataforma web que reúna y promueva ofertas turísticas de emprendedores locales en Chile. Este sitio tiene como
+        objetivo principal visibilizar los emprendimientos turísticos de pequeñas y medianas empresas, fomentando el turismo sostenible y la economía local. La
+        plataforma estará organizada por zonas geográficas y tipos de emprendimiento, lo cual permitirá a los usuarios explorar fácilmente las opciones de
+        acuerdo con su ubicación o interés. Por ejemplo, los usuarios podrán encontrar actividades como rutas de senderismo, visitas a viñedos, tours
+        históricos, alojamientos únicos y experiencias gastronómicas. La web incluirá descripciones detalladas de cada oferta, fotos, ubicaciones y reseñas,
+        ofreciendo una herramienta integral para descubrir las diversas experiencias que ofrecen los emprendedores chilenos en distintas partes del país.
+    </h1><br>
+    <h1>Enlace : <a href="https://lighthearted-ganache-f99cd4.netlify.app/">www.recorrechile.cl</a></h1>
 </BaseLayout>

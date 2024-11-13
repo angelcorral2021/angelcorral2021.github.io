@@ -56,7 +56,7 @@ const siteConfig: SiteConfig = {
             href: '/maquinas'
         },
         {
-            text: 'Proyecto Explora',
+            text: 'Proyecto Recorrechile.cl',
             href: '/explora'
         },
         {
