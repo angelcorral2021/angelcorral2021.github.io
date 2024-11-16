@@ -1,6 +1,6 @@
 ---
-title: 'App To Do'
-description: Aplicación de tareas hecha con HTML, CSS y JavaScript.
+title: 'Recorre Chile (web)'
+description: Proyecto-web propio para turismo hecho con Astro.
 publishDate: 'Septiembre 30 2024'
 isFeatured: true
 seo:
@@ -10,11 +10,10 @@ seo:
 ---
 
 ### Descripción
-App To Do es una aplicación simple para gestionar tareas, desarrollada utilizando tecnologías web como HTML, CSS y JavaScript. Permite agregar, editar y eliminar tareas de manera eficiente.
-
-![Vista previa del proyecto](/apptodo.png)
+El proyecto consiste en desarrollar una plataforma web que reúna y promueva ofertas turísticas de emprendedores locales en Chile. Este sitio tiene como objetivo principal visibilizar los emprendimientos turísticos de pequeñas y medianas empresas, fomentando el turismo sostenible y la economía local. La plataforma estará organizada por zonas geográficas y tipos de emprendimiento, lo cual permitirá a los usuarios explorar fácilmente las opciones de acuerdo con su ubicación o interés. Por ejemplo, los usuarios podrán encontrar actividades como rutas de senderismo, visitas a viñedos, tours históricos, alojamientos únicos y experiencias gastronómicas. La web incluirá descripciones detalladas de cada oferta, fotos, ubicaciones y reseñas, ofreciendo una herramienta integral para descubrir las diversas experiencias que ofrecen los emprendedores chilenos en distintas partes del país.
 
 
 
-[Visita el proyecto aquí](https://curious-tartufo-f48454.netlify.app/)
 
+
+[Visita el proyecto aquí](https://lighthearted-ganache-f99cd4.netlify.app/)

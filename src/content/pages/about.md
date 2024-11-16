@@ -25,9 +25,9 @@ Manejo herramientas como **GitHub**, **VSCode**, **Nmap**, **Wireshark**, **Hydr
 
 ## Servicios
 
-- Construcción de sitios web
-- Auditorías de seguridad para sitios web
-- Securización de servidores
-- Creación de sitios WordPress
+Construcción de sitios web <br>
+Auditorías de seguridad para sitios web <br>
+Securización de servidores <br>
+Creación de sitios WordPress <br>
 
 ¡Construyamos algo increíble juntos!

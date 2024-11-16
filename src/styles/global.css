@@ -3,18 +3,8 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --color-text-main: 23 23 23; /* #171717 */
-        --color-bg-main: 242 241 236; /* #F2F1EC */
-        --color-bg-muted: 234 233 225; /* #EAE9E1 */
-        --color-border-main: 23 23 23; /* #171717 */
-    }
-    html.dark {
-        --color-text-main: 242 241 236; /* #F2F1EC */
-        --color-bg-main: 23 23 23; /* #171717 */
-        --color-bg-muted: 36 36 36; /* #242424 */
-        --color-border-main: 242 241 236; /* #F2F1EC */
-    }
+    
+    
 
     /* Cyan */
     /*
@@ -31,20 +21,25 @@
         --color-border-main: 214 224 226;
     }
     */
-
-    /* Green */
-    /*
-    :root {
-        --color-text-main: 58 66 56;
-        --color-bg-main: 243 239 230;
-        --color-bg-muted: 238 233 220;
-        --color-border-main: 58 66 56;
+    :root { 
+        --color-text-main: 30 30 30; /* #1E1E1E - Gris oscuro */
+        --color-bg-main: 227 242 253; /* #E3F2FD - Azul cielo suave */
+        --color-bg-muted: 207 231 245; /* #CFE7F5 - Azul claro apagado */
+        --color-border-main: 120 144 156; /* #78909C - Gris azulado */
     }
     html.dark {
-        --color-text-main: 243 239 230;
-        --color-bg-main: 94 108 91;
-        --color-bg-muted: 89 103 86;
-        --color-border-main: 243 239 230;
+        --color-text-main: 227 242 253; /* #E3F2FD - Azul cielo suave */
+        --color-bg-main: 45 45 45; /* #2D2D2D - Gris oscuro */
+        --color-bg-muted: 65 65 65; /* #414141 - Gris ligeramente más claro */
+        --color-border-main: 150 150 150; /* #969696 - Gris claro */
     }
-    */
+    
+    
+    
+    
+    
+    
+    
+   
+    
 }
