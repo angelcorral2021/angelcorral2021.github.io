@@ -16,4 +16,4 @@ El proyecto consiste en desarrollar una plataforma web que reúna y promueva ofe
 
 
 
-[Visita el proyecto aquí](https://lighthearted-ganache-f99cd4.netlify.app/)
+[Visita el proyecto aquí](https://recorrechile.cl/)
