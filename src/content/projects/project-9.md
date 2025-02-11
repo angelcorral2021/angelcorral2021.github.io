@@ -1,7 +1,7 @@
 ---
-title: 'Script Respaldo Automatico Archivos en Sistema Linux'
-description: Pequeño script para respaldar archivos.
-publishDate: 'Septiembre 30 2024'
+title: 'CRUD basico con servidor web Apache y base de datos MySql'
+description: Practica para levantar servidor web en Ubuntu y conectarlo a base de datos.
+publishDate: 'Febrero 10 2025'
 isFeatured: true
 seo:
   image:
