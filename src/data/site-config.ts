@@ -39,7 +39,7 @@ const siteConfig: SiteConfig = {
     subtitle: '',
     description: 'Blog y portafolio personal',
     image: {
-        src: '/logo.jpg',
+        src: '/logito.png',
         alt: 'logo'
     },
     headerNavLinks: [
@@ -78,7 +78,7 @@ const siteConfig: SiteConfig = {
         title: 'Bienvenidos a mi Portafolio-Blog',
         text: "Mi nombre es Ángel Corral, electrónico de profesión y estudiante de Ingeniería en Informática. Mi enfoque principal es la seguridad, integrando prácticas de desarrollo web seguro y conocimientos en DevSecOps. Mi objetivo es seguir perfeccionándome en ciberseguridad y DevSecOps para proteger infraestructuras críticas.",
         image: {
-            src: '/pinguino.png',
+            src: '/logito2.png',
             alt: 'logo'
         },
         actions: [

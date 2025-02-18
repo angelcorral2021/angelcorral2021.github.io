@@ -1,7 +1,7 @@
 ---
 title: 'Script Respaldo Automatico Archivos en Sistema Linux'
 description: Pequeño script para respaldar archivos.
-publishDate: 'Enero 10 2025'
+publishDate: 'Febrero 18 2025'
 isFeatured: true
 seo:
   image:
