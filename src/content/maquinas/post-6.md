@@ -14,6 +14,8 @@ seo:
     alt: Wavy lines
 ---
 
+![alt text](<Captura de pantalla 2025-02-26 214304.png>)
+
 
 ## **1. Escaneo y Enumeración**:
 
