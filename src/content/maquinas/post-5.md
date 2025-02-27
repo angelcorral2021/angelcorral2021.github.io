@@ -1,18 +1,19 @@
 ---
 title: Psycho
 excerpt: WritheUp maquina de DockerLabs
-publishDate: 'Febrero 22 2025'
+publishDate: 'Feb 22 2025'
 isFeatured: true
 tags:
   - Web
   - Guide
   - CTF
-  - DockerLabs
+  - Dockerlabs
 seo:
   image:
-    src: '/post-14.jpg'
+    src: ''
     alt: Wavy lines
 ---
+
 
 ![alt text](image.png)
 
