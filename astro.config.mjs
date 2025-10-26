@@ -13,10 +13,5 @@ try {
 
 export default defineConfig({
   integrations: [tailwind()],
-  site: "https://example.com",
-  markdown: {
-    shikiConfig: {
-      theme: 'one-dark-pro'
-    }
-  }
+  base: '/miportafolio/'
 });
