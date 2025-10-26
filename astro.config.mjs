@@ -13,5 +13,5 @@ try {
 
 export default defineConfig({
   integrations: [tailwind()],
-  base: '/miportafolio/'
+  base: '/'
 });
