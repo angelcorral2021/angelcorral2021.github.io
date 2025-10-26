@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="es"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Script de Respaldo - Proyecto</title><link rel="stylesheet" href="/_astro/articles.CNCOhu5i.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div class="w-10 h-10 rounded-lg main-card flex items-center justify-center font-mono">AC</div> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Ciberseguridad · Hacking Ético</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/articles">Artículos</a> <a href="/projects">Proyectos</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/projects" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Proyectos
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Script de Respaldo </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="script-de-respaldo-automático">Script de Respaldo Automático</h1>
+<h2 id="resumen">Resumen</h2>
+<p>Script Bash para automatizar respaldos locales (tar.gz), gestionar retención básica y opcionalmente sincronizar los archivos de respaldo con un repositorio Git (por ejemplo, en GitHub). Está diseñado para uso en Linux/Unix y sigue buenas prácticas de robustez y seguridad.</p>
+<h2 id="características-principales">Características principales</h2>
+<ul>
+<li>Parámetros configurables mediante variables de entorno.</li>
+<li>Manejo de errores y limpieza segura (trap).</li>
+<li>Rotación simple de backups por número máximo.</li>
+<li>Integración opcional con Git (commit y push) usando la rama configurada.</li>
+</ul>
+<h2 id="requisitos">Requisitos</h2>
+<ul>
+<li>Bash (>= 4 recomendado)</li>
+<li>tar, gzip</li>
+<li>git (solo si se quiere sincronizar con un repositorio remoto)</li>
+<li>Permisos adecuados sobre los directorios implicados</li>
+</ul>
+<h2 id="variables-configurables-valores-por-defecto-dentro-del-script">Variables configurables (valores por defecto dentro del script)</h2>
+<ul>
+<li>ORIGEN: directorio a respaldar</li>
+<li>BACKUP_DIR: directorio donde se almacenan los backups localmente</li>
+<li>KEEP: número máximo de backups a conservar (rotación)</li>
+<li>GIT_REPO: ruta local del repositorio Git donde se guardarán los backups (opcional)</li>
+<li>GIT_BRANCH: rama para push (por defecto: main)</li>
+</ul>
+<h2 id="uso">Uso</h2>
+<ol>
+<li>Copiar el script a un archivo, por ejemplo backup.sh</li>
+<li>Editar las variables al principio del script o definirlas como variables de entorno antes de ejecutar.</li>
+<li>Dar permisos de ejecución:</li>
+</ol>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">chmod</span><span style="color:#9ECBFF"> +x</span><span style="color:#9ECBFF"> backup.sh</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">4.</span><span style="color:#9ECBFF"> Ejecutar</span><span style="color:#9ECBFF"> manualmente</span><span style="color:#9ECBFF"> o</span><span style="color:#9ECBFF"> añadir</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> crontab</span><span style="color:#9ECBFF"> para</span><span style="color:#9ECBFF"> ejecución</span><span style="color:#9ECBFF"> periódica.</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">## Script recomendado</span></span>
+<span class="line"><span style="color:#9ECBFF">```</span><span style="color:#B392F0">bash</span></span>
+<span class="line"><span style="color:#B392F0">---</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># Configuración (ajustar según sea necesario o exportar como variables de entorno)</span></span>
+<span class="line"><span style="color:#79B8FF">:</span><span style="color:#9ECBFF"> "${</span><span style="color:#E1E4E8">ORIGEN</span><span style="color:#F97583">:=/</span><span style="color:#E1E4E8">ruta</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">a</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">origen</span><span style="color:#9ECBFF">}"</span></span>
+<span class="line"><span style="color:#79B8FF">:</span><span style="color:#9ECBFF"> "${</span><span style="color:#E1E4E8">BACKUP_DIR</span><span style="color:#F97583">:=/</span><span style="color:#E1E4E8">ruta</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">a</span><span style="color:#F97583">/</span><span style="color:#E1E4E8">backups</span><span style="color:#9ECBFF">}"</span></span>
+<span class="line"><span style="color:#79B8FF">:</span><span style="color:#9ECBFF"> "${</span><span style="color:#E1E4E8">KEEP</span><span style="color:#F97583">:=</span><span style="color:#E1E4E8">10</span><span style="color:#9ECBFF">}"</span></span>
+<span class="line"><span style="color:#79B8FF">:</span><span style="color:#9ECBFF"> "${</span><span style="color:#E1E4E8">GIT_REPO</span><span style="color:#F97583">:=</span><span style="color:#9ECBFF">"}"  </span><span style="color:#F97583">#</span><span style="color:#E1E4E8"> ruta</span><span style="color:#E1E4E8"> local</span><span style="color:#E1E4E8"> del</span><span style="color:#E1E4E8"> repo</span><span style="color:#E1E4E8"> git</span><span style="color:#9ECBFF"> (vacío = </span><span style="color:#E1E4E8">no</span><span style="color:#E1E4E8"> usar</span><span style="color:#E1E4E8"> git</span><span style="color:#9ECBFF">)</span></span>
+<span class="line"><span style="color:#F97583">:</span><span style="color:#9ECBFF"> "${</span><span style="color:#E1E4E8">GIT_BRANCH</span><span style="color:#F97583">:=</span><span style="color:#E1E4E8">main</span><span style="color:#9ECBFF">}"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">FECHA</span><span style="color:#9ECBFF">=$(</span><span style="color:#E1E4E8">date</span><span style="color:#9ECBFF"> '+%Y-%m-%d_%H-%M-%S')</span></span>
+<span class="line"><span style="color:#E1E4E8">NOMBRE</span><span style="color:#9ECBFF">="backup_${</span><span style="color:#E1E4E8">FECHA</span><span style="color:#9ECBFF">}.tar.gz"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E1E4E8">log</span><span style="color:#9ECBFF">() { </span><span style="color:#E1E4E8">printf</span><span style="color:#9ECBFF"> "%s %s\n" "$(</span><span style="color:#B392F0">date</span><span style="color:#9ECBFF"> '+%Y-%m-%d %H:%M:%S')" "</span><span style="color:#79B8FF">$*</span><span style="color:#9ECBFF">"; }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF"># Verificaciones iniciales</span></span>
+<span class="line"><span style="color:#9ECBFF">if [ ! -d "</span><span style="color:#E1E4E8">$ORIGEN</span><span style="color:#9ECBFF">" ]; then</span></span>
+<span class="line"><span style="color:#9ECBFF">    log "ERROR: Directorio de origen no existe: </span><span style="color:#E1E4E8">$ORIGEN</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">    exit 2</span></span>
+<span class="line"><span style="color:#9ECBFF">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF">mkdir -p "</span><span style="color:#E1E4E8">$BACKUP_DIR</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF">TMPFILE=$(</span><span style="color:#B392F0">mktemp</span><span style="color:#79B8FF"> -p</span><span style="color:#9ECBFF"> "</span><span style="color:#E1E4E8">$BACKUP_DIR</span><span style="color:#9ECBFF">" .tmp_backup_XXXXXX) || { log "Fallo creando tmpfile"; exit 3; }</span></span>
+<span class="line"><span style="color:#9ECBFF">cleanup() {</span></span>
+<span class="line"><span style="color:#9ECBFF">    rm -f "</span><span style="color:#E1E4E8">$TMPFILE</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">}</span></span>
+<span class="line"><span style="color:#9ECBFF">trap cleanup EXIT</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF">log "Creando backup: </span><span style="color:#E1E4E8">$NOMBRE</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">if tar -czf "</span><span style="color:#E1E4E8">$TMPFILE</span><span style="color:#9ECBFF">" -C "</span><span style="color:#E1E4E8">$ORIGEN</span><span style="color:#9ECBFF">" .; then</span></span>
+<span class="line"><span style="color:#9ECBFF">    mv "</span><span style="color:#E1E4E8">$TMPFILE</span><span style="color:#9ECBFF">" "</span><span style="color:#E1E4E8">$BACKUP_DIR</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$NOMBRE</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">    log "Backup creado en </span><span style="color:#E1E4E8">$BACKUP_DIR</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$NOMBRE</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">else</span></span>
+<span class="line"><span style="color:#9ECBFF">    log "ERROR: Falló creación del tar.gz"</span></span>
+<span class="line"><span style="color:#9ECBFF">    exit 4</span></span>
+<span class="line"><span style="color:#9ECBFF">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF"># Rotación: conservar solo los últimos </span><span style="color:#E1E4E8">$KEEP</span><span style="color:#9ECBFF"> archivos</span></span>
+<span class="line"><span style="color:#9ECBFF">if command -v ls >/dev/null 2>&#x26;1; then</span></span>
+<span class="line"><span style="color:#9ECBFF">    mapfile -t archivos &#x3C; &#x3C;(ls -1t "</span><span style="color:#E1E4E8">$BACKUP_DIR</span><span style="color:#9ECBFF">"/backup_*.tar.gz 2>/dev/null || true)</span></span>
+<span class="line"><span style="color:#9ECBFF">    if [ "${</span><span style="color:#F97583">#</span><span style="color:#E1E4E8">archivos</span><span style="color:#9ECBFF">[</span><span style="color:#F97583">@</span><span style="color:#9ECBFF">]}" -gt "</span><span style="color:#E1E4E8">$KEEP</span><span style="color:#9ECBFF">" ]; then</span></span>
+<span class="line"><span style="color:#9ECBFF">        for f in "${</span><span style="color:#E1E4E8">archivos</span><span style="color:#9ECBFF">[</span><span style="color:#F97583">@</span><span style="color:#9ECBFF">]</span><span style="color:#F97583">:</span><span style="color:#E1E4E8">$KEEP</span><span style="color:#9ECBFF">}"; do</span></span>
+<span class="line"><span style="color:#9ECBFF">            log "Eliminando backup viejo: </span><span style="color:#E1E4E8">$f</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">            rm -f -- "</span><span style="color:#E1E4E8">$f</span><span style="color:#9ECBFF">" || log "Advertencia: no se pudo eliminar </span><span style="color:#E1E4E8">$f</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">        done</span></span>
+<span class="line"><span style="color:#9ECBFF">    fi</span></span>
+<span class="line"><span style="color:#9ECBFF">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF"># Integración con Git (opcional)</span></span>
+<span class="line"><span style="color:#9ECBFF">if [ -n "</span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF">" ]; then</span></span>
+<span class="line"><span style="color:#9ECBFF">    if [ ! -d "</span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF">/.git" ]; then</span></span>
+<span class="line"><span style="color:#9ECBFF">        log "ERROR: </span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF"> no es un repositorio git válido"</span></span>
+<span class="line"><span style="color:#9ECBFF">        exit 5</span></span>
+<span class="line"><span style="color:#9ECBFF">    fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF">    cp "</span><span style="color:#E1E4E8">$BACKUP_DIR</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">$NOMBRE</span><span style="color:#9ECBFF">" "</span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF">/" || { log "ERROR: no se pudo copiar </span><span style="color:#E1E4E8">$NOMBRE</span><span style="color:#9ECBFF"> a </span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF">"; exit 6; }</span></span>
+<span class="line"><span style="color:#9ECBFF">    cd "</span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">    git add "</span><span style="color:#E1E4E8">$NOMBRE</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">    git commit -m "Backup: </span><span style="color:#E1E4E8">$FECHA</span><span style="color:#9ECBFF">" || log "Advertencia: ningún cambio para commitear"</span></span>
+<span class="line"><span style="color:#9ECBFF">    git push origin "</span><span style="color:#E1E4E8">$GIT_BRANCH</span><span style="color:#9ECBFF">" || { log "ERROR: push falló"; exit 7; }</span></span>
+<span class="line"><span style="color:#9ECBFF">    log "Backup sincronizado en repo: </span><span style="color:#E1E4E8">$GIT_REPO</span><span style="color:#9ECBFF">"</span></span>
+<span class="line"><span style="color:#9ECBFF">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#9ECBFF">log "Proceso finalizado con éxito"</span></span></code></pre>
+<h2 id="ejemplo-de-crontab">Ejemplo de crontab</h2>
+<p>Recomendado usar rutas absolutas y redirigir salida a un log controlado.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Ejecutar diariamente a las 01:30 y guardar log (ejecutar como el usuario con permisos)</span></span>
+<span class="line"><span>30 1 * * * /usr/bin/env bash /ruta/a/backup.sh >> /var/log/backup_script.log 2>&#x26;1</span></span></code></pre>
+<h2 id="buenas-prácticas-y-seguridad">Buenas prácticas y seguridad</h2>
+<ul>
+<li>Preferir autenticación por clave SSH para git push y/o usar un token con gh o con credenciales del sistema.</li>
+<li>Restringir permisos del directorio de backups: chmod 700 /ruta/a/backups.</li>
+<li>Evitar poner contraseñas en texto plano dentro del script.</li>
+<li>Probar el script manualmente antes de programarlo en cron.</li>
+</ul>
+<h2 id="depuración-y-troubleshooting">Depuración y troubleshooting</h2>
+<ul>
+<li>Revisar /var/log/backup_script.log (o el archivo que haya definido) para mensajes de error.</li>
+<li>Ejecutar el script en modo verboso para aislar problemas: bash -x backup.sh.</li>
+</ul>
+<h2 id="notas-finales">Notas finales</h2>
+<p>Este script es una base sólida para respaldos simples y sincronización con Git. Para entornos de producción o datos críticos, considere soluciones dedicadas (rsync+snapshots, Borg, Restic, duplicity) que brindan deduplicación, cifrado y mejor retención.</p> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel C. Corral — Ciberseguridad
+</div> </footer> </div> </body></html>
