@@ -1,0 +1,22 @@
+--- 
+const { title, description, difficulty, tags, url, date } = Astro.props; 
+---
+<a href={url} class="p-6 rounded-xl main-card block hover:scale-[1.01] transition-all duration-200 hover:border-accentBlue/20 group">
+  <div class="flex justify-between items-center">
+    <div class="px-2 py-1 rounded text-xs bg-accentBlue/10 text-accentBlue border border-accentBlue/20">
+      {difficulty}
+    </div>
+    <div class="text-xs text-slate-400">{new Date(date).toLocaleDateString('es-ES', {year: 'numeric', month: 'short'})}</div>
+  </div>
+  
+  <h3 class="font-semibold mt-3 text-lg group-hover:text-accentBlue transition-colors">{title}</h3>
+  <p class="mt-2 text-sm text-slate-300 line-clamp-2">{description}</p>
+  
+  {tags && tags.length > 0 && 
+    <div class="mt-4 flex flex-wrap gap-2">
+      {tags.map((tag: string) => (
+        <span class="px-2 py-1 text-xs rounded-md bg-slate-800/50 text-slate-300">{tag}</span>
+      ))}
+    </div>
+  }
+</a>

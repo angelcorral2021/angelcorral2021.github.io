@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+export async function getStaticPaths() {
+  const writeups = await getCollection('writeups');
+  return writeups.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+<BaseLayout title={`${entry.data.title} - Writeup`}>
+  <Header slot="header" />
+  <article class="max-w-3xl mx-auto px-6">
+    <!-- Header del artículo -->
+    <div class="mb-12">
+      <div class="flex flex-wrap gap-4 items-center mb-6">
+        <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+          ← Volver a Writeups
+        </a>
+        <div class="text-sm text-slate-400">
+          {new Date(entry.data.date).toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </div>
+      </div>
+
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4">
+        {entry.data.title}
+      </h1>
+
+      {entry.data.description && 
+        <p class="text-lg text-slate-300 mb-6">{entry.data.description}</p>
+      }
+
+      <div class="flex flex-wrap gap-3">
+        {entry.data.difficulty && (
+          <span class="px-3 py-1 rounded-full bg-accentBlue/10 text-accentBlue border border-accentBlue/20 text-sm">
+            {entry.data.difficulty}
+          </span>
+        )}
+        {entry.data.tags?.map(tag => (
+          <span class="px-3 py-1 rounded-full bg-slate-800/50 text-slate-300 text-sm">
+            {tag}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- Contenido del artículo -->
+      <div class="prose prose-invert prose-xl max-w-none
+        prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-2xl prose-h2:font-semibold prose-h2:text-slate-100
+        prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-xl prose-h3:font-medium prose-h3:text-slate-200
+        prose-p:mb-4 prose-p:text-slate-300 prose-p:leading-relaxed
+        prose-a:text-accentBlue prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-slate-200
+        prose-code:text-slate-300 prose-code:bg-slate-800/50 prose-code:rounded prose-code:px-1.5 prose-code:py-0.5 prose-code:border prose-code:border-slate-700/30
+        prose-pre:my-8 prose-pre:rounded-lg prose-pre:p-6 prose-pre:bg-slate-900/80 prose-pre:border prose-pre:border-slate-700/40 prose-pre:overflow-x-auto
+        prose-table:my-8 prose-table:bg-slate-800/30 prose-table:border prose-table:border-slate-700/30 prose-table:rounded-lg prose-table:overflow-hidden
+        prose-th:bg-slate-800 prose-th:text-slate-200 prose-th:p-3 prose-th:border prose-th:border-slate-700/30
+        prose-td:p-3 prose-td:border prose-td:border-slate-700/30
+        prose-ul:my-6 prose-li:mb-3 prose-li:text-slate-300
+        prose-hr:border-slate-800 prose-hr:my-8
+        prose-blockquote:border-l-accentBlue/30 prose-blockquote:bg-slate-800/20 prose-blockquote:rounded-r prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:not-italic prose-blockquote:my-8
+        prose-img:mb-8 prose-img:mx-auto prose-img:rounded-lg prose-img:shadow-lg
+      ">
+        <Content />
+      </div>
+
+    <!-- Footer del artículo -->
+    <div class="mt-16 pt-8 border-t border-slate-800">
+      <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+        ← Volver a la lista de writeups
+      </a>
+    </div>
+  </article>
+  <Footer slot="footer" />
+</BaseLayout>

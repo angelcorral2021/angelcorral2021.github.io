@@ -1,0 +1,24 @@
+--- 
+const { profile } = Astro.props;
+---
+<section class="grid lg:grid-cols-2 gap-8 items-center">
+  <div>
+    <h1 class="text-6xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent transition-colors duration-300">{profile.name}</h1>
+    <h1 class="text-3xl font-extrabold leading-tight text-slate-200">{profile.title}</h1>
+    <p class="mt-4 text-slate-300 max-w-prose">Ingeniero informático con {profile.experience} de experiencia. Especializado en Ciberseguridad y análisis de sistemas.</p>
+    <div class="mt-6 flex gap-4">
+      <a href="/projects" class="px-4 py-2 rounded-md main-card">Proyectos</a>
+      <a href="/contact" class="px-4 py-2 rounded-md border">Contactar</a>
+    </div>
+  </div>
+  <div class="p-6 rounded-2xl main-card">
+    <div class="text-sm text-slate-400">Sobre mí</div>
+    <h3 class="mt-2 font-semibold">{profile.title}</h3>
+    <p class="mt-3 text-slate-300">País: {profile.country}</p>
+    <p class="mt-3 text-slate-300">Años de experiencia: {profile.experience}</p>
+    <p class="mt-3 text-slate-300">Especialidades: {profile.specialties.join(', ')}</p>   <p class="mt-3 text-slate-300"> 
+    <p class="mt-3 text-slate-300">Conocimientos en desarrollo web, administración de sistemas Linux, scripting en Bash, programación en Python, gestión con Docker y bases de datos.
+                                   Me especializo en ciberseguridad y hacking ético, con un enfoque en la protección de la información y la infraestructura crítica
+    </p>
+  </div>
+</section>

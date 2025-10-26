@@ -1,0 +1,12 @@
+<form id="contact" class="grid gap-3 max-w-md" method="POST" action="/api/contact" on:submit>
+  <input name="name" placeholder="Nombre" required class="p-3 rounded-md bg-transparent border" />
+  <input name="email" type="email" placeholder="Correo" required class="p-3 rounded-md bg-transparent border" />
+  <textarea name="message" rows="6" placeholder="Mensaje" class="p-3 rounded-md bg-transparent border"></textarea>
+  <button type="submit" class="px-4 py-2 rounded-md main-card">Enviar</button>
+</form>
+<script>
+  // validación mínima cliente (no sustituye validación en servidor)
+  document.getElementById('contact')?.addEventListener('submit', async e => {
+    // permitir envío normal; servidor validará.
+  });
+</script>

@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Hero from '../components/Hero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const profile = {
+  name: 'Angel C. Corral',
+  title: 'Ciberseguridad y Hacking Ético',
+  country: 'Chile',
+  experience: '4 años',
+  specialties: ['Red Team','Web App','Automatización','Pentesting']
+};
+
+const projects = [
+  { title: 'Proyectos', desc: 'Colección de proyectos', tags: ['php','bash','python','N8N'], link: '/projects#auto-recon' },
+  { title: 'CTF-Writeups', desc: 'Colección de writeups', tags: ['Writeups'], link: '/writeups' }
+];
+---
+<BaseLayout title="Angel C. Corral — Ciberseguridad">
+  <Header slot="header" />
+  <Hero profile={profile} />
+  <section class="mt-12">
+    <h2 class="text-2xl font-semibold">Proyectos recientes</h2>
+    <div class="mt-6 grid sm:grid-cols-2 gap-6">
+      {projects.map(p => <ProjectCard {...p} />)}
+    </div>
+  </section>
+  <Footer slot="footer" />
+</BaseLayout>
