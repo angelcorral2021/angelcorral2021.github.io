@@ -1,17 +1,7 @@
 import { defineConfig } from "astro/config";
-
-// Import dinámico como workaround para problemas de resolución ESM/SSR
-let tailwind;
-try {
-  // top-level await es válido en archivos .mjs
-  tailwind = (await import("@astrojs/tailwind")).default;
-} catch (e) {
-  // Re-lanzar con mensaje claro para facilitar debugging
-  console.error("Error importing @astrojs/tailwind from astro.config.mjs:", e);
-  throw e;
-}
+import tailwind from "@astrojs/tailwind";
 
 export default defineConfig({
   integrations: [tailwind()],
-  base: '/'
+  base: "/", // 👈 correcto para angelcorral2021.github.io
 });
