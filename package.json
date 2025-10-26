@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "sync-heroes": "node ./scripts/sync-heroes.js",
     "check-heroes": "node ./scripts/validate-heroes.js",
-    "build": "npm run check-heroes && astro build && touch dist/.nojekyll",
+    "build": "npm run check-heroes && astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
