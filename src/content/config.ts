@@ -11,6 +11,16 @@ const writeups = defineCollection({
   }),
 });
 
+const projects = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    status: z.string().default('completed'),
+    tags: z.array(z.string()).default([]),
+  }),
+});
+
 const articles = defineCollection({
   type: 'content',
   schema: z.object({
@@ -21,15 +31,7 @@ const articles = defineCollection({
   }),
 });
 
-const projects = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string().optional(),
-    status: z.string().default('completed'),
-    tags: z.array(z.string()).default([]),
-  }),
-});
+
 
 export const collections = {
   writeups,

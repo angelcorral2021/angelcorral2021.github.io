@@ -1,14 +1,21 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import ProjectCard from '../components/ProjectCard.astro';
 
-const projects = await getCollection('projects');
+/*const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => 
   new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+);*/
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.map(entry => ({
+  ...entry.data,
+  url: `/projects/${entry.slug}`
+})).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 <BaseLayout title="Proyectos">
-  <nav class="mb-6 text-sm text-slate-400">
+  <!-- <nav class="mb-6 text-sm text-slate-400">
     <a href="/">Inicio</a> / <span>Proyectos</span>
   </nav>
   <h1 class="text-4xl font-serif font-light tracking-wide bg-gradient-to-r from-white via-slate-200 to-slate-300 bg-clip-text text-transparent">Proyectos</h1>
@@ -26,5 +33,34 @@ const sortedProjects = projects.sort((a, b) =>
         </div>
       </a>
     ))}
+  </div>-->
+   <nav class="mb-6 text-sm text-slate-400">
+    <a href="/">Inicio</a> / <span>Proyectos</span>
+  </nav>
+  <div class="max-w-4xl mx-auto px-6">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text">
+        Proyectos
+      </h1>
+      <p class="text-lg text-slate-300 mt-4 max-w-2xl mx-auto">
+        Proyectos que estoy desarrollando o he completado. Explora mis trabajos que demuestran mis habilidades en desarrollo web, aplicaciones y más.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-6">
+      {sortedProjects.map(sortedProjects => (
+        <ProjectCard {...sortedProjects} />
+      ))}
+    </div>
+
+    {sortedProjects.length === 0 && (
+      <div class="text-center py-12 text-slate-400">
+        No hay proyectos disponibles aún.
+      </div>
+    )}
+
+    <div class="mt-12 text-center text-sm text-slate-400">
+      Se encontraron {sortedProjects.length} Proyectos
+    </div>
   </div>
 </BaseLayout>

@@ -1,8 +1,8 @@
 ---
-title: "DevSecOps"
-slug: "enumer"
+title: "Prueba 2"
+slug: "enumeracion"
 date: "2025-08-15"
-excerpt: "DevSecOps Integrando Seguridad en el Ciclo de Vida"
+excerpt: "Ciclo de Vida"
 ---
 
 DevSecOps Integrando Seguridad en el Ciclo de Vida del Desarrollo

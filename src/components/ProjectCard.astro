@@ -1,8 +1,10 @@
 --- 
-const { title, desc, tags, link } = Astro.props;
+const { title, desc, tags, url } = Astro.props;
 ---
-<a href={link} class="block p-4 rounded-lg main-card hover:scale-[1.01] transition-transform">
+<a href={url} class="block p-4 rounded-lg main-card hover:scale-[1.01] transition-transform">
+
   <h4 class="font-semibold">{title}</h4>
   <p class="text-sm mt-2 text-slate-300">{desc}</p>
   <div class="mt-3 text-xs text-slate-400">{tags.join(' · ')}</div>
+
 </a>
