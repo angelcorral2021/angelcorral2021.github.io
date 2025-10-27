@@ -1,11 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
+
 <BaseLayout title="Servicios">
-  <h1 class="text-3xl font-bold">Servicios</h1>
+  <h1 class="text-3xl font-bold mb-4">Servicios</h1>
+  <p class="text-sm text-gray-400 mb-8">
+    Como profesional dentro del ámbito de la ciberseguridad y el hacking ético, ofrezco servicios orientados a la mejora de la seguridad digital, el aprendizaje técnico y la concienciación. Mi objetivo es ayudar a individuos y pequeños proyectos a fortalecer su entorno tecnológico.
+  </p>
+
   <div class="mt-6 grid sm:grid-cols-2 gap-6">
-    <div class="p-6 rounded-xl main-card"><h3>Pentest</h3><p>Evaluación externa/interna con reporte</p></div>
-    <div class="p-6 rounded-xl main-card"><h3>Consultoría Red Team</h3><p>Simulación de ataque</p></div>
-    <div class="p-6 rounded-xl main-card"><h3>Formación</h3><p>Workshops privados</p></div>
+    <div class="p-6 rounded-xl main-card">
+      <h3 class="text-xl font-semibold mb-2">Evaluaciones de Seguridad</h3>
+      <p class="text-sm">
+        Análisis básico de configuraciones, puertos abiertos y posibles vulnerabilidades en entornos controlados. Ideal para proyectos personales, laboratorios o pequeñas empresas que busquen una revisión inicial.
+      </p>
+    </div>
+
+    <div class="p-6 rounded-xl main-card">
+      <h3 class="text-xl font-semibold mb-2">Pentesting Educativo</h3>
+      <p class="text-sm">
+        Pruebas de penetración simuladas en entornos de práctica (CTF o laboratorios). Permite identificar riesgos comunes y aprender metodologías de ataque ético paso a paso.
+      </p>
+    </div>
+
+    <div class="p-6 rounded-xl main-card">
+      <h3 class="text-xl font-semibold mb-2">Asesoría Básica en Ciberseguridad</h3>
+      <p class="text-sm">
+        Orientación sobre buenas prácticas digitales, contraseñas seguras, autenticación multifactor, navegación segura y medidas de protección personal en línea.
+      </p>
+    </div>
+
+    <div class="p-6 rounded-xl main-card">
+      <h3 class="text-xl font-semibold mb-2">Formación y Workshops Introductorios</h3>
+      <p class="text-sm">
+        Sesiones personalizadas sobre fundamentos del hacking ético, uso de herramientas comunes (Nmap, Burp Suite, Metasploit, etc.) y creación de entornos seguros de aprendizaje.
+      </p>
+    </div>
   </div>
 </BaseLayout>
