@@ -1,11 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ContactForm from '../components/ContactForm.astro';
 ---
+
 <BaseLayout title="Contacto">
   <h1 class="text-3xl font-bold">Contacto</h1>
-  <div class="mt-6 grid lg:grid-cols-2 gap-8">
-    <div class="p-6 rounded-xl main-card"><ContactForm /></div>
-    <div class="p-6 rounded-xl main-card"><h3>Información</h3><ul class="mt-3 text-sm"><li>Correo: angelcorral2023@gmail.com </li><li>GitHub: https://github.com/angelcorral2021</li></ul></div>
+  <div class="mt-6 p-6 rounded-xl main-card">
+    <h3 class="text-xl font-semibold mb-4">Información</h3>
+    <ul class="space-y-2 text-sm">
+      <li><strong>Correo:</strong> <a href="mailto:angelcorral2023@gmail.com" class="text-blue-400 hover:underline">angelcorral2023@gmail.com</a></li>
+      <li><strong>GitHub:</strong> <a href="https://github.com/angelcorral2021" target="_blank" class="text-blue-400 hover:underline">github.com/angelcorral2021</a></li>
+      <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/angelcorral2021" target="_blank" class="text-blue-400 hover:underline">linkedin.com/in/angel-corral-2021</a></li>
+    </ul>
   </div>
 </BaseLayout>
