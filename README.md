@@ -1,18 +1,11 @@
 
-Perfecto.
-Aquí tienes la **versión final del `README.md`**, mejorada con **badges**, un **workflow automático de despliegue en GitHub Pages**, y un **preview visual animado** del sitio.
-Está lista para subir directamente a tu repositorio principal.
-
----
-
-
 # 🧠 Cyber Portfolio — Desarrollado con Astro ⚡
 
 
 
 > Portafolio personal orientado a **ciberseguridad, hacking ético y desarrollo web**, construido con **Astro.js** y desplegado en **GitHub Pages**.
 
----
+
 
 ## 🏷️ Estado del Proyecto
 
@@ -22,7 +15,7 @@ Está lista para subir directamente a tu repositorio principal.
 ![Deploy](https://img.shields.io/github/deployments/angelcorral2021/Portafolio-Web/github-pages?label=deploy)
 ![Build](https://img.shields.io/github/actions/workflow/status/angelcorral2021/Portafolio-Web/deploy.yml?label=build)
 
----
+
 
 ## 🚀 Descripción
 
@@ -36,7 +29,7 @@ Este proyecto es un **sitio web de portafolio profesional** que presenta:
 
 El diseño está inspirado en una estética **oscura con neones azules y verdes**, moderna, legible y profesional.
 
----
+
 
 ## 🧩 Stack Tecnológico
 
@@ -49,7 +42,6 @@ El diseño está inspirado en una estética **oscura con neones azules y verdes*
 | ☁️ **GitHub Pages** | Hosting estático |
 | 🧰 **Node.js + npm** | Dependencias y build tools |
 
----
 
 ## 🗂️ Estructura del Proyecto
 
@@ -73,8 +65,6 @@ El diseño está inspirado en una estética **oscura con neones azules y verdes*
 
 ```
 
----
-
 ## ⚙️ Instalación Local
 
 ```bash
@@ -92,8 +82,6 @@ npm run dev
 http://localhost:4321
 
 ```
-
----
 
 ## 🌐 Despliegue en GitHub Pages
 
@@ -148,7 +136,6 @@ jobs:
 
 > ✅ Cada vez que haces `git push` en `main`, el sitio se construye y se publica automáticamente en **GitHub Pages**.
 
----
 
 ## 🧠 Contenido Dinámico (Writeups / Artículos)
 
@@ -171,7 +158,6 @@ description: "Explotación completa de la máquina SoulMate."
 
 El contenido se renderiza automáticamente en la ruta `/writeups/[slug]`.
 
----
 
 ## 💅 Diseño Visual
 
@@ -180,7 +166,6 @@ El contenido se renderiza automáticamente en la ruta `/writeups/[slug]`.
 * Layout responsivo, optimizado para lectura técnica
 * Integración con efectos *Glass UI* y animaciones sutiles
 
----
 
 ## 🧰 Scripts Disponibles
 
@@ -201,7 +186,6 @@ El contenido se renderiza automáticamente en la ruta `/writeups/[slug]`.
 | **Writeups**  | ![Writeups Preview](./public/img/preview_writeups.png) |
 | **Proyectos** | ![Projects Preview](./public/img/preview_projects.png) |
 
----
 
 ## 🧩 Próximas Mejoras
 
@@ -211,7 +195,6 @@ El contenido se renderiza automáticamente en la ruta `/writeups/[slug]`.
 * [ ] Integración con API de GitHub para proyectos activos.
 * [ ] Sistema de comentarios técnico en cada writeup.
 
----
 
 ## 👨‍💻 Autor
 
@@ -222,14 +205,12 @@ Desarrollador Web & Entusiasta de la Ciberseguridad
 🐙 **GitHub:** [angelcorral2021](https://github.com/angelcorral2021)
 💼 **LinkedIn:** [linkedin.com/in/angelcorral](https://linkedin.com/in/angelcorral)
 
----
 
 ## 📄 Licencia
 
 Este proyecto se distribuye bajo la **licencia MIT**.
 Eres libre de usarlo, modificarlo y distribuirlo con atribución.
 
----
 
 
 
