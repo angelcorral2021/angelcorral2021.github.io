@@ -80,3 +80,56 @@ body {
   background-color: rgba(0,0,0,0.35);
   border: 1px solid rgba(255,255,255,0.04);
 }
+
+/* 1. Contenedor Principal (Para centrar y limitar el ancho de lectura) */
+.writeup-container {
+    max-width: 800px; /* Ancho cómodo para la lectura */
+    margin: 0 auto; /* Centrar el contenido */
+    padding: 20px;
+}
+
+/* 2. Estilos de Tipografía Base */
+.writeup-container p {
+    margin-bottom: 1.2em; /* Espacio extra entre párrafos */
+    line-height: 1.7; /* Altura de línea para mejor legibilidad */
+}
+
+/* 3. Estilos de Encabezados */
+.writeup-container h2 {
+    color: #007bff; /* Un color distintivo para las secciones principales */
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+    margin-top: 2.5rem;
+}
+
+.writeup-container h3 {
+    color: #333;
+    margin-top: 1.5rem;
+}
+
+/* 4. Estilos para Bloques de Código (Lo más importante) */
+.writeup-container pre {
+    background-color: #2d2d2d; /* Color de fondo oscuro (ej. Monokai) */
+    color: #ccc;
+    padding: 1rem;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    font-size: 0.9em;
+}
+
+/* 5. Estilos para Tablas */
+.writeup-container table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    font-size: 0.95em;
+}
+.writeup-container th, .writeup-container td {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+}
+.writeup-container th {
+    background-color: #f8f8f8;
+    color: #555;
+}

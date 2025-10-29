@@ -8,18 +8,18 @@ target_ip: "10.10.11.68"
 target_domain: "planning.htb"
 client_name: "Hack The Box"
 status: "Completed" # Útil para filtrar: 'Completed', 'WIP', 'Pending'
-hero: "/img/placeholder-hero.svg"
+
 
 ---
-
-# 📝 Soulmate HTB
 
 ![Banner SoulMate](/img/soulmatehtb.png)
 
-**Objetivo:** `IP: 10.10.11.68` | **Dominio:** `planning.htb`
-**Plataforma:** `Hack The Box` | **Dificultad:** **Intermedio**
 
----
+**Objetivo:** `IP: 10.10.11.68` <br>
+**Dominio:** `planning.htb` <br>
+**Plataforma:** `Hack The Box` <br>
+**Dificultad:** **Intermedio**
+
 
 ## 💻 Configuración Inicial
 

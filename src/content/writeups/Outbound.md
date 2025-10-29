@@ -1,4 +1,3 @@
-
 ---
 
 title: "Outbound Hack The Box"
@@ -9,16 +8,11 @@ tags: ["nmap", "gobuster", "ssh", "sudo -l"]
 hero: "/img/placeholder-hero.svg"
 
 ---
-# Outbound HTB
+
 
 ![Banner SoulMate](/img/Outbound.png)
 ---
 
-
-- Credenciales Para El Desafio: 
-    
-
----
 
 ## 🔎 Escaneo y Enumeración
 
@@ -67,9 +61,6 @@ gobuster dir -u http://<IP> -w /usr/share/seclists/Discovery/Web-Content/directo
 
 - Capturas:
 
-![Pasted image 20251004205139.png](/img/placeholder-hero.svg)
-
-![Pasted image 20251004205621.png](/img/placeholder-hero.svg)
 
 - Tecnologías: ``
    
@@ -99,9 +90,7 @@ gobuster dir -u http://<IP> -w /usr/share/seclists/Discovery/Web-Content/directo
 
 # 💥 Explotación
 
-![Pasted image 20251005195225.png](/img/placeholder-hero.svg)
 
-![Pasted image 20251005200343.png](/img/placeholder-hero.svg)
 
 Comandos:
 
@@ -198,14 +187,6 @@ print(rcube_decrypt(cipher_b64, key))
     
 -  Contraseña: `595mO8DmwGeD`
 
-
-![Pasted image 20251007190525.png](/img/placeholder-hero.svg)
-
-![Pasted image 20251007190702.png](/img/placeholder-hero.svg)
-
-![Pasted image 20251007191335.png](/img/placeholder-hero.svg)
-
-![Pasted image 20251007210947.png](/img/placeholder-hero.svg)
 
 
 -  Origen (FTP/SSH/Web): `MAIL PORTAL`
@@ -304,7 +285,6 @@ mail.outbound.htb
 outbound.htb
 
 
-name="_token" value="U26BEkCTg2Nj1V8WN1tDW9ciR7KBPsSF"
 TECNOLOGY:
 
 Roundcube 1.6.10.
