@@ -1,9 +1,9 @@
 ---
-title: "Script de Respaldo"
-slug: "script_respaldo"
+title: "Proyecto 3"
+description: "Descripcion"
 date: "2024-12-01"
-excerpt: "Script Bash robusto para automatizar respaldos locales y sincronización con un repositorio Git"
-technologies: ["Bash"]
+status: "completed"
+tags: ["htb", "privilege-escalation", "web", "grafana", "cve-2024-9264", "docker"]
 ---
 
 # Script de Respaldo Automático 

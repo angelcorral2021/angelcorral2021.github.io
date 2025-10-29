@@ -15,9 +15,7 @@ const { frontmatter = {} } = Astro.props;
       <slot name="header" />
       <main class="container mx-auto px-6 py-10 flex-1">
         <article class="max-w-3xl mx-auto">
-          <div class="mb-8">
-            <img src={frontmatter.hero ?? '/img/placeholder-hero.svg'} alt={frontmatter.title ? `${frontmatter.title} — hero` : 'Hero image'} loading="lazy" decoding="async" class="w-full rounded-lg shadow-lg object-cover max-h-72" />
-          </div>
+          
 
           {frontmatter.title && (
             <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4">{frontmatter.title}</h1>

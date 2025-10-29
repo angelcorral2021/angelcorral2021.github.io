@@ -5,7 +5,7 @@ date: "2025-09-10"
 description: "Debe tener Descripccion"
 difficulty: "Easy"
 tags: ["nmap", "gobuster", "ssh", "sudo -l"]
-hero: "/img/placeholder-hero.svg"
+
 
 ---
 

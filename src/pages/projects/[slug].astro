@@ -1,9 +1,11 @@
 ---
 import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import "../../styles/global.css";
 
+// 1️⃣ Generar rutas estáticas
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
   return projects.map(entry => ({
@@ -12,10 +14,17 @@ export async function getStaticPaths() {
   }));
 }
 
+// 2️⃣ Obtener contenido renderizado
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+const formattedDate = new Date(entry.data.date).toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
 ---
-<BaseLayout title={`${entry.data.title} - Proyecto`}>
+<ProjectLayout title={`${entry.data.title} - Proyecto`}>
   <Header slot="header" />
   <article class="max-w-3xl mx-auto px-6">
     <div class="mb-12">
@@ -42,4 +51,4 @@ const { Content } = await entry.render();
     </div>
   </article>
   <Footer slot="footer" />
-</BaseLayout>
+</ProjectLayout>

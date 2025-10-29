@@ -1,9 +1,9 @@
 ---
-title: "CRUD Basico"
-slug: "crud_basico"
+title: "Proyecto 2"
+description: "Descripcion"
 date: "2024-12-01"
-excerpt: "CRUD Basico con servido Apache y MySQL"
-technologies: ["Linux, MySQL, PHP"]
+status: "completed"
+tags: ["htb", "privilege-escalation", "web", "grafana", "cve-2024-9264", "docker"]
 ---
 
 
