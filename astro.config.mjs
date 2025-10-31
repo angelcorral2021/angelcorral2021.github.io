@@ -5,12 +5,30 @@ export default defineConfig({
   site: 'https://angelcorral2021.github.io',
   base: '/',
   integrations: [tailwind()],
+  build: {
+    assets: 'assets',
+    inlineStylesheets: 'auto',
+  },
+  vite: {
+    build: {
+      cssMinify: true,
+      minify: 'terser',
+      terserOptions: {
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+        },
+      },
+      rollupOptions: {
+        output: {
+          manualChunks: undefined,
+        },
+      },
+    },
+  },
   markdown: {
-    // Aquí defines el tema de color para tus bloques de código.
-    // 'dracula', 'github-dark', 'material-theme-palenight' son opciones populares.
-    // 'github-light' o 'default' son buenas opciones si quieres un tema claro.
     shikiConfig: {
-      theme: 'dracula' // O el tema que prefieras
+      theme: 'dracula'
     }
   }
 });

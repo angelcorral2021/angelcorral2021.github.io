@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout title="Servicios">
+  <Header slot="header" />
   <nav class="mb-6 text-sm text-slate-400">
     <a href="/">Inicio</a> / <span>Servicios</span>
   </nav>
@@ -40,4 +43,5 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       </p>
     </div>
   </div>
+  <Footer slot="footer" />
 </BaseLayout>

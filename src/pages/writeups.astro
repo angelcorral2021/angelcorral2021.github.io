@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import WriteupCard from '../components/WriteupCard.astro';
 import { getCollection } from 'astro:content';
 
@@ -10,7 +12,7 @@ const posts = writeups.map(entry => ({
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 <BaseLayout title="Writeups">
- 
+  <Header slot="header" />
   <nav class="mb-6 text-sm text-slate-400">
     <a href="/">Inicio</a> / <span>Writeups</span>
   </nav>
@@ -40,5 +42,5 @@ const posts = writeups.map(entry => ({
       Se encontraron {posts.length} writeups
     </div>
   </div>
-  
+  <Footer slot="footer" />
 </BaseLayout>

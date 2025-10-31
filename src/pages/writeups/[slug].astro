@@ -72,7 +72,8 @@ const formattedDate = new Date(entry.data.date).toLocaleDateString('es-ES', {
     {entry.data.image && (
       <div class="mb-12">
         <img src={entry.data.image} alt={`Imagen de ${entry.data.title}`} 
-             class="w-full rounded-xl shadow-lg border border-slate-800 object-cover" />
+             class="w-full rounded-xl shadow-lg border border-slate-800 object-cover" 
+             loading="lazy" decoding="async" />
       </div>
     )}
 

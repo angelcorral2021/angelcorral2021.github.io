@@ -1,13 +1,20 @@
 ---
-
+import "../styles/global.css";
 const { frontmatter = {} } = Astro.props;
 ---
 <!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido -->
-<html lang="es">
+<html lang="es" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>{frontmatter.title ?? 'Writeup'}</title>
+    <script>
+      (function () {
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.toggle('light', theme === 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      })();
+    </script>
   </head>
   <body class="bg-bg1 text-white">
     <div class="min-h-screen flex flex-col">

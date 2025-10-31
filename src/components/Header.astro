@@ -1,10 +1,9 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+---
 <header class="w-full py-4">
   <div class="container mx-auto flex items-center justify-between">
     <a href="/" class="flex items-center gap-3">
-      <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center shadow-[0_0_10px_2px_rgba(0,255,255,0.7)]">
-  <img src="/icons8-hacker-96.png" alt="Logo" class="w-10 h-10 rounded-full object-cover invert" />
-</div>
-
       <div>
         <div class="text-lg font-semibold">Angel Corral</div>
         <div class="text-xs text-slate-400">Ciberseguridad · Hacking Ético</div>
@@ -15,6 +14,7 @@
       <a href="/projects">Proyectos</a>
       <a href="/services">Servicios</a>
       <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a>
+      <ThemeToggle />
     </nav>
   </div>
 </header>

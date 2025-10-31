@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import { getCollection } from 'astro:content';
 import ProjectCard from '../components/ProjectCard.astro';
 
@@ -10,7 +12,7 @@ const posts = projects.map(entry => ({
 })).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
 <BaseLayout title="projects">
- 
+  <Header slot="header" />
    <nav class="mb-6 text-sm text-slate-400">
     <a href="/">Inicio</a> / <span>Proyectos</span>
   </nav>
@@ -42,4 +44,5 @@ const posts = projects.map(entry => ({
       Se encontraron {posts.length} Proyectos
     </div>
   </div>
+  <Footer slot="footer" />
 </BaseLayout>

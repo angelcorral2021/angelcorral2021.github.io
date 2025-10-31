@@ -1,18 +1,41 @@
 ---
 import "../styles/global.css";
 
-const { title = 'Portfolio' } = Astro.props;
+const { title = 'Portfolio', description = 'Ingeniero informático especializado en Ciberseguridad y Hacking Ético' } = Astro.props;
 ---
-<html lang="es">
+<html lang="es" class="dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Angel Corral" />
+    <meta name="keywords" content="ciberseguridad, hacking ético, pentesting, red team, desarrollo web" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    
     <title>{title}</title>
-     <!-- Favicon -->
-
-   <link type="image/png" sizes="96x96" rel="icon" href="/icons8-hacker-96.png">
-
-
+    
+    <!-- Favicon -->
+    <link type="image/png" sizes="96x96" rel="icon" href="/icons8-hacker-96.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Theme initialization script -->
+    <script>
+      (function () {
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.classList.toggle('light', theme === 'light');
+        document.documentElement.classList.toggle('dark', theme === 'dark');
+      })();
+    </script>
   </head>
   <body class="bg-bg1 text-white">
     <div class="min-h-screen flex flex-col">
