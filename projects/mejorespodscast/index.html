@@ -1,0 +1,182 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><link rel="stylesheet" href="/_astro/contact.Cqf3A00g.css">
+<link rel="stylesheet" href="/_astro/contact.B2mefsI4.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div class="w-12 h-12 rounded-full bg-black flex items-center justify-center shadow-[0_0_10px_2px_rgba(0,255,255,0.7)]"> <img src="/icons8-hacker-96.png" alt="Logo" class="w-10 h-10 rounded-full object-cover invert"> </div> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Ciberseguridad · Hacking Ético</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/projects" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Proyectos
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Mejores Podcast </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="️-mejores-podcasts">🎙️ Mejores Podcasts</h1>
+<p>Una aplicación web moderna construida con Astro.js para descubrir y explorar los mejores capítulos de podcast en español.</p>
+<h2 id="-características">✨ Características</h2>
+<ul>
+<li>🎥 <strong>Visualización de videos de YouTube</strong> - Muestra videos embebidos con reproductor integrado</li>
+<li>🖼️ <strong>Miniaturas automáticas</strong> - Genera miniaturas desde YouTube automáticamente</li>
+<li>📝 <strong>Descripciones detalladas</strong> - Información completa sobre cada episodio</li>
+<li>🏷️ <strong>Categorización</strong> - Organiza podcasts por categorías (Tecnología, Negocios, Salud, etc.)</li>
+<li>📱 <strong>Diseño responsivo</strong> - Optimizado para todos los dispositivos</li>
+<li>⚡ <strong>Rendimiento optimizado</strong> - Construido con Astro.js para máxima velocidad</li>
+<li>🎨 <strong>UI moderna</strong> - Interfaz atractiva con Tailwind CSS</li>
+</ul>
+<h2 id="-inicio-rápido">🚀 Inicio Rápido</h2>
+<h3 id="prerrequisitos">Prerrequisitos</h3>
+<ul>
+<li>Node.js 18.0 o superior</li>
+<li>npm, yarn o pnpm</li>
+</ul>
+<h3 id="instalación">Instalación</h3>
+<ol>
+<li>Instala las dependencias:</li>
+</ol>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">npm</span><span style="color:#F1FA8C"> install</span></span></code></pre>
+<ol start="2">
+<li>Inicia el servidor de desarrollo:</li>
+</ol>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">npm</span><span style="color:#F1FA8C"> run</span><span style="color:#F1FA8C"> dev</span></span></code></pre>
+<ol start="3">
+<li>Abre tu navegador en <code>http://localhost:4321</code></li>
+</ol>
+<h3 id="scripts-disponibles">Scripts Disponibles</h3>
+<ul>
+<li><code>npm run dev</code> - Inicia el servidor de desarrollo</li>
+<li><code>npm run build</code> - Construye la aplicación para producción</li>
+<li><code>npm run preview</code> - Previsualiza la build de producción</li>
+<li><code>npm run astro</code> - Ejecuta comandos de Astro CLI</li>
+</ul>
+<h2 id="-estructura-del-proyecto">📁 Estructura del Proyecto</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>├── public/          # Archivos estáticos (favicon, imágenes, etc.)</span></span>
+<span class="line"><span>├── src/</span></span>
+<span class="line"><span>│   ├── components/  # Componentes reutilizables</span></span>
+<span class="line"><span>│   │   ├── sections/        # Componentes de secciones</span></span>
+<span class="line"><span>│   │   │   ├── HumorSection.astro</span></span>
+<span class="line"><span>│   │   │   ├── LatestSection.astro</span></span>
+<span class="line"><span>│   │   │   ├── CultSection.astro</span></span>
+<span class="line"><span>│   │   │   └── BestSection.astro</span></span>
+<span class="line"><span>│   │   ├── PodcastCard.astro    # Tarjeta con like button</span></span>
+<span class="line"><span>│   │   ├── VideoCard.astro      # Tarjeta básica de video</span></span>
+<span class="line"><span>│   │   ├── VideoPlayer.astro    # Reproductor de YouTube</span></span>
+<span class="line"><span>│   │   ├── Header.astro</span></span>
+<span class="line"><span>│   │   ├── Footer.astro</span></span>
+<span class="line"><span>│   │   └── ToggleTheme.astro    # Botón de cambio de tema</span></span>
+<span class="line"><span>│   ├── data/        # Datos y contenido</span></span>
+<span class="line"><span>│   │   └── podcasts.ts</span></span>
+<span class="line"><span>│   ├── layouts/     # Layouts de página</span></span>
+<span class="line"><span>│   │   └── Layout.astro</span></span>
+<span class="line"><span>│   ├── pages/       # Páginas de la aplicación</span></span>
+<span class="line"><span>│   │   ├── index.astro          # Página principal con 4 secciones</span></span>
+<span class="line"><span>│   │   ├── categorias.astro</span></span>
+<span class="line"><span>│   │   ├── podcast/[id].astro   # Página dinámica de episodio</span></span>
+<span class="line"><span>│   │   ├── show/[showId].astro  # Página dinámica de show</span></span>
+<span class="line"><span>│   │   └── 404.astro</span></span>
+<span class="line"><span>│   ├── types/        # Definiciones de tipos TypeScript</span></span>
+<span class="line"><span>│   │   └── podcast.ts</span></span>
+<span class="line"><span>│   └── utils/        # Utilidades</span></span>
+<span class="line"><span>│       └── likes.ts  # Sistema de gestión de likes</span></span>
+<span class="line"><span>├── astro.config.mjs</span></span>
+<span class="line"><span>├── package.json</span></span>
+<span class="line"><span>├── tsconfig.json</span></span>
+<span class="line"><span>├── COMPONENTS.md     # Documentación de componentes</span></span>
+<span class="line"><span>└── README.md</span></span></code></pre>
+<h2 id="-agregar-nuevos-podcasts">📝 Agregar Nuevos Podcasts</h2>
+<p>Para agregar nuevos episodios de podcast, edita el archivo <code>src/data/podcasts.ts</code>:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="typescript"><code><span class="line"><span style="color:#F8F8F2">{</span></span>
+<span class="line"><span style="color:#F8F8F2">  id: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">nuevo-id</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  title: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">Título del Episodio</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  description: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">Descripción detallada del contenido...</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  youtubeId: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">ID_DEL_VIDEO_YOUTUBE</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  thumbnail: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">https://img.youtube.com/vi/ID_DEL_VIDEO/maxresdefault.jpg</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  duration: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">45:30</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  date: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">2024-02-20</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  category: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">Humor</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">, </span><span style="color:#6272A4">// Categoría del podcast</span></span>
+<span class="line"><span style="color:#F8F8F2">  podcastName: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">Nombre del Podcast</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  episodeNumber: </span><span style="color:#BD93F9">1</span><span style="color:#F8F8F2">,</span></span>
+<span class="line"><span style="color:#F8F8F2">  likes: </span><span style="color:#BD93F9">0</span><span style="color:#F8F8F2">,          </span><span style="color:#6272A4">// Likes iniciales (opcional)</span></span>
+<span class="line"><span style="color:#F8F8F2">  rating: </span><span style="color:#BD93F9">4.5</span><span style="color:#F8F8F2">,      </span><span style="color:#6272A4">// Rating del episodio (opcional)</span></span>
+<span class="line"><span style="color:#F8F8F2">  isCult: </span><span style="color:#BD93F9">false</span><span style="color:#F8F8F2">,    </span><span style="color:#6272A4">// Marcar como de culto (opcional)</span></span>
+<span class="line"><span style="color:#F8F8F2">  podcastId: </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">podcast-nombre-del-podcast</span><span style="color:#E9F284">'</span><span style="color:#6272A4"> // ID del show (opcional)</span></span>
+<span class="line"><span style="color:#F8F8F2">}</span></span></code></pre>
+<h3 id="campos-importantes">Campos Importantes</h3>
+<ul>
+<li><strong><code>category</code></strong>: Determina en qué sección aparece. Usa <code>'Humor'</code> para aparecer en la sección principal.</li>
+<li><strong><code>podcastId</code></strong>: Agrupa episodios del mismo podcast para navegación y página de show.</li>
+<li><strong><code>isCult</code></strong>: Marca como <code>true</code> para aparecer en la sección “De Culto”.</li>
+<li><strong><code>rating</code></strong>: Influencia el ordenamiento en “Mejores Capítulos”.</li>
+</ul>
+<h3 id="obtener-el-id-de-youtube">Obtener el ID de YouTube</h3>
+<p>El ID de YouTube se encuentra en la URL del video:</p>
+<ul>
+<li>URL: <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code></li>
+<li>ID: <code>dQw4w9WgXcQ</code></li>
+</ul>
+<p>La miniatura se genera automáticamente con el formato:
+<code>https://img.youtube.com/vi/{youtubeId}/maxresdefault.jpg</code></p>
+<h2 id="-personalización">🎨 Personalización</h2>
+<h3 id="colores">Colores</h3>
+<p>Los colores principales se pueden personalizar en los componentes usando las clases de Tailwind CSS. El tema actual usa:</p>
+<ul>
+<li>Púrpura (<code>purple-600</code>) como color principal</li>
+<li>Rosa (<code>pink-600</code>) para gradientes</li>
+</ul>
+<h3 id="estilos">Estilos</h3>
+<p>El proyecto usa Tailwind CSS. Los estilos están definidos dentro de cada componente usando la directiva <code>&#x3C;style></code> de Astro.</p>
+<h2 id="-build-para-producción">📦 Build para Producción</h2>
+<p>Para generar una build de producción optimizada:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">npm</span><span style="color:#F1FA8C"> run</span><span style="color:#F1FA8C"> build</span></span></code></pre>
+<p>Los archivos generados estarán en la carpeta <code>dist/</code>, listos para desplegar en cualquier servidor estático o servicio de hosting como:</p>
+<ul>
+<li>Vercel</li>
+<li>Netlify</li>
+<li>GitHub Pages</li>
+<li>Cloudflare Pages</li>
+</ul>
+<h2 id="️-tecnologías-utilizadas">🛠️ Tecnologías Utilizadas</h2>
+<ul>
+<li><strong><a href="https://astro.build/">Astro.js</a></strong> - Framework web moderno con generación estática</li>
+<li><strong><a href="https://tailwindcss.com/">Tailwind CSS</a></strong> - Framework de CSS utility-first</li>
+<li><strong><a href="https://www.typescriptlang.org/">TypeScript</a></strong> - Tipado estático</li>
+<li><strong>LocalStorage API</strong> - Persistencia de likes y preferencias de usuario</li>
+</ul>
+<h2 id="-funcionalidades-principales">🎯 Funcionalidades Principales</h2>
+<h3 id="sistema-de-likes-y-rating">Sistema de Likes y Rating</h3>
+<ul>
+<li>✅ Botones de like en tarjetas y páginas individuales</li>
+<li>✅ Persistencia en localStorage</li>
+<li>✅ Ordenamiento dinámico en “Mejores Podcasts de Humor”</li>
+<li>✅ Animaciones suaves al dar like</li>
+</ul>
+<h3 id="navegación">Navegación</h3>
+<ul>
+<li>✅ Páginas dinámicas para cada episodio (<code>/podcast/[id]</code>)</li>
+<li>✅ Páginas de show completo (<code>/show/[showId]</code>)</li>
+<li>✅ Navegación anterior/siguiente entre episodios</li>
+<li>✅ Lista completa de episodios del show</li>
+</ul>
+<h3 id="secciones-de-la-página-principal">Secciones de la Página Principal</h3>
+<ul>
+<li>✅ <strong>Mejores Podcasts de Humor</strong>: Ordenados por likes + rating</li>
+<li>✅ <strong>Últimos Capítulos</strong>: Episodios más recientes</li>
+<li>✅ <strong>De Culto</strong>: Episodios icónicos destacados</li>
+<li>✅ <strong>Mejores Capítulos</strong>: Ordenados por rating</li>
+</ul>
+<h3 id="optimizaciones">Optimizaciones</h3>
+<ul>
+<li>✅ Lazy loading de imágenes</li>
+<li>✅ Generación estática de páginas (SSG)</li>
+<li>✅ Componentes modulares y reutilizables</li>
+<li>✅ Diseño responsive completo</li>
+<li>✅ Modo oscuro con persistencia</li>
+</ul>
+<h2 id="-documentación">📖 Documentación</h2>
+<p>Para más detalles sobre componentes y arquitectura, consulta <a href="./COMPONENTS.md">COMPONENTS.md</a>.</p>
+<h2 id="-licencia">📄 Licencia</h2>
+<p>Este proyecto está bajo la Licencia MIT.</p>
+<h2 id="-contribuciones">🤝 Contribuciones</h2>
+<p>Las contribuciones son bienvenidas. Por favor:</p>
+<ol>
+<li>Fork el proyecto</li>
+<li>Crea una rama para tu feature (<code>git checkout -b feature/AmazingFeature</code>)</li>
+<li>Commit tus cambios (<code>git commit -m 'Add some AmazingFeature'</code>)</li>
+<li>Push a la rama (<code>git push origin feature/AmazingFeature</code>)</li>
+<li>Abre un Pull Request</li>
+</ol>
+<hr>
+<p>¡Disfruta explorando los mejores podcasts! 🎧</p> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral — Ciberseguridad
+</div> </footer> </div> </body></html>
