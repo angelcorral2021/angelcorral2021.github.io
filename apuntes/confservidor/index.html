@@ -1,0 +1,249 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Guia Seguridad </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="guía-práctica-de-seguridad-internacional-owasp-top-10-2021">GUÍA PRÁCTICA DE SEGURIDAD INTERNACIONAL: OWASP TOP 10 (2021)</h1>
+<p>Esta guía se enfoca en las 10 vulnerabilidades más críticas que afectan a la seguridad de las aplicaciones web. Para cada riesgo, se detallan las medidas de implementación necesarias para la prevención.</p>
+<h2 id="a012021---fallos-de-control-de-acceso-broken-access-control">A01:2021 - FALLOS DE CONTROL DE ACCESO (BROKEN ACCESS CONTROL)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Acceso a Funciones y Datos Privilegiados</strong></td><td>Un usuario puede acceder a recursos o realizar acciones que no le corresponden, como ver archivos de otros usuarios o acceder a funciones de administración.</td><td><strong>1. Denegar por Defecto:</strong> Implementar mecanismos de control de acceso para <strong>denegar por defecto</strong> cualquier petición. Solo se debe permitir el acceso a rutas y funciones que se hayan definido explícitamente como accesibles para un rol específico.</td></tr><tr><td><strong>Fallas en la Verificación</strong></td><td>Fallas en la verificación de roles y permisos antes de ejecutar una acción en el servidor.</td><td><strong>2. Patrones de Control:</strong> Usar un único mecanismo de control de acceso en la aplicación (ej. una <em>factory</em> de control de acceso) y reusarlo rigurosamente en cada punto de acceso.</td></tr><tr><td><strong>IDOR (Insecure Direct Object Reference)</strong></td><td>La aplicación no valida si el usuario tiene permiso para acceder a un recurso a través de su ID (<code>/datos?id=123</code>).</td><td><strong>3. Evitar Referencias Externas:</strong> Usar referencias indirectas por objeto (ej. UUID, hashes o identificadores aleatorios) en lugar de claves primarias secuenciales en los parámetros URL.</td></tr></tbody></table>
+<h2 id="a022021---fallos-criptográficos-cryptographic-failures">A02:2021 - FALLOS CRIPTOGRÁFICOS (CRYPTOGRAPHIC FAILURES)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Exposición de Datos Sensibles</strong></td><td>Fallas en la protección de datos en tránsito o en reposo (contraseñas, tarjetas de crédito, datos personales) debido a cifrado débil o inexistente.</td><td><strong>1. Encriptación Fuerte:</strong> Asegurar que <strong>todos</strong> los datos sensibles se cifren en reposo (en la base de datos) y en tránsito (usando <strong>TLS 1.2 o superior</strong>, y habilitando <strong>HSTS</strong>).</td></tr><tr><td><strong>Algoritmos Inseguros</strong></td><td>Uso de funciones criptográficas y algoritmos obsoletos, rotos o débiles (ej. SHA1, MD5 para contraseñas, cifrado ECB).</td><td><strong>2. Hasheo de Contraseñas:</strong> No almacenar contraseñas. Usar funciones de <em>hashing</em> fuertes y resistentes a fuerza bruta, como <strong>Argon2</strong> o <strong>bcrypt</strong> con un factor de trabajo (costo) alto.</td></tr><tr><td><strong>Gestión de Claves</strong></td><td>Claves de cifrado o certificados mal protegidos, codificados en el código o almacenados sin protección.</td><td><strong>3. Almacenamiento Seguro:</strong> Almacenar claves y secretos de cifrado en almacenes de claves (Key Vaults) o sistemas de gestión de secretos, no en el código fuente.</td></tr></tbody></table>
+<h2 id="a032021---inyección-injection">A03:2021 - INYECCIÓN (INJECTION)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Inyección de SQL, NoSQL, OS</strong></td><td>Un atacante envía datos maliciosos que son interpretados como comandos o consultas por el servidor (ej. <code>SQL Injection</code>).</td><td><strong>1. Consultas Parametrizadas (Recomendado):</strong> Utilizar <strong>consultas parametrizadas (Prepared Statements)</strong> en <em>todos</em> los accesos a la base de datos. Esto separa el código de la consulta de los datos de entrada del usuario.</td></tr><tr><td><strong>Uso de Funciones Peligrosas</strong></td><td>Concatenar directamente la entrada del usuario en comandos del sistema operativo (<code>exec()</code>, <code>system()</code>).</td><td><strong>2. Sanitización:</strong> Escapar el contenido de entrada peligroso para el intérprete. Usar librerías de validación para asegurar que la entrada coincide con el tipo de datos esperado (ej. un número es realmente un número).</td></tr></tbody></table>
+<h2 id="a042021---diseño-inseguro-insecure-design">A04:2021 - DISEÑO INSEGURO (INSECURE DESIGN)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Fallas Arquitectónicas</strong></td><td>La vulnerabilidad no está en la implementación, sino en la ausencia de controles de seguridad en la concepción del diseño (ej. no validar límites de peticiones, diseño sin segregación de roles).</td><td><strong>1. Modelado de Amenazas:</strong> Integrar el modelado de amenazas <strong>antes</strong> de escribir el código, para identificar y mitigar los riesgos de diseño.</td></tr><tr><td><strong>Ausencia de Controles</strong></td><td>Falta de controles de seguridad en flujos críticos del negocio.</td><td><strong>2. Uso de Patrones Seguros:</strong> Utilizar patrones de diseño de seguridad probados (ej. Patrón de Puerta de Enlace de Seguridad, Patrón de Repositorio Seguro).</td></tr></tbody></table>
+<h2 id="a052021---configuración-incorrecta-de-seguridad-security-misconfiguration">A05:2021 - CONFIGURACIÓN INCORRECTA DE SEGURIDAD (SECURITY MISCONFIGURATION)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Valores por Defecto</strong></td><td>El sistema utiliza configuraciones por defecto inseguras (ej. contraseñas por defecto, mensajes de error detallados).</td><td><strong>1. <em>Hardening</em></strong> <strong>del Servidor:</strong> Aplicar los <strong>CIS Benchmarks</strong> al sistema operativo y al servidor web (Apache, Nginx, IIS).</td></tr><tr><td><strong>Exposición de Información</strong></td><td>Directorios o servicios innecesarios habilitados.</td><td><strong>2. Principio de Mínimo Privilegio:</strong> Eliminar o deshabilitar cualquier funcionalidad, puerto, servicio o <em>script</em> que no sea absolutamente esencial para el funcionamiento.</td></tr><tr><td><strong>Errores Detallados</strong></td><td>Los mensajes de error contienen <em>stack traces</em> o detalles de la base de datos.</td><td><strong>3. Gestión de Errores:</strong> Deshabilitar los mensajes de error detallados en producción. Configurar páginas de error genéricas y registrar el detalle internamente en los <em>logs</em>.</td></tr></tbody></table>
+<h2 id="a062021---componentes-vulnerables-y-obsoletos">A06:2021 - COMPONENTES VULNERABLES Y OBSOLETOS</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Uso de Librerías Antiguas</strong></td><td>La aplicación utiliza librerías de terceros (frameworks, módulos, dependencias) que contienen vulnerabilidades conocidas (CVEs).</td><td><strong>1. Inventario de Componentes:</strong> Mantener un inventario de todos los componentes de terceros, sus versiones y sus dependencias.</td></tr><tr><td><strong>Desconocimiento de Versiones</strong></td><td>El equipo no monitorea activamente las vulnerabilidades en sus dependencias.</td><td><strong>2. Actualización Continua:</strong> Establecer un proceso automatizado para escanear las dependencias regularmente (<em>Software Composition Analysis - SCA</em>). Priorizar y aplicar parches inmediatamente a los componentes críticos.</td></tr></tbody></table>
+<h2 id="a072021---fallos-de-identificación-y-autenticación">A07:2021 - FALLOS DE IDENTIFICACIÓN Y AUTENTICACIÓN</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Contraseñas Débiles/Sin Cifrar</strong></td><td>Permite ataques de fuerza bruta, robo de sesiones o credenciales reutilizadas.</td><td><strong>1. Autenticación Multifactor (MFA):</strong> Implementar MFA/2FA para todas las cuentas críticas y, preferiblemente, para todos los usuarios.</td></tr><tr><td><strong>Manejo Inseguro de Sesiones</strong></td><td>El ID de sesión se expone en la URL o el tiempo de vida de la sesión es infinito.</td><td><strong>2. Límites de Sesión:</strong> Implementar mecanismos para detectar y prevenir ataques de fuerza bruta y <em>credential stuffing</em> (ej. <em>rate limiting</em> y <em>CAPTCHAs</em>).</td></tr><tr><td><strong>Almacenamiento de Sesiones</strong></td><td>Almacenar identificadores de sesión de manera segura (ej. <em>cookies</em> seguras con los flags <code>HttpOnly</code> y <code>Secure</code>).</td><td></td></tr></tbody></table>
+<h2 id="a082021---integridad-de-datos-y-software-no-verificada">A08:2021 - INTEGRIDAD DE DATOS Y SOFTWARE NO VERIFICADA</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Integridad del Código</strong></td><td>La aplicación descarga o actualiza componentes sin verificar su integridad (ej. mediante firmas digitales o <em>checksums</em>).</td><td><strong>1. Integridad de los Componentes:</strong> Verificar la firma digital y/o los <em>hashes</em> de las librerías, módulos o paquetes de software antes de su despliegue y durante las actualizaciones.</td></tr><tr><td><strong>Serialización Insegura</strong></td><td>Deserializar objetos de fuentes no confiables, lo que puede llevar a la inyección de código.</td><td><strong>2. Deserialización Segura:</strong> Utilizar formatos de serialización que no permitan la ejecución de código (como JSON o YAML), y evitar la deserialización de objetos de fuentes externas.</td></tr></tbody></table>
+<h2 id="a092021---fallos-de-registro-y-monitorización-de-seguridad">A09:2021 - FALLOS DE REGISTRO Y MONITORIZACIÓN DE SEGURIDAD</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Registro Insuficiente (<em>Logging</em>)</strong></td><td>La aplicación no registra eventos de seguridad críticos (ej. intentos de inicio de sesión fallidos, errores de control de acceso).</td><td><strong>1. Registro Exhaustivo:</strong> Registrar eventos de seguridad críticos con suficiente contexto: quién (usuario), qué (acción), cuándo (fecha/hora), dónde (IP/localización) y el resultado.</td></tr><tr><td><strong>Monitorización Deficiente</strong></td><td>Los <em>logs</em> se almacenan sin proteger o no se revisan activamente.</td><td><strong>2. Alerta y Respuesta:</strong> Implementar un sistema centralizado de gestión de <em>logs</em> (SIEM/ELK Stack) con alertas configuradas para patrones sospechosos (ej. 10 fallos de <em>login</em> por minuto, acceso denegado en funciones críticas).</td></tr></tbody></table>
+<h2 id="a102021---falsa-petición-en-el-lado-del-servidor-ssrf">A10:2021 - FALSA PETICIÓN EN EL LADO DEL SERVIDOR (SSRF)</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Riesgo</strong></th><th><strong>Descripción</strong></th><th><strong>Medidas Clave de Implementación / Práctica</strong></th></tr></thead><tbody><tr><td><strong>Acceso a Recursos Internos</strong></td><td>El servidor procesa una URL proporcionada por el usuario y realiza una petición a un recurso interno o externo no deseado (ej. metadatos de AWS, servicios internos, puertos locales).</td><td><strong>1. Lista Blanca de Destinos:</strong> Utilizar una <strong>lista blanca</strong> estricta de dominios, puertos y protocolos permitidos si la aplicación necesita hacer peticiones a URLs externas. Denegar cualquier dirección IP privada o bucle local (loopback) por defecto.</td></tr><tr><td><strong>Validación Inexistente</strong></td><td>La URL no se valida antes de que el servidor realice la petición.</td><td><strong>2. Deshabilitar <em>Redirects</em></strong>: Deshabilitar las redirecciones HTTP cuando el servidor hace peticiones a URLs proporcionadas por el usuario.</td></tr></tbody></table> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

