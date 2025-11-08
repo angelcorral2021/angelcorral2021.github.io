@@ -1,28 +1,28 @@
 ---
-title: "Proyecto 2"
+title: "CRUD Básico"
 description: "Descripcion"
 date: "2024-12-01"
 status: "completed"
-tags: ["htb", "privilege-escalation", "web", "grafana", "cve-2024-9264", "docker"]
+tags: ["Apacher","MySQL","PHP"]
 ---
 
 
 
-# CRUD Básico con Servidor Web Apache y Base de Datos MySQL
+## CRUD Básico con Servidor Web Apache y Base de Datos MySQL
 
-## Descripción  
+### Descripción  
 Este proyecto consiste en crear un servidor web con Apache conectado a una base de datos MySQL para desarrollar una aplicación web sencilla que implemente un CRUD (Create, Read, Update, Delete). El proyecto fue realizado en una máquina Ubuntu, principalmente usando la terminal.
 
-## Pasos principales
+### Pasos principales
 
-### 1. Instalación de Apache, PHP y MySQL  
+#### 1. Instalación de Apache, PHP y MySQL  
 Actualizar paquetes e instalar con comandos:  
 ```bash
 sudo apt update && sudo apt upgrade -y
 sudo apt install apache2 mysql-server php libapache2-mod-php php-mysql
 ```
 
-### 2. Configuración de Apache  
+#### 2. Configuración de Apache  
 Iniciar y habilitar el servicio Apache:  
 ```bash
 sudo systemctl start apache2
@@ -31,7 +31,7 @@ sudo systemctl status apache2
 ```
 Verificar que Apache esté funcionando accediendo a [http://localhost].
 
-### 3. Configuración de MySQL  
+#### 3. Configuración de MySQL  
 Ejecutar herramienta de seguridad para MySQL:  
 ```bash
 sudo mysql_secure_installation
@@ -51,7 +51,7 @@ FLUSH PRIVILEGES;
 EXIT;
 ```
 
-### 4. Crear la estructura de la base de datos  
+#### 4. Crear la estructura de la base de datos  
 Ejemplo tabla users:  
 ```sql
 USE crud_db;
@@ -63,7 +63,7 @@ CREATE TABLE users (
 );
 ```
 
-### 5. Crear la aplicación web CRUD  
+#### 5. Crear la aplicación web CRUD  
 Carpeta recomendada: `/var/www/html/crud/` con estos archivos clave:  
 - `db.php`: conexión a la base de datos  
 - `index.php`: listar usuarios  
@@ -86,17 +86,17 @@ if ($conn->connect_error) {
 ?>
 ```
 
-### 6. Probar la aplicación  
+#### 6. Probar la aplicación  
 Abrir navegador y acceder a:  
 ```
 http://localhost/crud/index.php
 ```
 Desde allí se podrá crear, leer, actualizar y eliminar usuarios.
 
-### 7. Consideraciones de seguridad  
+#### 7. Consideraciones de seguridad  
 Este ejemplo es básico y no incluye validación de entradas ni protección contra SQL injection ni autenticación. Para entornos productivos es indispensable implementar estas medidas.
 
-## Mejoras de diseño con Bootstrap  
+### Mejoras de diseño con Bootstrap  
 Para un diseño más moderno, incluir en el `<head>` de los archivos PHP estas líneas:  
 ```html
 <!-- Bootstrap CSS -->
@@ -111,5 +111,5 @@ Y antes de cerrar `</body>`:
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 ```
 
-## Resultado  
+### Resultado  
 Con estas configuraciones y archivos, se dispone de un sencillo sistema de gestión de usuarios con interfaz web sobre Apache y base de datos MySQL, desplegado en Ubuntu.

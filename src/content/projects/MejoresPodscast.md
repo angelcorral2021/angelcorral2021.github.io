@@ -1,27 +1,33 @@
 ---
-title: "Mejores Podcast"
+title: "Web Podcast Comedia"
 description: "Web Sobre Podcast en Español"
 date: "2025-11-01"
 status: "completed"
-tags: [""]
+tags: ["Web","Astro","GitHub-Pages"]
 ---
-# 🎙️ Mejores Podcasts
+
+
+## 🎙️ Mejores Podcasts
 
 Una aplicación web moderna construida con Astro.js para descubrir y explorar los mejores capítulos de podcast en español.
 
-## ✨ Características
+#### Link: https://mejorespodscast.netlify.app/
 
-- 🎥 **Visualización de videos de YouTube** - Muestra videos embebidos con reproductor integrado
-- 🖼️ **Miniaturas automáticas** - Genera miniaturas desde YouTube automáticamente
-- 📝 **Descripciones detalladas** - Información completa sobre cada episodio
-- 🏷️ **Categorización** - Organiza podcasts por categorías (Tecnología, Negocios, Salud, etc.)
-- 📱 **Diseño responsivo** - Optimizado para todos los dispositivos
-- ⚡ **Rendimiento optimizado** - Construido con Astro.js para máxima velocidad
-- 🎨 **UI moderna** - Interfaz atractiva con Tailwind CSS
+<br>
 
-## 🚀 Inicio Rápido
+### ✨ Características
 
-### Prerrequisitos
+- 🎥 ***Visualización de videos de YouTube*** - Muestra videos embebidos con reproductor integrado.
+- 🖼️ ***Miniaturas automáticas*** - Genera miniaturas desde YouTube automáticamente.
+- 📝 ***Descripciones detalladas*** - Información completa sobre cada episodio.
+- 🏷️ ***Categorización*** - Organiza podcasts por categorías (Tecnología, Negocios, Salud, etc.)
+- 📱 ***Diseño responsivo*** - Optimizado para todos los dispositivos.
+- ⚡ ***Rendimiento optimizado*** - Construido con Astro.js para máxima velocidad.
+- 🎨 ***UI moderna*** - Interfaz atractiva con Tailwind CSS.
+
+### 🚀 Inicio Rápido
+
+#### Prerrequisitos
 
 - Node.js 18.0 o superior
 - npm, yarn o pnpm
@@ -42,14 +48,14 @@ npm run dev
 
 3. Abre tu navegador en `http://localhost:4321`
 
-### Scripts Disponibles
+#### Scripts Disponibles
 
 - `npm run dev` - Inicia el servidor de desarrollo
 - `npm run build` - Construye la aplicación para producción
 - `npm run preview` - Previsualiza la build de producción
 - `npm run astro` - Ejecuta comandos de Astro CLI
 
-## 📁 Estructura del Proyecto
+### 📁 Estructura del Proyecto
 
 ```
 ├── public/          # Archivos estáticos (favicon, imágenes, etc.)
@@ -87,7 +93,7 @@ npm run dev
 └── README.md
 ```
 
-## 📝 Agregar Nuevos Podcasts
+### 📝 Agregar Nuevos Podcasts
 
 Para agregar nuevos episodios de podcast, edita el archivo `src/data/podcasts.ts`:
 
@@ -110,14 +116,14 @@ Para agregar nuevos episodios de podcast, edita el archivo `src/data/podcasts.ts
 }
 ```
 
-### Campos Importantes
+#### Campos Importantes
 
 - **`category`**: Determina en qué sección aparece. Usa `'Humor'` para aparecer en la sección principal.
 - **`podcastId`**: Agrupa episodios del mismo podcast para navegación y página de show.
 - **`isCult`**: Marca como `true` para aparecer en la sección "De Culto".
 - **`rating`**: Influencia el ordenamiento en "Mejores Capítulos".
 
-### Obtener el ID de YouTube
+#### Obtener el ID de YouTube
 
 El ID de YouTube se encuentra en la URL del video:
 - URL: `https://www.youtube.com/watch?v=dQw4w9WgXcQ`
@@ -126,19 +132,19 @@ El ID de YouTube se encuentra en la URL del video:
 La miniatura se genera automáticamente con el formato:
 `https://img.youtube.com/vi/{youtubeId}/maxresdefault.jpg`
 
-## 🎨 Personalización
+### 🎨 Personalización
 
-### Colores
+#### Colores
 
 Los colores principales se pueden personalizar en los componentes usando las clases de Tailwind CSS. El tema actual usa:
 - Púrpura (`purple-600`) como color principal
 - Rosa (`pink-600`) para gradientes
 
-### Estilos
+#### Estilos
 
 El proyecto usa Tailwind CSS. Los estilos están definidos dentro de cada componente usando la directiva `<style>` de Astro.
 
-## 📦 Build para Producción
+### 📦 Build para Producción
 
 Para generar una build de producción optimizada:
 
@@ -153,49 +159,49 @@ Los archivos generados estarán en la carpeta `dist/`, listos para desplegar en 
 - GitHub Pages
 - Cloudflare Pages
 
-## 🛠️ Tecnologías Utilizadas
+### 🛠️ Tecnologías Utilizadas
 
 - **[Astro.js](https://astro.build/)** - Framework web moderno con generación estática
 - **[Tailwind CSS](https://tailwindcss.com/)** - Framework de CSS utility-first
 - **[TypeScript](https://www.typescriptlang.org/)** - Tipado estático
 - **LocalStorage API** - Persistencia de likes y preferencias de usuario
 
-## 🎯 Funcionalidades Principales
+### 🎯 Funcionalidades Principales
 
-### Sistema de Likes y Rating
+#### Sistema de Likes y Rating
 - ✅ Botones de like en tarjetas y páginas individuales
 - ✅ Persistencia en localStorage
 - ✅ Ordenamiento dinámico en "Mejores Podcasts de Humor"
 - ✅ Animaciones suaves al dar like
 
-### Navegación
+#### Navegación
 - ✅ Páginas dinámicas para cada episodio (`/podcast/[id]`)
 - ✅ Páginas de show completo (`/show/[showId]`)
 - ✅ Navegación anterior/siguiente entre episodios
 - ✅ Lista completa de episodios del show
 
-### Secciones de la Página Principal
+#### Secciones de la Página Principal
 - ✅ **Mejores Podcasts de Humor**: Ordenados por likes + rating
 - ✅ **Últimos Capítulos**: Episodios más recientes
 - ✅ **De Culto**: Episodios icónicos destacados
 - ✅ **Mejores Capítulos**: Ordenados por rating
 
-### Optimizaciones
+#### Optimizaciones
 - ✅ Lazy loading de imágenes
 - ✅ Generación estática de páginas (SSG)
 - ✅ Componentes modulares y reutilizables
 - ✅ Diseño responsive completo
 - ✅ Modo oscuro con persistencia
 
-## 📖 Documentación
+### 📖 Documentación
 
 Para más detalles sobre componentes y arquitectura, consulta [COMPONENTS.md](./COMPONENTS.md).
 
-## 📄 Licencia
+### 📄 Licencia
 
 Este proyecto está bajo la Licencia MIT.
 
-## 🤝 Contribuciones
+### 🤝 Contribuciones
 
 Las contribuciones son bienvenidas. Por favor:
 

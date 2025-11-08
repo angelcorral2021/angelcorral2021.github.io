@@ -1,36 +1,36 @@
 ---
-title: "Proyecto 3"
+title: "Script de Respaldo Automático"
 description: "Descripcion"
 date: "2024-12-01"
 status: "completed"
-tags: ["htb", "privilege-escalation", "web", "grafana", "cve-2024-9264", "docker"]
+tags: ["Bash"]
 ---
 
-# Script de Respaldo Automático 
 
-## Resumen
+
+### Resumen
 Script Bash para automatizar respaldos locales (tar.gz), gestionar retención básica y opcionalmente sincronizar los archivos de respaldo con un repositorio Git (por ejemplo, en GitHub). Está diseñado para uso en Linux/Unix y sigue buenas prácticas de robustez y seguridad.
 
-## Características principales
+### Características principales
 - Parámetros configurables mediante variables de entorno.
 - Manejo de errores y limpieza segura (trap).
 - Rotación simple de backups por número máximo.
 - Integración opcional con Git (commit y push) usando la rama configurada.
 
-## Requisitos
+### Requisitos
 - Bash (>= 4 recomendado)
 - tar, gzip
 - git (solo si se quiere sincronizar con un repositorio remoto)
 - Permisos adecuados sobre los directorios implicados
 
-## Variables configurables (valores por defecto dentro del script)
+### Variables configurables (valores por defecto dentro del script)
 - ORIGEN: directorio a respaldar
 - BACKUP_DIR: directorio donde se almacenan los backups localmente
 - KEEP: número máximo de backups a conservar (rotación)
 - GIT_REPO: ruta local del repositorio Git donde se guardarán los backups (opcional)
 - GIT_BRANCH: rama para push (por defecto: main)
 
-## Uso
+### Uso
 1. Copiar el script a un archivo, por ejemplo backup.sh
 2. Editar las variables al principio del script o definirlas como variables de entorno antes de ejecutar.
 3. Dar permisos de ejecución:
@@ -108,7 +108,7 @@ fi
 log "Proceso finalizado con éxito"
 ```
 
-## Ejemplo de crontab
+#### Ejemplo de crontab
 Recomendado usar rutas absolutas y redirigir salida a un log controlado.
 
 ```
@@ -116,17 +116,17 @@ Recomendado usar rutas absolutas y redirigir salida a un log controlado.
 30 1 * * * /usr/bin/env bash /ruta/a/backup.sh >> /var/log/backup_script.log 2>&1
 ```
 
-## Buenas prácticas y seguridad
+### Buenas prácticas y seguridad
 - Preferir autenticación por clave SSH para git push y/o usar un token con gh o con credenciales del sistema.
 - Restringir permisos del directorio de backups: chmod 700 /ruta/a/backups.
 - Evitar poner contraseñas en texto plano dentro del script.
 - Probar el script manualmente antes de programarlo en cron.
 
-## Depuración y troubleshooting
+### Depuración y troubleshooting
 - Revisar /var/log/backup_script.log (o el archivo que haya definido) para mensajes de error.
 - Ejecutar el script en modo verboso para aislar problemas: bash -x backup.sh.
 
-## Notas finales
+### Notas finales
 Este script es una base sólida para respaldos simples y sincronización con Git. Para entornos de producción o datos críticos, considere soluciones dedicadas (rsync+snapshots, Borg, Restic, duplicity) que brindan deduplicación, cifrado y mejor retención.
 
 

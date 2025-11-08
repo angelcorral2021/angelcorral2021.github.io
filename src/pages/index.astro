@@ -4,11 +4,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
-import WriteupCard from '../components/WriteupCard.astro';
+
 
 const profile = {
   name: 'Angel Corral',
-  title: 'Ciberseguridad y Hacking Ético',
+  title: 'Ciberseguridad y Desarrollo Web',
   country: 'Chile',
   experience: '4 años',
   specialties: ['Red Team','Web App','Automatización','Pentesting']
@@ -19,7 +19,7 @@ const projects = [
   { title: 'CTF-Writeups', desc: 'Colección de writeups', tags: ['Writeups'], link: '/writeups' }
 ];
 ---
-<BaseLayout title="Angel C. Corral — Ciberseguridad">
+<BaseLayout title="Angel Corral" description="Portafolio de Angel Corral, especialista en ciberseguridad y desarrollo web con 4 años de experiencia. Explora mis proyectos y writeups.">
   <Header slot="header" />
   <Hero profile={profile} />
   <section class="mt-12">

