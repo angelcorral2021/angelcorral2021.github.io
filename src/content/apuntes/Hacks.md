@@ -1,25 +1,13 @@
----
-title: "Comandos y apuntes para CTFs"
-description: "Descripcion"
-date: "2024-12-01"
-tags: ["Bash"]
----
 
 
-# Carpetas
+**Actualizar kali**
 
 ```bash
-
-MAQUINA="soulmate" # Ejemplo
-mkdir -p "$MAQUINA"/{content,nmap,scripts}
-
+sudo apt update && sudo apt dist-upgrade && sudo autoremove -y
 ```
 
----
 
-# 🌐 Reconocimiento de Red
-
-**Exportar resultados en XML y texto:**
+**Reconocimiento puertos y Exportar resultados en XML y texto:**
 
 ```bash
 nmap -sSCV -p- --open -T4 -Pn -n -vvv -oN escaneo_nmap.txt -oX escaneo_nmap.xml <IP>
@@ -32,7 +20,6 @@ nmap -sSCV -p- --open -T4 -Pn -n -vvv -oN escaneo_nmap.txt -oX escaneo_nmap.xml 
 xsltproc target.xml -o target.html
 ```
 
----
 
 # 📁 Enumeración Web
 
@@ -53,6 +40,8 @@ feroxbuster --url http://$target -w /usr/share/seclists/Discovery/Web-Content/di
 
 ```bash
 
+gobuster vhost -u http://target.com -w /path/list/list.txt -t 70 --append-domain --xs 301,400
+
 gobuster dns -do <DOMINIO> -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt
 
 ffuf -u http://<DOMINIO> -H "Host: FUZZ.soulmate.htb" -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt -fw 4 -t 200 -ac
@@ -61,12 +50,13 @@ dnsrecon -d <DOMINIO> -n <IP> -t brt -D /usr/share/seclists/Discovery/DNS/subdom
 
 wfuzz -c --hc=404 --hl=1 -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt -H "Host: FUZZ.dominio.com" -u <IP>
 
-
 ```
 
 ## Parámetros
 
 ```bash
+
+arjun -u https://172.17.0.2:5000/login 
 
 wfuzz -c --hc=404 --hl=1 -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -H "Host: FUZZ.<DOMINIO>" -u <IP>
 
@@ -86,6 +76,8 @@ ffuf -u http://<IP>/post.php -X POST -H "Content-Type: application/x-www-form-ur
 
 gobuster vhost -u <IP> -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt --append-domain -r
 
+gobuster vhost -u http://target.com -w /path/list/list.txt -t 70 --append-domain --xs 301,400
+
 ```
 
 
@@ -94,15 +86,6 @@ gobuster vhost -u <IP> -w /usr/share/seclists/Discovery/DNS/subdomains-top1milli
 ```bash
 
 curl -s -I http://<IP>
-
-# GET mostrando cabeceras de respuesta
-curl -i https://example.com
-
-# Mostrar solo cabeceras
-curl -I https://example.com
-
-# Seguir redirecciones
-curl -L https://example.com
 
 # Ver detalles de la transacción
 curl -v https://example.com
@@ -345,39 +328,56 @@ john --wordlist=/usr/share/wordlists/rockyou.txt hashkeepass
 
 ---
 
-# 💻 WordPress
-
-## Enumeración y fuerza bruta
-
-```bash
-
-wpscan --url <DOMINIO> --enumerate u,vp --random-user-agent --force
-wpscan --url <DOMINIO> --passwords rockyou.txt --usernames administracion --random-user-agent --force
-wpscan --url http://<IP>/wordpress --enumerate u,vp --random-user-agent --force -o wpscan.txt
-wpscan --url http://<IP>/wordpress/ --passwords /path/rockyou.txt --usernames <USER> --random-user-agent --force
-
-```
-
-## Comandos CURL para info
-
-```bash
-curl -s http://<DOMINIO> | grep WordPress
-curl -s http://<DOMINIO>/ | grep themes
-curl -s http://<DOMINIO>/ | grep plugins
-curl -s http://<DOMINIO>/?p=1 | grep plugins
-```
-
-## Fuerza bruta XML-RPC
-
-```bash
-
-wpscan --password-attack xmlrpc -t 20 -U <USER> -P /usr/share/wordlists/rockyou.txt --url http://<DOMINIO>
-
-```
 
 ---
 
 
+## Utilidades
 
 
+Recopilación de sistema (Bash)
 
+```bash
+#!/bin/bash
+# sys_info.sh — Recolecta información clave del sistema (modo solo lectura)
+
+OUT="sysinfo.txt"
+echo "[*] Auditoría del sistema iniciada: $(date)" > "$OUT"
+
+echo "[*] Usuario actual: $(whoami)" >> "$OUT"
+echo "[*] Hostname: $(hostname)" >> "$OUT"
+echo "[*] Distribución y versión:" >> "$OUT"
+cat /etc/*release 2>/dev/null | grep -E "NAME=|VERSION=" >> "$OUT"
+
+echo "[*] Kernel: $(uname -r)" >> "$OUT"
+echo "[*] Arquitectura: $(uname -m)" >> "$OUT"
+echo "[*] Tiempo encendido:" >> "$OUT"
+uptime -p >> "$OUT"
+
+echo "[*] Interfaces de red y direcciones IP:" >> "$OUT"
+ip -brief address show >> "$OUT"
+
+echo "[*] Rutas activas:" >> "$OUT"
+ip route show >> "$OUT"
+
+echo "[*] Variables de entorno relevantes:" >> "$OUT"
+env | grep -E 'USER|HOME|SHELL|PATH|HTTP|PROXY' >> "$OUT"
+
+echo "[*] Procesos privilegiados (root):" >> "$OUT"
+ps -U root -u root u | head -n 10 >> "$OUT"
+
+echo "[*] Conexiones activas:" >> "$OUT"
+ss -tupan 2>/dev/null | head -n 10 >> "$OUT"
+
+echo "[*] Usuarios del sistema:" >> "$OUT"
+getent passwd | grep -v 'nologin' >> "$OUT"
+
+echo "[*] Servicios en ejecución:" >> "$OUT"
+systemctl list-units --type=service --state=running | head -n 15 >> "$OUT"
+
+echo "[*] Variables de entorno Docker/podman (si existen):" >> "$OUT"
+env | grep -iE 'docker|container|podman' >> "$OUT"
+
+echo "[+] Informe generado en $OUT"
+
+```
