@@ -1,4 +1,9 @@
-
+---
+title: "Linux"
+description: "Apuntes"
+date: "2025-16-12"
+tags: ["Linux"]
+---
 
 
 

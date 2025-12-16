@@ -1,3 +1,9 @@
+---
+title: "Server Config Check"
+description: "Descripcion"
+date: "2025-12-16"
+tags: ["Bash"]
+---
 
 ```python 
 

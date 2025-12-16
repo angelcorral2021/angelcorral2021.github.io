@@ -1,3 +1,9 @@
+---
+title: "DOCKER AUDIT"
+description: "Descripcion"
+date: "2025-12-16"
+tags: ["DOCKER"]
+---
 
 ```bash
 

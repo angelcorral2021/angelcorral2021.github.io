@@ -1,7 +1,7 @@
 ---
 title: "Guia Seguridad"
 description: "Descripcion"
-date: "2024-12-01"
+date: "2025-12-16"
 tags: ["Bash"]
 ---
 

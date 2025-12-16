@@ -1,3 +1,9 @@
+---
+title: "AD Notes"
+description: "Descripcion"
+date: "2025-16-12"
+tags: ["AD"]
+---
 
 
 

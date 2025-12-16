@@ -1,3 +1,9 @@
+---
+title: "PowerShell"
+description: "Apuntes"
+date: "2025-16-12"
+tags: ["PowerShell"]
+---
 
 
 

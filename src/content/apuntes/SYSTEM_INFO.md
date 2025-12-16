@@ -1,3 +1,9 @@
+---
+title: "Enumeracion Sistema"
+description: "Descripcion"
+date: "2024-12-01"
+tags: ["Bash"]
+---
 
 ```bash
 

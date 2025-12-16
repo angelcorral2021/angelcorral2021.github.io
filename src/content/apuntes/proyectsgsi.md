@@ -1,8 +1,8 @@
 ---
 title: "Plan proyecto SGSI"
 description: "Descripcion"
-date: "2024-12-01"
-tags: ["Bash"]
+date: "2025-12-16"
+tags: ["SGSI"]
 ---
 
 

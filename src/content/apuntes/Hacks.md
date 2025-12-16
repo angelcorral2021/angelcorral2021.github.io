@@ -1,3 +1,9 @@
+---
+title: "Hacks"
+description: "Descripcion"
+date: "2025-12-16"
+tags: ["Bash"]  
+---
 
 
 **Actualizar kali**
