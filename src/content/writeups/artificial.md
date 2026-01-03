@@ -9,7 +9,7 @@ tags: ["nmap", "gobuster", "ssh", "sudo -l"]
 
 ---
 
-![Banner SoulMate](/img/arificial.png)
+![Banner Artificial](/img/artificial.png)
 
 ### 🔎 Escaneo y Enumeración
 
