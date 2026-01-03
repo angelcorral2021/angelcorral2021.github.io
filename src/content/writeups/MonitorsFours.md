@@ -9,7 +9,7 @@ tags: ["docker","cacti","web"]
 
 ---
 
-![Banner SoulMate](/img/monitorsfours.png)
+![Banner MonitorsFours](/img/monitorsfours.png)
 
 ## 1. Reconocimiento y Enumeración Inicial
 
