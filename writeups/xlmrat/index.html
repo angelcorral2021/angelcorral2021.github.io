@@ -1,0 +1,181 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-5xl mx-auto px-6 py-12"> <!-- ENCABEZADO --> <div class="mb-14 text-center"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+← Volver a Writeups
+</a> <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> XLMRat Lab </h1> <p class="text-slate-400 text-sm mb-2">11 de enero de 2026</p> <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed"> Informe Técnico de Análisis Forense: XLMRat Lab </p> </div> <!-- BLOQUE DE INFORMACIÓN TÉCNICA --> <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm"> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentBlue text-lg font-semibold mb-3">Detalles Técnicos</h2> <ul class="space-y-2 text-slate-300">    <li><strong>Dificultad:</strong> Easy</li> </ul> </div> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentGreen text-lg font-semibold mb-3">Etiquetas y Tecnología</h2> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> Forensics </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> Blue Team </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> ciberdefenders </span> </div> </div> </section> <!-- IMAGEN DESTACADA -->  <div class="prose-writeup"> <h1 id="informe-técnico-de-análisis-forense-xlmrat-lab">Informe Técnico de Análisis Forense: XLMRat Lab</h1>
+<h4 id="guión">Guión</h4>
+<p>Se ha detectado un equipo comprometido debido a tráfico de red sospechoso. La tarea consiste en analizar el archivo PCAP (<code>236-XLMRat.pcap</code>) para determinar el método de ataque, identificar las cargas maliciosas y rastrear la cronología de los eventos. El análisis se centra en la ejecución sigilosa, la descarga de código reflexivo y el uso de técnicas de evasión por parte del atacante.</p>
+<h2 id="1-resumen-del-incidente">1. Resumen del Incidente</h2>
+<p>El análisis forense de la captura de red reveló una infección en varias etapas. El atacante logró descargar una carga útil inicial disfrazada de archivo de imagen, la cual contenía un script ofuscado. Este script desplegó el malware <strong>AsyncRat</strong> utilizando técnicas de “Living-off-the-Land” (LOLBins) para evadir la detección, ejecutando el código malicioso a través de binarios legítimos de Microsoft .NET y eliminando posteriormente sus huellas del sistema.</p>
+<hr>
+<h3 id="fase-1-acceso-inicial-y-descarga-ingress-tool-transfer">Fase 1: Acceso Inicial y Descarga (Ingress Tool Transfer)</h3>
+<p>El atacante inició la cadena de infección ejecutando un comando para descargar la primera etapa del malware desde un servidor remoto.</p>
+<ul>
+<li>
+<p><strong>Descarga de Payload:</strong> Se identificó una petición HTTP GET para recuperar un archivo con extensión <code>.jpg</code>, que en realidad no era una imagen, sino un script malicioso.</p>
+</li>
+<li>
+<p><strong>Infraestructura del Atacante:</strong> La dirección IP asociada al servidor de descarga pertenece al proveedor de hosting <strong>ReliableSite.Net</strong>.</p>
+</li>
+<li>
+<p><strong>Técnica MITRE ATT&#x26;CK:</strong> <strong>T1105 (Ingress Tool Transfer)</strong>.</p>
+</li>
+</ul>
+<h4 id="hallazgos-técnicos-y-filtros">Hallazgos Técnicos y Filtros</h4>
+<ul>
+<li>
+<p><strong>Filtro Wireshark:</strong> <code>http.request.method == GET</code> permitió aislar la petición sospechosa.</p>
+</li>
+<li>
+<p><strong>URL Maliciosa:</strong> <code>http://45.126.209.4:222/mdm.jpg</code></p>
+</li>
+<li>
+<p><strong>Proveedor (Whois):</strong> ReliableSite.Net</p>
+</li>
+</ul>
+<hr>
+<h3 id="fase-2-análisis-de-malware-y-desofuscación">Fase 2: Análisis de Malware y Desofuscación</h3>
+<p>Al analizar el contenido del archivo descargado (<code>mdm.jpg</code>), se descubrió que contenía scripts ofuscados y una carga útil codificada en hexadecimal.</p>
+<ul>
+<li>
+<p><strong>Extracción de Carga Útil:</strong> El script contenía una cadena hexadecimal con guiones bajos (<code>_</code>) como ofuscación.</p>
+</li>
+<li>
+<p><strong>Proceso de Ingeniería Inversa:</strong></p>
+<ol>
+<li>
+<p>Extracción de la cadena hexadecimal.</p>
+</li>
+<li>
+<p>Limpieza de caracteres de relleno (<code>_</code>).</p>
+</li>
+<li>
+<p>Conversión de Hexadecimal a Binario (archivo ejecutable de Windows).</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>Identificación del Malware:</strong> Tras obtener el hash del binario reconstruido, se identificó como una variante de <strong>AsyncRat</strong>.</p>
+</li>
+<li>
+<p><strong>Metadatos:</strong> El tiempo de compilación del ejecutable indica que fue creado el <strong>2023-10-30 15:08</strong>.</p>
+</li>
+</ul>
+<h4 id="procedimiento-técnico-cyberchef">Procedimiento Técnico (CyberChef)</h4>
+<p>Se utilizó CyberChef para la normalización y obtención del hash:</p>
+<ol>
+<li>
+<p><em>Find and Replace</em> (eliminar <code>_</code>).</p>
+</li>
+<li>
+<p><em>From Hex</em>.</p>
+</li>
+<li>
+<p><em>SHA2</em>.</p>
+</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Atributo</strong></th><th><strong>Detalle Técnico</strong></th></tr></thead><tbody><tr><td><strong>Hash SHA256</strong></td><td><code>1eb7b02e18f67420f42b1d94e74f3b6289d92672a0fb1786c30c03d68e81d798</code></td></tr><tr><td><strong>Familia de Malware</strong></td><td><strong>AsyncRat</strong> (Confirmado por firmas en VirusTotal/AliCloud)</td></tr><tr><td><strong>Fecha de Creación</strong></td><td>2023-10-30 15:08</td></tr></tbody></table>
+<hr>
+<h3 id="fase-3-ejecución-sigilosa-living-off-the-land">Fase 3: Ejecución Sigilosa (Living-off-the-Land)</h3>
+<p>Para ejecutar el código malicioso sin levantar sospechas, el script utilizó un <strong>LOLBin</strong> (Living-off-the-Land Binary).</p>
+<ul>
+<li>
+<p><strong>Binario Legítimo Abusado:</strong> <strong><code>RegSvcs.exe</code></strong> (Herramienta de registro de ensamblados .NET).</p>
+</li>
+<li>
+<p><strong>Mecanismo de Evasión:</strong> El script construyó la ruta al ejecutable mediante concatenación de cadenas y reemplazo de caracteres para evitar la detección basada en firmas estáticas (e.g., eliminando el carácter <code>#</code>).</p>
+</li>
+<li>
+<p><strong>Técnica MITRE ATT&#x26;CK:</strong> <strong>T1218.009 (System Binary Proxy Execution: RegSvcs/RegAsm)</strong>.</p>
+</li>
+</ul>
+<h4 id="análisis-de-código-desofuscado">Análisis de Código Desofuscado</h4>
+<p>El comando original ofuscado:</p>
+<p>PowerShell</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>$AC = $NA + 'osof#####t.NET\Fra###mework\v4.0.303###19\R##egSvc#####s.exe'-replace '#', ''</span></span></code></pre>
+<p>Se traduce a la ruta completa del sistema:</p>
+<blockquote>
+<p><strong>Ruta:</strong> <code>C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegSvcs.exe</code></p>
+</blockquote>
+<p>Este binario está firmado por Microsoft, lo que permite al atacante ejecutar código arbitrario (el payload de AsyncRat) bajo el contexto de un proceso confiable.</p>
+<hr>
+<h3 id="fase-4-evasión-de-defensa-y-limpieza">Fase 4: Evasión de Defensa y Limpieza</h3>
+<p>El script incluye instrucciones explícitas para eliminar los archivos temporales utilizados durante la infección, intentando dificultar el análisis forense posterior.</p>
+<ul>
+<li>
+<p><strong>Archivos Eliminados:</strong> Se identificaron comandos para borrar scripts de PowerShell, Batch y VBScript ubicados en el directorio público de usuarios.</p>
+</li>
+<li>
+<p><strong>Técnica MITRE ATT&#x26;CK:</strong> <strong>T1070.004 (Indicator Removal on Host: File Deletion)</strong>.</p>
+</li>
+</ul>
+<h4 id="artefactos-identificados">Artefactos Identificados</h4>
+<p>Mediante el análisis de cadenas (<code>strings</code>) y búsqueda de patrones (<code>grep</code>), se identificaron los siguientes archivos objetivos de eliminación:</p>
+<ol>
+<li>
+<p><code>C:\Users\Public\Conted.ps1</code></p>
+</li>
+<li>
+<p><code>C:\Users\Public\Conted.bat</code></p>
+</li>
+<li>
+<p><code>C:\Users\Public\Conted.vbs</code></p>
+</li>
+</ol>
+<hr>
+<h3 id="resumen-de-atribución-e-indicadores-iocs">Resumen de Atribución e Indicadores (IOCs)</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Indicador</strong></th><th><strong>Valor</strong></th><th><strong>Contexto</strong></th></tr></thead><tbody><tr><td><strong>IP / URL</strong></td><td><code>45.126.209.4</code> / <code>http://45.126.209.4:222/mdm.jpg</code></td><td>Servidor de descarga (Stage 1)</td></tr><tr><td><strong>Hash (SHA256)</strong></td><td><code>1eb7b02e18f67420f42b1d94e74f3b6289d92672a0fb1786c30c03d68e81d798</code></td><td>Payload final (AsyncRat)</td></tr><tr><td><strong>LOLBin Path</strong></td><td><code>C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegSvcs.exe</code></td><td>Ejecución proxy</td></tr><tr><td><strong>Archivos Host</strong></td><td><code>Conted.ps1</code>, <code>Conted.bat</code>, <code>Conted.vbs</code></td><td>Scripts intermedios (Eliminados)</td></tr></tbody></table> </div> <!-- FOOTER DEL ARTÍCULO --> <div class="mt-16 pt-8 border-t border-slate-800 text-center"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
