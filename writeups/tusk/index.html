@@ -1,0 +1,110 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-5xl mx-auto px-6 py-12"> <!-- ENCABEZADO --> <div class="mb-14 text-center"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+← Volver a Writeups
+</a> <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Tusk Infostealer </h1> <p class="text-slate-400 text-sm mb-2">13 de enero de 2026</p> <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed"> Informe Técnico de Análisis Forense: Tusk Infostealer </p> </div> <!-- BLOQUE DE INFORMACIÓN TÉCNICA --> <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm"> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentBlue text-lg font-semibold mb-3">Detalles Técnicos</h2> <ul class="space-y-2 text-slate-300">    <li><strong>Dificultad:</strong> Easy</li> </ul> </div> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentGreen text-lg font-semibold mb-3">Etiquetas y Tecnología</h2> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> Forensics </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> Blue Team </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> ciberdefenders </span> </div> </div> </section> <!-- IMAGEN DESTACADA -->  <div class="prose-writeup"> <h4 id="guión">Guión</h4>
+<p>Una empresa de desarrollo de blockchain detectó actividad inusual cuando un empleado fue redirigido a un sitio web desconocido mientras accedía a una plataforma de gestión de DAO. Poco después, se vaciaron varias billeteras de criptomonedas vinculadas a la organización. Los investigadores sospechan que se utilizó una herramienta maliciosa para robar credenciales y exfiltrar fondos.</p>
+<p>Su tarea es analizar la inteligencia proporcionada para descubrir los métodos de ataque, identificar indicadores de compromiso y rastrear la infraestructura del actor de la amenaza.</p>
+<p>DATA: MD5: E5B8B2CF5B244500B22B665C87C11767</p>
+<hr>
+<p>Este laboratorio corresponde al reto <strong>“Tusk Infostealer”</strong> (a veces referido como Blockchain Deception o similar) de CyberDefenders. La clave para resolverlo es realizar Inteligencia de Fuentes Abiertas (OSINT) basándose en el hash MD5 proporcionado y correlacionar los hallazgos con informes de amenazas recientes sobre campañas dirigidas a usuarios de criptomonedas.</p>
+<p>A continuación, presento la reconstrucción de la investigación y las respuestas validadas:</p>
+<h3 id="️️-fase-de-inteligencia-osint">🕵️‍♂️ Fase de Inteligencia (OSINT)</h3>
+<p>El punto de partida es el hash MD5: <code>E5B8B2CF5B244500B22B665C87C11767</code>.</p>
+<p>Al buscar este hash en plataformas como VirusTotal o Kaspersky OpenTIP, se identifica una campaña específica documentada por <strong>Kaspersky</strong> y <strong>Bitdefender</strong> conocida como <strong>“Tusk”</strong>. Esta campaña utiliza sitios de phishing que imitan servicios de blockchain y traductores de IA para distribuir <em>infostealers</em> (como Danabot y StealC).</p>
+<p>La mayoria del laboratorio se puede resolver leyendo el informe de la amenaza:  <a href="https://securelist.com/tusk-infostealers-campaign/113367/">https://securelist.com/tusk-infostealers-campaign/113367/</a></p>
+<hr>
+<h3 id="-resolución-paso-a-paso">📝 Resolución Paso a Paso</h3>
+<h4 id="q1-tamaño-del-archivo-malicioso-en-kb">Q1: Tamaño del archivo malicioso en KB</h4>
+<p>Buscando el hash en Kaspersky Threat Intelligence Portal o VirusTotal, verificamos las propiedades básicas del archivo <code>Setup.exe</code> (o el nombre asociado al hash).</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> El tamaño reportado es aproximadamente 921 KB.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>921.36</code></p>
+</li>
+</ul>
+<h4 id="q2-palabra-clave-en-los-logs-criatura-antigua-cazada">Q2: Palabra clave en los logs (Criatura antigua cazada)</h4>
+<p>Los informes de inteligencia (específicamente el de Kaspersky sobre la campaña “Tusk”) mencionan que los actores de amenazas utilizan un término de la jerga ciberdelincuente rusa para referirse a las víctimas (“mamut”), aludiendo a que son cazados por sus “colmillos” (tusks/dinero).</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> La palabra en inglés para “Mamut” es “Mammoth”.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>Mammoth</code></p>
+</li>
+</ul>
+<h4 id="q3-sitio-web-malicioso-que-imita-a-peermeio">Q3: Sitio web malicioso que imita a Peerme.io</h4>
+<p>El malware crea sitios falsos (Typosquatting/Phishing). El informe detalla que para <code>peerme.io</code> (gestión de DAOs), crearon un dominio falso específico.</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> Según el reporte de la campaña Tusk, el dominio falso utilizado fue <code>tidyme.io</code>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>tidyme.io</code></p>
+</li>
+</ul>
+<h4 id="q4-servicio-de-almacenamiento-en-la-nube-utilizado">Q4: Servicio de almacenamiento en la nube utilizado</h4>
+<p>La campaña aloja los payloads iniciales en servicios legítimos para evadir la detección.</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> Los ejecutables maliciosos para Windows y macOS estaban alojados en <strong>Dropbox</strong>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>Dropbox</code></p>
+</li>
+</ul>
+<h4 id="q5-contraseña-de-descompresión-en-la-configuración">Q5: Contraseña de descompresión en la configuración</h4>
+<p>El <em>dropper</em> contiene una configuración ofuscada. Los analistas de malware han extraído esta configuración en sus reportes técnicos.</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> La contraseña hardcodeada para descomprimir los payloads de segunda etapa es <code>newfile2024</code>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>newfile2024</code></p>
+</li>
+</ul>
+<h4 id="q6-nombre-de-la-función-para-recuperar-el-archivo">Q6: Nombre de la función para recuperar el archivo</h4>
+<p>Esto requiere ingeniería inversa del script malicioso (generalmente un archivo Electron/JS en esta campaña).</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> La función responsable de descargar y extraer el archivo cifrado se llama <code>downloadAndExtractArchive</code>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>downloadAndExtractArchive</code></p>
+</li>
+</ul>
+<h4 id="q7-proyecto-de-traductor-de-ia-legítimo-malicioso">Q7: Proyecto de traductor de IA (Legítimo, Malicioso)</h4>
+<p>La campaña también suplantó un servicio de traducción.</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> El servicio legítimo es <strong>Yous.ai</strong>. El sitio falso creado por los atacantes fue <strong>Voico.io</strong>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>yous.ai, voico.io</code></p>
+</li>
+</ul>
+<h4 id="q8-direcciones-ip-de-los-servidores-c2-de-stealc">Q8: Direcciones IP de los servidores C2 de StealC</h4>
+<p>El análisis de tráfico o la extracción de configuración del malware <em>StealC</em> revela los servidores de Comando y Control.</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> Las IPs identificadas en esta campaña específica son <code>46.8.238.240</code> y <code>23.94.225.177</code>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>46.8.238.240,23.94.225.177</code></p>
+</li>
+</ul>
+<h4 id="q9-dirección-de-la-billetera-ethereum">Q9: Dirección de la billetera Ethereum</h4>
+<p>Esta dirección se encuentra usualmente en las cadenas de texto del <em>clipper</em> (malware que reemplaza direcciones en el portapapeles) o en los logs de la comunidad de seguridad que rastrea los fondos robados.</p>
+<ul>
+<li>
+<p><strong>Análisis:</strong> La dirección reportada asociada a este hash es <code>0xaf0362e215Ff4e004F30e785e822F7E20b99723A</code>.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong> <code>0xaf0362e215Ff4e004F30e785e822F7E20b99723A</code></p>
+</li>
+</ul> </div> <!-- FOOTER DEL ARTÍCULO --> <div class="mt-16 pt-8 border-t border-slate-800 text-center"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
