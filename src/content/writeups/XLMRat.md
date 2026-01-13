@@ -6,9 +6,6 @@ difficulty: "Easy"
 tags: ["Forensics", "Blue Team", "ciberdefenders"]
 --- 
 
-
-# Informe Técnico de Análisis Forense: XLMRat Lab
-
 #### Guión
 
 Se ha detectado un equipo comprometido debido a tráfico de red sospechoso. La tarea consiste en analizar el archivo PCAP (`236-XLMRat.pcap`) para determinar el método de ataque, identificar las cargas maliciosas y rastrear la cronología de los eventos. El análisis se centra en la ejecución sigilosa, la descarga de código reflexivo y el uso de técnicas de evasión por parte del atacante.

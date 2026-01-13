@@ -6,8 +6,6 @@ difficulty: "Easy"
 tags: ["Forensics", "Blue Team", "ciberdefenders"]
 ---
 
-# Informe Técnico de Análisis Forense: Lockdown Lab
-
 #### Guión
 
 El SOC de TechNova Systems ha detectado tráfico saliente sospechoso desde un servidor IIS público en su plataforma en la nube, actividad que sugiere una caída del shell web y conexiones encubiertas a un host desconocido.
