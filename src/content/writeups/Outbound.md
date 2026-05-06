@@ -9,7 +9,7 @@ tags: ["nmap", "gobuster", "ssh", "sudo -l"]
 
 ---
 
-![Banner SoulMate](/img/Outbound.png)
+![Banner SoulMate](/images/outbound.png)
 ---
 
 #### Credenciales Entregadas Por HTB 

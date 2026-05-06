@@ -1,90 +1,140 @@
 ---
-import { getCollection } from 'astro:content';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import WriteupLayout from '../../layouts/WriteupLayout.astro';
+import { getCollection, render } from "astro:content";
+import Header from "../../components/common/Header.astro";
+import Footer from "../../components/common/Footer.astro";
+import WriteupLayout from "../../layouts/WriteupLayout.astro";
 import "../../styles/global.css";
 
 // 1️⃣ Generar rutas estáticas
 export async function getStaticPaths() {
-  const writeups = await getCollection('writeups');
-  return writeups.map(entry => ({
-    params: { slug: `${entry.slug}` },
+  const writeups = await getCollection("writeups");
+  return writeups.map((entry) => ({
+    params: { slug: `${entry.id}` },
     props: { entry },
   }));
 }
 
 // 2️⃣ Obtener contenido renderizado
 const { entry } = Astro.props;
-const { Content } = await entry.render();
-const formattedDate = new Date(entry.data.date).toLocaleDateString('es-ES', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
+const { Content } = await render(entry);
+const formattedDate = new Date(entry.data.date).toLocaleDateString("es-ES", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
 });
 ---
+
 <WriteupLayout title={`${entry.data.title} - Writeup`}>
   <Header slot="header" />
 
   <article class="max-w-5xl mx-auto px-6 py-12">
     <!-- ENCABEZADO -->
     <div class="mb-14 text-center">
-      <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+      <a
+        href="/writeups"
+        class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4"
+      >
         ← Volver a Writeups
       </a>
-      <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4">
+      <h1
+        class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"
+      >
         {entry.data.title}
       </h1>
       <p class="text-slate-400 text-sm mb-2">{formattedDate}</p>
 
-      {entry.data.description && (
-        <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed">
-          {entry.data.description}
-        </p>
-      )}
+      {
+        entry.data.description && (
+          <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed">
+            {entry.data.description}
+          </p>
+        )
+      }
     </div>
 
     <!-- BLOQUE DE INFORMACIÓN TÉCNICA -->
     <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm">
-      <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm">
-        <h2 class="text-accentBlue text-lg font-semibold mb-3">Detalles Técnicos</h2>
+      <div
+        class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"
+      >
+        <h2 class="text-accentBlue text-lg font-semibold mb-3">
+          Detalles Técnicos
+        </h2>
         <ul class="space-y-2 text-slate-300">
-          {entry.data.ip && <li><strong>IP:</strong> {entry.data.ip}</li>}
-          {entry.data.domain && <li><strong>Dominio:</strong> {entry.data.domain}</li>}
-          {entry.data.platform && <li><strong>Plataforma:</strong> {entry.data.platform}</li>}
-          {entry.data.difficulty && <li><strong>Dificultad:</strong> {entry.data.difficulty}</li>}
+          {
+            entry.data.ip && (
+              <li>
+                <strong>IP:</strong> {entry.data.ip}
+              </li>
+            )
+          }
+          {
+            entry.data.domain && (
+              <li>
+                <strong>Dominio:</strong> {entry.data.domain}
+              </li>
+            )
+          }
+          {
+            entry.data.platform && (
+              <li>
+                <strong>Plataforma:</strong> {entry.data.platform}
+              </li>
+            )
+          }
+          {
+            entry.data.difficulty && (
+              <li>
+                <strong>Dificultad:</strong> {entry.data.difficulty}
+              </li>
+            )
+          }
         </ul>
       </div>
 
-      <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm">
-        <h2 class="text-accentGreen text-lg font-semibold mb-3">Etiquetas y Tecnología</h2>
+      <div
+        class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"
+      >
+        <h2 class="text-accentGreen text-lg font-semibold mb-3">
+          Etiquetas y Tecnología
+        </h2>
         <div class="flex flex-wrap gap-2">
-          {entry.data.tags?.map(tag => (
-            <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm">
-              {tag}
-            </span>
-          ))}
+          {
+            entry.data.tags?.map((tag) => (
+              <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm">
+                {tag}
+              </span>
+            ))
+          }
         </div>
       </div>
     </section>
 
     <!-- IMAGEN DESTACADA -->
-    {entry.data.image && (
-      <div class="mb-12">
-        <img src={entry.data.image} alt={`Imagen de ${entry.data.title}`} 
-             class="w-full rounded-xl shadow-lg border border-slate-800 object-cover" 
-             loading="lazy" decoding="async" />
-      </div>
-    )}
+    {
+      entry.data.image && (
+        <div class="mb-12">
+          <img
+            src={entry.data.image}
+            alt={`Imagen de ${entry.data.title}`}
+            class="w-full rounded-xl shadow-lg border border-slate-800 object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )
+    }
 
-   <div class="prose-writeup">
-  <Content />
-</div>
-
+    <div class="prose-writeup">
+      <Content />
+    </div>
 
     <!-- FOOTER DEL ARTÍCULO -->
     <div class="mt-16 pt-8 border-t border-slate-800 text-center">
-      <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+      <a
+        href="/writeups"
+        class="text-slate-400 hover:text-accentBlue transition-colors"
+      >
         ← Volver a la lista de writeups
       </a>
     </div>

@@ -12,7 +12,7 @@ status: "Completed"
 
 ---
 
-![Banner SoulMate](/img/soulmatehtb.png)
+![Banner SoulMate](/images/soulmatehtb.png)
 
 
 ### 💻 Configuración Inicial

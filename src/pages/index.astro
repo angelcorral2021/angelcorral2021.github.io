@@ -1,31 +1,49 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import Hero from '../components/Hero.astro';
-import ProjectCard from '../components/ProjectCard.astro';
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/common/Header.astro";
+import Footer from "../components/common/Footer.astro";
+import Hero from "../components/sections/Hero.astro";
+import ProjectCard from "../components/cards/ProjectCard.astro";
 
 const profile = {
-  name: 'Angel Corral',
-  title: 'Ciberseguridad y Desarrollo Web',
-  country: 'Chile',
-  experience: '4 años',
-  specialties: ['Red Team','Web App','Automatización','Pentesting']
+  name: "Angel Corral",
+  title: "Informático y Electronico",
+  country: "Chile",
+  experience: "4 años",
+  specialties: [
+    "Pentesting",
+    "Desarrollo Web",
+    "Automatización",
+    "Ciberseguridad",
+  ],
 };
 
 const projects = [
-  { title: 'Proyectos', desc: 'Colección de proyectos', tags: ['php','bash','python','N8N'], link: '/projects' },
-  { title: 'CTF-Writeups', desc: 'Colección de writeups', tags: ['Writeups'], link: '/writeups' }
+  {
+    title: "Proyectos",
+    desc: "Colección de proyectos",
+    tags: ["php", "bash", "python", "N8N"],
+    link: "/projects",
+  },
+  {
+    title: "CTF-Writeups",
+    desc: "Colección de writeups",
+    tags: ["Writeups"],
+    link: "/writeups",
+  },
 ];
 ---
-<BaseLayout title="Angel Corral" description="Portafolio de Angel Corral, especialista en ciberseguridad y desarrollo web con 4 años de experiencia. Explora mis proyectos y writeups.">
+
+<BaseLayout
+  title="Angel Corral"
+  description="Portafolio de Angel Corral, especialista en ciberseguridad y desarrollo web con 4 años de experiencia. Explora mis proyectos y writeups."
+>
   <Header slot="header" />
   <Hero profile={profile} />
   <section class="mt-12">
     <h2 class="text-2xl font-semibold">Proyectos recientes</h2>
     <div class="mt-6 grid sm:grid-cols-2 gap-6">
-      {projects.map(p => <ProjectCard {...p} />)}
+      {projects.map((p) => <ProjectCard {...p} />)}
     </div>
   </section>
   <Footer slot="footer" />

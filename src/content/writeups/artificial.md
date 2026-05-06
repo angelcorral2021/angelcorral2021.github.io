@@ -9,7 +9,7 @@ tags: ["nmap", "gobuster", "ssh", "sudo -l"]
 
 ---
 
-![Banner Artificial](/img/artificial.png)
+![Banner Artificial](/images/artificial.png)
 
 ### 🔎 Escaneo y Enumeración
 

@@ -1,44 +1,48 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { getCollection } from 'astro:content';
-import ProjectCard from '../components/ProjectCard.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Header from "../components/common/Header.astro";
+import Footer from "../components/common/Footer.astro";
+import { getCollection } from "astro:content";
+import ProjectCard from "../components/cards/ProjectCard.astro";
 
-const projects = await getCollection('projects');
-const posts = projects.map(entry => ({
-  ...entry.data,
-  link: `/projects/${entry.slug}`
-})).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+const projects = await getCollection("projects");
+const posts = projects
+  .map((entry) => ({
+    ...entry.data,
+    link: `/projects/${entry.id}`,
+  }))
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 ---
+
 <BaseLayout title="projects">
   <Header slot="header" />
-   <nav class="mb-6 text-sm text-slate-400">
+  <nav class="mb-6 text-sm text-slate-400">
     <a href="/">Inicio</a> / <span>Proyectos</span>
   </nav>
   <div class="max-w-4xl mx-auto px-6">
     <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text">
+      <h1
+        class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text"
+      >
         Proyectos
       </h1>
       <p class="text-lg text-slate-300 mt-4 max-w-2xl mx-auto">
-        Proyectos que estoy desarrollando o he completado. Explora mis trabajos que demuestran mis habilidades en desarrollo web, aplicaciones y más.
+        Proyectos que estoy desarrollando o he completado. Explora mis trabajos
+        que demuestran mis habilidades en desarrollo web, aplicaciones y más.
       </p>
     </div>
 
     <div class="grid sm:grid-cols-2 gap-6">
-      {posts.map(post => (
-        <ProjectCard {...post} />
-      ))}
+      {posts.map((post) => <ProjectCard {...post} />)}
     </div>
 
-  
-
-    {posts.length === 0 && (
-      <div class="text-center py-12 text-slate-400">
-        No hay proyectos disponibles aún.
-      </div>
-    )}
+    {
+      posts.length === 0 && (
+        <div class="text-center py-12 text-slate-400">
+          No hay proyectos disponibles aún.
+        </div>
+      )
+    }
 
     <div class="mt-12 text-center text-sm text-slate-400">
       Se encontraron {posts.length} Proyectos
