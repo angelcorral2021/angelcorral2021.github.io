@@ -1,0 +1,179 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">(function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light",t==="light"),document.documentElement.classList.toggle("dark",t==="dark")})();</script><link rel="stylesheet" href="/assets/Footer.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">(function(){const d=document.getElementById("theme-toggle"),e=document.getElementById("sun-icon"),t=document.getElementById("moon-icon"),s=document.documentElement;function n(){return localStorage.getItem("theme")||"dark"}function o(c){c==="light"?(s.classList.remove("dark"),s.classList.add("light"),e.classList.remove("hidden"),e.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")):(s.classList.remove("light"),s.classList.add("dark"),t.classList.remove("hidden"),t.classList.add("block"),e.classList.remove("block"),e.classList.add("hidden")),localStorage.setItem("theme",c)}const l=n();o(l),d.addEventListener("click",()=>{const i=n()==="light"?"dark":"light";o(i)})})();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Virtualización </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <h1 id="fundamentos-arquitecturas-y-aplicación-real">Fundamentos, Arquitecturas y Aplicación Real</h1>
+<p>El objetivo de esta guía no es solo definir la virtualización, sino entender su <strong>modelo operativo</strong>, sus <strong>implicancias de rendimiento</strong> y cómo se implementa en entornos reales (desde desarrollo local hasta cloud computing).</p>
+<h2 id="1-arquitectura-de-virtualización-y-el-hipervisor">1. Arquitectura de Virtualización y el Hipervisor</h2>
+<p>La virtualización se basa en una <strong>capa de abstracción</strong> que desacopla el software del hardware físico. Esta capa es el <strong>hipervisor</strong>, responsable de:</p>
+<ul>
+<li>Gestionar CPU, memoria, almacenamiento y red</li>
+<li>Asignar recursos a múltiples sistemas operativos invitados (<em>guest OS</em>)</li>
+<li>Garantizar aislamiento y control de acceso al hardware</li>
+</ul>
+<p>A diferencia de una explicación simplificada, el hipervisor no “engaña”, sino que <strong>intermedia y virtualiza recursos mediante técnicas como trap-and-emulate, paravirtualización y virtualización asistida por hardware (Intel VT-x, AMD-V)</strong>.</p>
+<h3 id="tipos-de-hipervisor">Tipos de Hipervisor</h3>
+<h4 id="tipo-1-bare-metal--nativo"><strong>Tipo 1 (Bare Metal / Nativo)</strong></h4>
+<p>Se ejecuta directamente sobre el hardware, sin sistema operativo anfitrión.</p>
+<p><strong>Características técnicas:</strong></p>
+<ul>
+<li>Menor latencia y overhead</li>
+<li>Acceso más directo a recursos físicos</li>
+<li>Mayor eficiencia en scheduling de CPU y gestión de memoria</li>
+</ul>
+<p><strong>Ejemplos:</strong></p>
+<ul>
+<li>VMware ESXi</li>
+<li>Microsoft Hyper-V</li>
+<li>Xen</li>
+</ul>
+<p><strong>Uso típico:</strong> centros de datos, cloud providers, infraestructura empresarial.</p>
+<hr>
+<h4 id="tipo-2-hosted--alojado"><strong>Tipo 2 (Hosted / Alojado)</strong></h4>
+<p>Se ejecuta como una aplicación sobre un sistema operativo anfitrión.</p>
+<p><strong>Características técnicas:</strong></p>
+<ul>
+<li>Introduce una capa adicional (host OS) → mayor overhead</li>
+<li>Dependencia del scheduler y drivers del sistema anfitrión</li>
+<li>Menor eficiencia en I/O intensivo</li>
+</ul>
+<p><strong>Ejemplos:</strong></p>
+<ul>
+<li>Oracle VM VirtualBox</li>
+<li>VMware Workstation</li>
+</ul>
+<p><strong>Uso típico:</strong> desarrollo, testing, entornos educativos.</p>
+<hr>
+<h2 id="2-máquinas-virtuales-vs-contenedores">2. Máquinas Virtuales vs. Contenedores</h2>
+<p>Ambos mecanismos implementan aislamiento, pero en niveles distintos del stack.</p>
+<h3 id="diferencia-estructural-clave">Diferencia estructural clave</h3>
+<ul>
+<li>Las <strong>VMs virtualizan hardware</strong></li>
+<li>Los <strong>contenedores virtualizan el sistema operativo (a nivel de kernel)</strong></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Característica</th><th>Máquinas Virtuales</th><th>Contenedores</th></tr></thead><tbody><tr><td>Nivel de virtualización</td><td>Hardware</td><td>Sistema operativo</td></tr><tr><td>Kernel</td><td>Propio por VM</td><td>Compartido</td></tr><tr><td>Tamaño</td><td>GBs</td><td>MBs</td></tr><tr><td>Tiempo de arranque</td><td>Alto</td><td>Muy bajo</td></tr><tr><td>Aislamiento</td><td>Fuerte</td><td>Moderado</td></tr><tr><td>Portabilidad</td><td>Media</td><td>Alta</td></tr></tbody></table>
+<p><strong>Tecnologías representativas:</strong></p>
+<ul>
+<li>VMs: VMware ESXi, KVM</li>
+<li>Contenedores: Docker, Kubernetes</li>
+</ul>
+<h3 id="insight-importante">Insight importante</h3>
+<p>Los contenedores <strong>no reemplazan</strong> a las VMs; suelen ejecutarse <em>sobre</em> VMs en entornos productivos (especialmente en cloud), combinando:</p>
+<ul>
+<li>Aislamiento fuerte (VM)</li>
+<li>Agilidad y escalabilidad (contenedores)</li>
+</ul>
+<hr>
+<h2 id="3-beneficios-y-casos-de-uso-reales">3. Beneficios y Casos de Uso Reales</h2>
+<h3 id="consolidación-de-infraestructura">Consolidación de infraestructura</h3>
+<p>Permite aumentar la <strong>densidad de carga</strong> por servidor físico:</p>
+<ul>
+<li>Mejora el uso de CPU (de ~10–20% a 60–80%)</li>
+<li>Reduce costos de energía, espacio y hardware</li>
+</ul>
+<hr>
+<h3 id="aislamiento-y-seguridad">Aislamiento y seguridad</h3>
+<p>Cada VM opera como un entorno encapsulado:</p>
+<ul>
+<li>Fallos o compromisos no se propagan fácilmente</li>
+<li>Permite segmentación por niveles de confianza</li>
+</ul>
+<p>Sin embargo, no es aislamiento perfecto: existen vectores como <strong>escape de VM</strong>, aunque poco comunes.</p>
+<hr>
+<h3 id="entornos-reproducibles-y-testing">Entornos reproducibles y testing</h3>
+<ul>
+<li>Snapshots permiten rollback instantáneo</li>
+<li>Clonado rápido de entornos</li>
+<li>Base para CI/CD moderno</li>
+</ul>
+<hr>
+<h3 id="cloud-computing">Cloud Computing</h3>
+<p>La virtualización es la base de servicios como:</p>
+<ul>
+<li>Amazon Web Services (EC2)</li>
+<li>Microsoft Azure</li>
+<li>Google Cloud</li>
+</ul>
+<p>Aquí, cada instancia que creas es esencialmente una VM abstraída.</p>
+<hr>
+<h2 id="4-análisis-tipo-1-vs-tipo-2-impacto-en-rendimiento">4. Análisis: Tipo 1 vs Tipo 2 (Impacto en Rendimiento)</h2>
+<p>Tu pregunta final es clave. La diferencia no es menor:</p>
+<h3 id="con-hipervisor-tipo-2-sobre-windows-por-ejemplo">Con hipervisor Tipo 2 (sobre Windows, por ejemplo):</h3>
+<ul>
+<li>
+<p>Hay <strong>doble capa de scheduling</strong>:</p>
+<ul>
+<li>Host OS gestiona CPU</li>
+<li>Hipervisor vuelve a asignarla a VMs</li>
+</ul>
+</li>
+<li>
+<p>Mayor latencia en I/O (disco, red)</p>
+</li>
+<li>
+<p>Overhead adicional de memoria</p>
+</li>
+</ul>
+<h3 id="resultado-práctico">Resultado práctico:</h3>
+<ul>
+<li>Menor rendimiento sostenido</li>
+<li>Peor comportamiento bajo carga intensiva</li>
+<li>Más jitter (variabilidad en tiempos)</li>
+</ul>
+<h3 id="con-hipervisor-tipo-1">Con hipervisor Tipo 1:</h3>
+<ul>
+<li>Acceso casi directo al hardware</li>
+<li>Mejor throughput y menor latencia</li>
+<li>Mayor estabilidad en cargas críticas</li>
+</ul>
+<hr>
+<h2 id="conclusión-operativa">Conclusión operativa</h2>
+<ul>
+<li>Usa <strong>Tipo 1</strong> para producción, cloud o sistemas críticos</li>
+<li>Usa <strong>Tipo 2</strong> para desarrollo, testing o aprendizaje</li>
+<li>Combina <strong>VMs + contenedores</strong> para arquitecturas modernas</li>
+</ul>
+<hr>
+<p>Si quieres, puedo llevar esto a un nivel más avanzado (por ejemplo: memoria ballooning, overcommit, NUMA awareness o SR-IOV), que es donde realmente se diferencian entornos profesionales de los básicos.</p> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>

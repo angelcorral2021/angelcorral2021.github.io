@@ -1,0 +1,215 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">(function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light",t==="light"),document.documentElement.classList.toggle("dark",t==="dark")})();</script><link rel="stylesheet" href="/assets/Footer.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">(function(){const d=document.getElementById("theme-toggle"),e=document.getElementById("sun-icon"),t=document.getElementById("moon-icon"),s=document.documentElement;function n(){return localStorage.getItem("theme")||"dark"}function o(c){c==="light"?(s.classList.remove("dark"),s.classList.add("light"),e.classList.remove("hidden"),e.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")):(s.classList.remove("light"),s.classList.add("dark"),t.classList.remove("hidden"),t.classList.add("block"),e.classList.remove("block"),e.classList.add("hidden")),localStorage.setItem("theme",c)}const l=n();o(l),d.addEventListener("click",()=>{const i=n()==="light"?"dark":"light";o(i)})})();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-3xl mx-auto px-6"> <div class="mb-12"> <a href="/apuntes" class="text-sm text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a Apuntes
+</a> <h1 class="text-4xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Conceptos de I.A </h1>  <div class="flex flex-wrap gap-3">  </div> </div> <div class="prose prose-projects prose-invert prose-xl max-w-none"> <p><strong>Definiciones Fundamentales</strong></p>
+<ul>
+<li>
+<p><strong>LLM (Cerebro):</strong> Modelo base de aprendizaje profundo. Ejecuta el procesamiento, comprensión y razonamiento cognitivo. Carece de capacidad de interacción directa con el entorno. Ejemplos: GPT-4, Claude, Gemini.</p>
+</li>
+<li>
+<p><strong>Agente (Orquestador):</strong> Entidad de control autónomo. Utiliza el LLM como motor lógico para establecer ciclos de percepción, planificación y acción. Descompone tareas y delega la ejecución física.</p>
+</li>
+<li>
+<p><strong>Skills (Herramientas):</strong> Módulos operativos (APIs, scripts). Proveen capacidades funcionales específicas bajo demanda. Operan en estricta subordinación al Agente; no poseen autonomía.</p>
+</li>
+<li>
+<p><strong>MCP (Protocolo):</strong> Estándar de comunicación unificado. Abstrae y estandariza la conexión entre el Agente, las Skills y los ecosistemas de datos externos, eliminando integraciones individuales.</p>
+</li>
+<li>
+<p><strong>RAG (Retrieval-Augmented Generation):</strong> Arquitectura de inyección de contexto. Extrae datos externos y los inserta en el prompt del LLM antes de la generación para fundamentar la respuesta y mitigar alucinaciones.</p>
+</li>
+<li>
+<p><strong>Base de Datos Vectorial:</strong> Infraestructura de almacenamiento semántico. Indexa embeddings matemáticos y ejecuta la recuperación de datos requerida por el proceso RAG.</p>
+</li>
+<li>
+<p><strong>Memoria de Agente:</strong> Subsistema de estado. Retiene datos a corto plazo (dentro de la ventana de contexto actual) y a largo plazo (almacenamiento persistente) para mantener la coherencia operativa entre ejecuciones.</p>
+</li>
+<li>
+<p><strong>HITL (Human-in-the-Loop):</strong> Nodo de validación de seguridad. Interrumpe la autonomía del agente antes de la ejecución de Skills críticas, exigiendo autorización o corrección manual.</p>
+</li>
+<li>
+<p><strong>Sistemas Multi-Agente:</strong> Topología de red distribuida. Coordina múltiples Agentes, cada uno con LLMs, instrucciones y Skills independientes, delegando tareas bajo un enrutamiento predefinido.</p>
+</li>
+</ul>
+<p><strong>Modelo Jerárquico Integral (De núcleo a macro-estructura)</strong></p>
+<ol>
+<li>
+<p><strong>LLM (Núcleo):</strong> Procesamiento de lenguaje e inferencia cognitiva.</p>
+</li>
+<li>
+<p><strong>Agente (Control):</strong> Lógica de orquestación. Integra la <strong>Memoria de Agente</strong> para conservar el estado durante sus ciclos de percepción, planificación y acción.</p>
+</li>
+<li>
+<p><strong>Skills (Ejecución):</strong> Herramientas subordinadas al Agente. Una de estas Skills es la encargada de consultar la <strong>Base de Datos Vectorial</strong> para ejecutar la arquitectura <strong>RAG</strong>.</p>
+</li>
+<li>
+<p><strong>MCP (Infraestructura de red):</strong> Protocolo que estandariza la conexión física hacia esas bases de datos y herramientas externas.</p>
+</li>
+<li>
+<p><strong>HITL (Capa de supervisión):</strong> Control de acceso superpuesto entre la decisión del Agente y la ejecución de la Skill.</p>
+</li>
+<li>
+<p><strong>Sistema Multi-Agente (Nivel Organizacional):</strong> Estructura superior que agrupa y coordina múltiples iteraciones de las capas 1 al 5.</p>
+</li>
+</ol>
+<p><strong>Flujo de Operación de Extremo a Extremo</strong> El Agente recibe una instrucción y recupera el contexto previo desde su Memoria. Determina la necesidad de información privada y utiliza una Skill (conectada vía MCP) para consultar una Base de Datos Vectorial (RAG). El Agente inyecta estos datos recuperados en el LLM para formular un plan de acción exacto. Si el plan requiere alterar un sistema externo (ej. realizar un pago o borrar un registro), un nodo HITL pausa el flujo hasta recibir aprobación humana. Tras la confirmación, se ejecuta la Skill final. En topologías avanzadas, este flujo completo opera dentro de un Sistema Multi-Agente, donde el resultado validado de este primer Agente se transfiere como instrucción inicial al siguiente Agente de la red.</p>
+<hr>
+<p>Los modelos de lenguaje de gran tamaño (LLMs) se clasifican principalmente por su desarrollador y arquitectura. Aquí los ejemplos más destacados divididos por su naturaleza:</p>
+<h2 id="modelos-de-código-cerrado-propietarios">Modelos de Código Cerrado (Propietarios)</h2>
+<p>Estos modelos son accesibles mediante API o interfaces específicas y su código/pesos no son públicos.</p>
+<ul>
+<li>
+<p><strong>GPT-4o / GPT-4 Turbo (OpenAI):</strong> Estándar actual en razonamiento complejo y multimodalidad.</p>
+</li>
+<li>
+<p><strong>Claude 3.5 Sonnet / Opus (Anthropic):</strong> Destacados por su tono humano, capacidades de programación y gran ventana de contexto.</p>
+</li>
+<li>
+<p><strong>Gemini 1.5 Pro / Flash (Google):</strong> Especializados en procesamiento de contexto masivo (hasta millones de tokens) y ecosistema multimodal nativo.</p>
+</li>
+<li>
+<p><strong>o1-preview (OpenAI):</strong> Modelo enfocado específicamente en razonamiento lógico y resolución de problemas complejos mediante “cadena de pensamiento”.</p>
+</li>
+</ul>
+<h2 id="modelos-de-código-abierto-open-weights">Modelos de Código Abierto (Open Weights)</h2>
+<p>Modelos cuyos pesos están disponibles para ser ejecutados en infraestructura propia o local.</p>
+<ul>
+<li>
+<p><strong>Llama 3.1 / 3.2 (Meta):</strong> El referente más importante del sector abierto, con variantes desde 1B hasta 405B de parámetros.</p>
+</li>
+<li>
+<p><strong>Mistral Large 2 / Mixtral 8x7B (Mistral AI):</strong> Modelos europeos conocidos por su eficiencia y rendimiento en arquitecturas MoE (Mixture of Experts).</p>
+</li>
+<li>
+<p><strong>Gemma 2 (Google):</strong> Versiones ligeras y abiertas basadas en la tecnología de Gemini.</p>
+</li>
+<li>
+<p><strong>Falcon 180B (TII):</strong> Uno de los modelos abiertos más masivos desarrollados en los Emiratos Árabes Unidos.</p>
+</li>
+<li>
+<p><strong>DeepSeek-V2.5:</strong> Modelo chino optimizado para tareas de programación y matemáticas con alta eficiencia de costos.</p>
+</li>
+</ul>
+<h2 id="modelos-especializados">Modelos Especializados</h2>
+<ul>
+<li>
+<p><strong>Codestral (Mistral AI):</strong> Optimizado exclusivamente para generación y depuración de código.</p>
+</li>
+<li>
+<p><strong>Med-PaLM 2 (Google):</strong> Ajustado para el dominio médico y análisis de datos clínicos.</p>
+</li>
+<li>
+<p><strong>SQLCoder (Defog):</strong> Diseñado para traducir lenguaje natural a consultas SQL de forma precisa.</p>
+</li>
+</ul>
+<hr>
+<h2 id="agentes-de-productividad-y-autonomía-agentes-de-propósito-general">Agentes de Productividad y Autonomía (Agentes de Propósito General)</h2>
+<ul>
+<li>
+<p><strong>AutoGPT / BabyAGI:</strong> Proyectos pioneros de código abierto que, a partir de un objetivo (ej. “crea una empresa de zapatos”), desglosan tareas, buscan en internet y ejecutan código de forma recursiva hasta completar la meta.</p>
+</li>
+<li>
+<p><strong>OpenDevin / Devin:</strong> Diseñados específicamente para ingeniería de software. Pueden escribir código, depurar errores, navegar por repositorios de GitHub y desplegar aplicaciones por sí mismos.</p>
+</li>
+<li>
+<p><strong>Microsoft Copilot Studio Agents:</strong> Herramientas empresariales que permiten crear agentes que consultan bases de datos internas, responden correos de clientes o gestionan inventarios conectándose a sistemas como SAP o Salesforce.</p>
+</li>
+</ul>
+<h2 id="agentes-de-navegación-web-y-acción-computer-use">Agentes de Navegación Web y Acción (Computer Use)</h2>
+<ul>
+<li>
+<p><strong>Claude “Computer Use”:</strong> Una capacidad de los modelos de Anthropic que les permite interactuar con una interfaz de computadora como un humano: mover el cursor, hacer clic en botones y escribir texto en cualquier aplicación.</p>
+</li>
+<li>
+<p><strong>Skyvern:</strong> Un agente especializado en automatizar flujos de trabajo en navegadores web complejos (como completar formularios de seguros o trámites gubernamentales) que no tienen una API disponible.</p>
+</li>
+<li>
+<p><strong>MultiOn:</strong> Un agente diseñado para actuar en la web por ti, capaz de reservar vuelos, pedir comida o realizar compras completando todo el proceso de checkout.</p>
+</li>
+</ul>
+<h2 id="agentes-de-investigación-y-análisis">Agentes de Investigación y Análisis</h2>
+<ul>
+<li>
+<p><strong>GPT Researcher:</strong> Un agente autónomo que realiza investigaciones exhaustivas en la web. Visita más de 20 fuentes por búsqueda, agrega la información y genera un informe detallado con citas bibliográficas.</p>
+</li>
+<li>
+<p><strong>Perplexity Pages:</strong> Aunque funciona como buscador, actúa como agente al sintetizar información en tiempo real, decidir qué fuentes son confiables y estructurar artículos completos con formato editorial.</p>
+</li>
+</ul>
+<h2 id="marcos-de-trabajo-frameworks-para-crear-agentes">Marcos de Trabajo (Frameworks para crear agentes)</h2>
+<p>Si buscas ejemplos de la tecnología que permite construirlos:</p>
+<ul>
+<li>
+<p><strong>CrewAI:</strong> Permite orquestar “tripulaciones” de agentes donde cada uno tiene un rol (ej. uno es el “Investigador” y otro el “Escritor”).</p>
+</li>
+<li>
+<p><strong>LangGraph (LangChain):</strong> Enfocado en crear agentes con lógica de ciclos y control de estado muy preciso.</p>
+</li>
+<li>
+<p><strong>Microsoft AutoGen:</strong> Especializado en conversaciones multi-agente para resolver tareas complejas mediante la colaboración de varios LLMs.</p>
+</li>
+</ul>
+<hr>
+<h2 id="skills-de-interacción-con-archivos-y-datos">Skills de Interacción con Archivos y Datos</h2>
+<ul>
+<li>
+<p><strong>Análisis de Datos (Code Interpreter):</strong> Capacidad de escribir y ejecutar código Python para procesar archivos CSV o Excel, generar gráficos y realizar cálculos estadísticos.</p>
+</li>
+<li>
+<p><strong>Lectura de Documentos (PDF/OCR):</strong> Extraer texto y estructura de documentos escaneados o manuales técnicos de gran extensión.</p>
+</li>
+<li>
+<p><strong>Gestión de Bases de Datos:</strong> Capacidad de traducir lenguaje natural a SQL para consultar, insertar o actualizar registros en una base de datos corporativa.</p>
+</li>
+</ul>
+<h2 id="skills-de-navegación-y-búsqueda">Skills de Navegación y Búsqueda</h2>
+<ul>
+<li>
+<p><strong>Búsqueda en Tiempo Real (Web Search):</strong> Acceder a motores de búsqueda para obtener información actualizada que no estaba en su entrenamiento original.</p>
+</li>
+<li>
+<p><strong>Web Scraping:</strong> Extraer información específica de un sitio web (precios, noticias, especificaciones) para procesarla.</p>
+</li>
+<li>
+<p><strong>Navegación por Mapas:</strong> Consultar APIs de geolocalización para calcular rutas, distancias o encontrar establecimientos cercanos.</p>
+</li>
+</ul>
+<h2 id="skills-de-comunicación-y-aplicaciones">Skills de Comunicación y Aplicaciones</h2>
+<ul>
+<li>
+<p><strong>Gestión de Correo (Gmail/Outlook):</strong> Leer hilos de correos, redactar borradores o enviar respuestas automáticas según el contexto.</p>
+</li>
+<li>
+<p><strong>Automatización de Calendario:</strong> Verificar disponibilidad y agendar reuniones sincronizándose con Google Calendar.</p>
+</li>
+<li>
+<p><strong>Mensajería (Slack/WhatsApp):</strong> Enviar notificaciones a canales específicos o interactuar con equipos de trabajo.</p>
+</li>
+</ul>
+<h2 id="skills-creativas-y-multimedia">Skills Creativas y Multimedia</h2>
+<ul>
+<li>
+<p><strong>Generación de Imágenes (DALL-E / Imagen):</strong> Crear representaciones visuales a partir de descripciones textuales.</p>
+</li>
+<li>
+<p><strong>Conversión de Texto a Voz (TTS):</strong> Generar audio con voz natural a partir de los informes redactados por el agente.</p>
+</li>
+<li>
+<p><strong>Traducción Especializada:</strong> Utilizar glosarios técnicos específicos para traducir documentos manteniendo la terminología de una industria particular.</p>
+</li>
+</ul>
+<h2 id="skills-técnicas-de-infraestructura">Skills Técnicas de Infraestructura</h2>
+<ul>
+<li>
+<p><strong>Ejecución de Comandos (Shell):</strong> Interactuar directamente con el sistema operativo para instalar dependencias o configurar servidores.</p>
+</li>
+<li>
+<p><strong>Llamadas a API (JSON):</strong> Estructurar peticiones a cualquier servicio externo que tenga una interfaz programable (clima, bolsa de valores, estado de envíos).</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Diferencia clave:</strong> Mientras que el <strong>LLM</strong> es el conocimiento general y el <strong>Agente</strong> es el ejecutor con autonomía, la <strong>Skill</strong> es la “herramienta” en el cinturón del agente que le permite afectar o leer el entorno.</p>
+</blockquote> </div> <div class="mt-16 pt-8 border-t border-slate-800"> <a href="/projects" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de proyectos
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
