@@ -1,0 +1,53 @@
+[
+  {
+    "id": "chal-001",
+    "title": "Arranque y Parada de Motor",
+    "difficulty": "Básico",
+    "description": "Diseña un circuito de enclavamiento para un motor. Un botón de INICIO (I:0/0) enciende el motor (O:0/0) que debe mantenerse encendido aunque se suelte el botón. Un botón de PARADA (I:0/1, Normalmente Cerrado físicamente) debe detenerlo.",
+    "maxScore": 1000,
+    "penaltyPerFailure": 50,
+    "ioConfiguration": {
+      "inputs": [
+        { "address": "I:0/0", "name": "Botón Inicio (N.A.)", "type": "pushbutton" },
+        { "address": "I:0/1", "name": "Botón Parada (N.C.)", "type": "pushbutton_nc" }
+      ],
+      "outputs": [
+        { "address": "O:0/0", "name": "Motor Principal", "type": "motor" }
+      ]
+    },
+    "testCases": [
+      {
+        "step": 1,
+        "description": "Estado inicial: Todo apagado.",
+        "stimulus": { "I:0/0": false, "I:0/1": true },
+        "durationMs": 500,
+        "expectedOutputs": { "O:0/0": false },
+        "feedbackMessage": "El motor no debería estar encendido inicialmente."
+      },
+      {
+        "step": 2,
+        "description": "Pulsar INICIO.",
+        "stimulus": { "I:0/0": true, "I:0/1": true },
+        "durationMs": 500,
+        "expectedOutputs": { "O:0/0": true },
+        "feedbackMessage": "El motor debe encenderse al presionar INICIO (I:0/0)."
+      },
+      {
+        "step": 3,
+        "description": "Soltar INICIO (Verificar enclavamiento).",
+        "stimulus": { "I:0/0": false, "I:0/1": true },
+        "durationMs": 1000,
+        "expectedOutputs": { "O:0/0": true },
+        "feedbackMessage": "El motor debe permanecer encendido al soltar INICIO. ¡Te falta enclavar (sellar) el circuito!"
+      },
+      {
+        "step": 4,
+        "description": "Pulsar PARADA.",
+        "stimulus": { "I:0/0": false, "I:0/1": false },
+        "durationMs": 500,
+        "expectedOutputs": { "O:0/0": false },
+        "feedbackMessage": "El motor debe detenerse al presionar PARADA (I:0/1)."
+      }
+    ]
+  }
+]
