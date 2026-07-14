@@ -6,8 +6,6 @@ status: "completed"
 tags: ["Web", "Turismo", "Frontend", "UI/UX"]
 ---
 
-## Turismo en Santiago de Chile
-
 Esta plataforma web fue desarrollada con el objetivo principal de ofrecer una experiencia digital inmersiva para promover el turismo en Santiago de Chile. El proyecto busca facilitar a los turistas locales e internacionales el descubrimiento de la rica oferta cultural, histórica y gastronómica que ofrece la capital chilena.
 
 ### 🌟 Características Principales
