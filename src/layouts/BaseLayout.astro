@@ -5,7 +5,7 @@ const { title = "Portfolio", description = "Informático y Electronico" } =
   Astro.props;
 ---
 
-<html lang="es" class="dark">
+<html lang="es" class="dark scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -37,6 +37,7 @@ const { title = "Portfolio", description = "Informático y Electronico" } =
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Theme initialization script -->
     <script>
@@ -47,10 +48,13 @@ const { title = "Portfolio", description = "Informático y Electronico" } =
       })();
     </script>
   </head>
-  <body class="bg-bg1 text-white">
-    <div class="min-h-screen flex flex-col">
+  <body class="bg-bg1 text-slate-200 font-sans antialiased selection:bg-primary/30 selection:text-primary-50">
+    <!-- Efecto de malla de fondo sutil -->
+    <div class="fixed inset-0 z-[-1] h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-[0.03] dark:bg-[radial-gradient(#ffffff_1px,transparent_1px)]"></div>
+    
+    <div class="min-h-screen flex flex-col relative z-0">
       <slot name="header" />
-      <main class="container mx-auto px-6 py-10 flex-1">
+      <main class="container mx-auto px-6 py-12 flex-1 max-w-5xl animate-fade-in-up">
         <slot />
       </main>
       <slot name="footer" />

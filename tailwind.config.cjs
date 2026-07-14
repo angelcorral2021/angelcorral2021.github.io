@@ -3,33 +3,54 @@ export default {
   content: [
     "./src/**/*.{astro,html,js,jsx,ts,tsx,vue,svelte}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
+      colors: {
+        bg1: '#050505',
+        primary: '#10b981', // emerald-500
+        secondary: '#0ea5e9', // sky-500
+        accent: '#f59e0b', // amber-500
+      },
+      animation: {
+        'fade-in-up': 'fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in': 'fadeIn 1s ease-out forwards',
+        'float': 'float 6s ease-in-out infinite',
+      },
+      keyframes: {
+        fadeInUp: {
+          '0%': { opacity: 0, transform: 'translateY(20px)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        fadeIn: {
+          '0%': { opacity: 0 },
+          '100%': { opacity: 1 },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' },
+        }
+      },
       typography: ({ theme }) => ({
-        // Definición de tu esquema de estilos "writeup"
         writeup: { 
           css: {
-            // Estilos para H2
             'h2': {
-              color: theme('colors.blue.400'), // Cambia el color
+              color: theme('colors.sky.400'),
               borderBottom: `2px solid ${theme('colors.slate.700')}`,
               paddingBottom: '0.5rem',
               marginTop: '2.5rem',
             },
-            // Estilos para PRE (bloques de código)
             'pre': {
-              backgroundColor: theme('colors.gray.800'),
+              backgroundColor: theme('colors.slate.900'),
               color: theme('colors.white'),
-              padding: '1rem',
-              borderRadius: '0.375rem', // rounded-md
-              // ¡Aquí puedes añadir todos los estilos que estaban en writeup.css!
+              padding: '1.25rem',
+              borderRadius: '0.5rem',
+              border: `1px solid ${theme('colors.slate.800')}`,
             },
-            // Estilos para Párrafos
             'p': {
               marginBottom: '1.2em',
               lineHeight: '1.7',
             }
-            // ... otros elementos (li, table, etc.)
           },
         },
       }),

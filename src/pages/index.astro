@@ -7,7 +7,7 @@ import ProjectCard from "../components/cards/ProjectCard.astro";
 
 const profile = {
   name: "Angel Corral",
-  title: "Informático y Electronico",
+  title: "Ingeniero Informático & Pentester",
   country: "Chile",
   experience: "4 años",
   specialties: [
@@ -15,36 +15,48 @@ const profile = {
     "Desarrollo Web",
     "Automatización",
     "Ciberseguridad",
+    "DevSecOps"
   ],
 };
 
 const projects = [
   {
     title: "Proyectos",
-    desc: "Colección de proyectos",
-    tags: ["php", "bash", "python", "N8N"],
+    desc: "Explora mis desarrollos de software, arquitecturas e integraciones en múltiples tecnologías. Todo desde web hasta automatización industrial.",
+    tags: ["php", "bash", "python", "n8n", "docker"],
     link: "/projects",
   },
   {
     title: "CTF-Writeups",
-    desc: "Colección de writeups",
-    tags: ["Writeups"],
+    desc: "Colección técnica de resoluciones de máquinas y desafíos de ciberseguridad. Estrategias de red team y explotación.",
+    tags: ["writeups", "pentesting", "hacking"],
     link: "/writeups",
   },
 ];
 ---
 
 <BaseLayout
-  title="Angel Corral"
-  description="Portafolio de Angel Corral, especialista en ciberseguridad y desarrollo web con 4 años de experiencia. Explora mis proyectos y writeups."
+  title="Angel Corral | Ciberseguridad & Desarrollo Web"
+  description="Portafolio de Angel Corral, ingeniero informático especializado en ciberseguridad, automatización y desarrollo web con 4 años de experiencia."
 >
   <Header slot="header" />
-  <Hero profile={profile} />
-  <section class="mt-12">
-    <h2 class="text-2xl font-semibold">Proyectos recientes</h2>
-    <div class="mt-6 grid sm:grid-cols-2 gap-6">
-      {projects.map((p) => <ProjectCard {...p} />)}
-    </div>
-  </section>
+  
+  <div class="flex flex-col gap-24">
+    <!-- Hero Section -->
+    <Hero profile={profile} />
+    
+    <!-- Proyectos Destacados -->
+    <section class="animate-fade-in-up [animation-delay:200ms]">
+      <div class="flex items-center gap-4 mb-10">
+        <h2 class="text-3xl font-bold font-['Outfit'] text-slate-800 dark:text-white">Áreas Destacadas</h2>
+        <div class="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-8">
+        {projects.map((p) => <ProjectCard {...p} />)}
+      </div>
+    </section>
+  </div>
+  
   <Footer slot="footer" />
 </BaseLayout>
